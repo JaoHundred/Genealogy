@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Database
+namespace Model.Interfaces
 {
-    public class Repository
+    public interface IGetFolderService
     {
-        //TODO: prepare repository
+        string GetApplicationDirectory();
     }
 }
