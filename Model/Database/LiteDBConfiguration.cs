@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Model.Database
 {
-    public class Configuration
+    public class LiteDBConfiguration
     {
         public const string LiteDataName = "data";
         public const string LiteErrordbLogName = "errorLog";
 
-        public Configuration(IGetFolderService getFolder)
+        public LiteDBConfiguration(IGetFolderService getFolder)
         {
             _getFolder = getFolder;
             StartLiteDB();
