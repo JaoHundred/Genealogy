@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using Model.Database;
+using Model.Interfaces;
+using Model.Services;
 
 namespace Gene
 {
@@ -16,10 +19,26 @@ namespace Gene
                 });
 
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
+            InitializeServices(builder);
+            InitializeModules(builder);
+
             return builder.Build();
+        }
+
+        private static void InitializeServices(MauiAppBuilder builder)
+        {
+            builder.Services.AddSingleton<LiteDBConfiguration>();
+            builder.Services.AddScoped<IGetFolderService, GetFolderService>();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        }
+
+        private static void InitializeModules(MauiAppBuilder builder)
+        {
+            //TODO: register view and viewmodel types here
         }
     }
 }
