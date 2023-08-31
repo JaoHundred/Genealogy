@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Gene.Modules.Home;
+using Microsoft.Extensions.Logging;
 using Model.Database;
 using Model.Interfaces;
 using Model.Services;
@@ -12,6 +14,7 @@ namespace Gene
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -38,7 +41,8 @@ namespace Gene
 
         private static void InitializeModules(MauiAppBuilder builder)
         {
-            //TODO: register view and viewmodel types here
+            builder.Services.AddSingleton<HomeView>();
+            builder.Services.AddSingleton<HomeViewModel>();
         }
     }
 }

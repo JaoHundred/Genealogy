@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gene.HomeView"
+             xmlns:home="clr-namespace:Gene.Modules.Home"
+             x:DataType="home:HomeViewModel">
+
+    <Grid>
+        <CollectionView>
+            <CollectionView.EmptyView>
+                <Label Text="No one is added yet"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Button Style="{x:StaticResource SoftSquareButton}" Text="+" Command="{Binding ButtonTestCommand}"/>
+    </Grid>
+</ContentPage>

@@ -49,11 +49,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Model\Model.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Modules\Home\HomeView.xaml.cs">
+	    <DependentUpon>HomeView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
