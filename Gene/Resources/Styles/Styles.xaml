@@ -419,4 +419,11 @@
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
 
+    <Style TargetType="Label" x:Key="EmptyListStyle">
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
 </ResourceDictionary>

@@ -3,15 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gene.HomeView"
              xmlns:home="clr-namespace:Gene.Modules.Home"
-             x:DataType="home:HomeViewModel">
+             xmlns:loca="clr-namespace:Gene.Localization"
+             x:DataType="home:HomeViewModel"
+             Loaded="ContentPage_Loaded">
 
     <Grid>
-        <CollectionView>
-            <CollectionView.EmptyView>
-                <Label Text="No one is added yet"/>
-            </CollectionView.EmptyView>
+        
+        <CollectionView x:Name="colView">
+            <!--emptyview is bugged-->
+            
+            <!--<CollectionView.EmptyView>
+                <Label Text="{x:Static loca:Lang.EmptyList}" />
+            </CollectionView.EmptyView>-->
         </CollectionView>
+        <Label x:Name="workaroundEmptyView" Style="{StaticResource EmptyListStyle}"
+               Text="{x:Static loca:Lang.EmptyList}" IsVisible="false"/>
 
-        <Button Style="{x:StaticResource SoftSquareButton}" Text="+" Command="{Binding ButtonTestCommand}"/>
+        <Button Style="{StaticResource SoftSquareButton}" Text="+" Command="{Binding ButtonTestCommand}"/>
     </Grid>
 </ContentPage>
