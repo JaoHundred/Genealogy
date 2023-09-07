@@ -6,5 +6,20 @@
 
     <Application.Styles>
         <FluentTheme />
+
+      <Style Selector="Button.round">
+        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="Height" Value="80"/>
+        <Setter Property="Width" Value="80"/>
+      </Style>
+
+      <Style Selector="Button>TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="24"/>
+      </Style>
+
     </Application.Styles>
 </Application>
+

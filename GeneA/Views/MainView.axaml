@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              x:Class="GeneA.Views.MainView"
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
@@ -12,5 +12,21 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Grid>
+    <ListBox ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single" IsTextSearchEnabled="True">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <TextBlock Text="{Binding Name}"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <Button Classes="round" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10"
+            Command="{Binding AddNewPerson}">
+      <TextBlock Text="+"/>
+    </Button>
+  </Grid>
+
+  
 </UserControl>
