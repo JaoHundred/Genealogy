@@ -56,10 +56,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Model\Model.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Localization\Lang.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
