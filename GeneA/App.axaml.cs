@@ -6,6 +6,9 @@ using GeneA._Services;
 using GeneA.ViewModels;
 using GeneA.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Model.Database;
+using Model.Interfaces;
+using Model.Services;
 
 namespace GeneA;
 
@@ -16,13 +19,20 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
+    public static ServiceProvider? ServiceProvider { get; private set; }
+
     public override void OnFrameworkInitializationCompleted()
     {
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
-         var mainViewModel = ConfigureServices().GetService<MainViewModel>();
+        ServiceProvider provider = ConfigureServices();
+        ServiceProvider = provider;
+
+        var mainViewModel = provider.GetService<MainViewModel>();
+        var mainView = provider.GetService<MainView>();
+
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -30,13 +40,13 @@ public partial class App : Application
             {
                 DataContext = mainViewModel
             };
+
+            desktop.MainWindow.Content = mainView;
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView
-            {
-                DataContext = mainViewModel
-            };
+            mainView!.DataContext = mainViewModel;
+            singleViewPlatform.MainView = mainView;
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -47,6 +57,9 @@ public partial class App : Application
         var services = new ServiceCollection();
 
         services.AddSingleton<NavigationService>();
+        services.AddSingleton<LiteDBConfiguration>();
+        services.AddSingleton<IGetFolderService, GetFolderService>();
+        services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 
         ViewsViewModels(services);
 
@@ -56,7 +69,7 @@ public partial class App : Application
     private static void ViewsViewModels(ServiceCollection services)
     {
         // Add the ViewModels as a service (Main as singleton, others as transient)
-
+        services.AddSingleton<MainView>();
         services.AddSingleton<MainViewModel>();
 
         services.AddTransient<AddPersonView>();

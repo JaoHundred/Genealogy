@@ -12,6 +12,7 @@ namespace Model.Database
 {
     public class LiteDBConfiguration
     {
+        public const string Folder = "GeneTree";
         public const string LiteDataName = "data";
         public const string LiteErrordbLogName = "errorLog";
 
@@ -29,7 +30,12 @@ namespace Model.Database
         public string GetLiteDBPath(string databaseName)
         {
             string applicationFolder = _getFolder.GetApplicationDirectory();
-            return Path.Combine(applicationFolder, databaseName);
+            string directory = Path.Combine(applicationFolder, Folder);
+
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            return Path.Combine(directory, databaseName);
         }
 
         private void StartLiteDB()

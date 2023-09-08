@@ -1,4 +1,7 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.LogicalTree;
+using Avalonia.Threading;
 using GeneA.ViewModels;
 using GeneA.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,22 +16,48 @@ namespace GeneA._Services;
 
 public class NavigationService
 {
-    public NavigationService()
+    public NavigationService(MainView mainView)
     {
-        _stack = new List<ViewModelBase>();
+        _mainView = mainView;
+
+        _stack = new List<UserControl>();
     }
 
-    private List<ViewModelBase> _stack;
+    private List<UserControl> _stack;
+    private readonly MainView _mainView;
 
-    //TODO: search for some way to access mainwindow content property
-   
-    public void GoBack()
+    public async Task GoBackAsync()
     {
-        //var curr = App.li
+        _stack.RemoveAt(_stack.Count - 1);
+
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            _mainView.Content = _stack.Last();
+        });
     }
 
-    public void GoTo<T>() where T : ViewModelBase
+    public async Task GoToAsync<T>() where T : ViewModelBase
     {
-        throw new NotImplementedException();
+        var viewModel = App.ServiceProvider?.GetService<T>();
+        var view = GetViewFromViewModel(viewModel!);
+
+        _stack.Add(view);
+
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            _mainView.Content = view;
+        });
+    }
+
+    private UserControl GetViewFromViewModel(ViewModelBase viewModel)
+    {
+        string viewModelTypeName = viewModel.GetType().FullName!;
+        string viewTypeName = viewModelTypeName.Replace("ViewModel", "View");
+
+        Type viewType = Type.GetType(viewTypeName)!;
+
+        var view = App.ServiceProvider?.GetService(viewType);
+
+        return (UserControl)view!;
     }
 }
