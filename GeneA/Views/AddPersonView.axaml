@@ -9,4 +9,6 @@
   <!--<UserControl.DataContext>
     <vm:AddPersonViewModel/>
   </UserControl.DataContext>-->
+  <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+             Text="Worked" Foreground="BlueViolet" FontSize="40"></TextBlock>
 </UserControl>
