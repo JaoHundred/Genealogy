@@ -42,7 +42,7 @@ namespace Model.Database
         {
             BsonMapper bsonMapper = BsonMapper.Global;
             bsonMapper.Entity<Person>().Id(p => p.Id);
-            bsonMapper.Entity<Nacionality>().Id(p => p.Id);
+            bsonMapper.Entity<Nationality>().Id(p => p.Id);
 
             string completePath = $"Filename={GetLiteDBPath(LiteDataName)}";
             LiteDB = new LiteDatabase(completePath, bsonMapper);

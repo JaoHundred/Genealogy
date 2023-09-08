@@ -14,7 +14,7 @@ namespace Model.Core
 
         public long Id { get; set; }
         public string Name { get; set; }
-        public Nacionality Nacionality { get; set; }
+        public Nationality Nacionality { get; set; }
         public Person Father { get; set; }
         public Person Mother { get; set; }
         public Person Spouse { get; set; }

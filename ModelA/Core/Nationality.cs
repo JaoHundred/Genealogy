@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Model.Core
 {
-    public class Nacionality : IDbEntity
+    public class Nationality : IDbEntity
     {
-        public Nacionality() { }
+        public Nationality() { }
 
         public long Id { get; set; }
         public string Name { get; set; }
