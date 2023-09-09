@@ -12,7 +12,7 @@ namespace Model.Core
         public Nationality() { }
 
         public long Id { get; set; }
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Abbreviation { get; set; } = string.Empty;
     }
 }

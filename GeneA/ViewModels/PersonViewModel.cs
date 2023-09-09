@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace GeneA.ViewModels;
 
-public partial class AddPersonViewModel : ViewModelBase
+public partial class PersonViewModel : ViewModelBase
 {
-    public AddPersonViewModel()
+    public PersonViewModel()
     {
         
     }
 }
+//TODO:implement features for add, edit and delete one person

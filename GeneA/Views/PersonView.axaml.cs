@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace GeneA.Views;
 
-public partial class AddPersonView : UserControl
+public partial class PersonView : UserControl
 {
-    public AddPersonView()
+    public PersonView()
     {
         InitializeComponent();
     }

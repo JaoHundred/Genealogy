@@ -72,7 +72,7 @@ public partial class App : Application
         services.AddSingleton<MainView>();
         services.AddSingleton<MainViewModel>();
 
-        services.AddTransient<AddPersonView>();
-        services.AddTransient<AddPersonViewModel>();
+        services.AddTransient<PersonView>();
+        services.AddTransient<PersonViewModel>();
     }
 }

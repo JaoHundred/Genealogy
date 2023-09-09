@@ -10,16 +10,19 @@ namespace Model.Core
     public class Person : IDbEntity
     {
         public Person()
-        { }
+        {
+            Spouse = new List<Person>();
+        }
 
         public long Id { get; set; }
-        public string Name { get; set; }
-        public Nationality Nacionality { get; set; }
-        public Person Father { get; set; }
-        public Person Mother { get; set; }
-        public Person Spouse { get; set; }
-        public DateTime BirthDate { get; set; }
-        public DateTime DeathDate { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public Nationality? Nacionality { get; set; }
+        public Person? Father { get; set; }
+        public Person? Mother { get; set; }
+        public List<Person> Spouse { get; set; }
+        public DateTime? WeddingDate { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public DateTime? DeathDate { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }

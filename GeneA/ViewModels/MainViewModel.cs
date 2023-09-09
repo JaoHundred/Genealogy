@@ -23,7 +23,7 @@ public partial class MainViewModel : ViewModelBase
 
     public async Task AddNewPerson()
     {
-        await _navigationService.GoToAsync<AddPersonViewModel>();
+        await _navigationService.GoToAsync<PersonViewModel>();
     }
 }
-//TODO: create app menu of sorts(like maui shell hamburger menu or bottom menu)
+//TODO: create app menu of sorts(like maui shell hamburger menu)
