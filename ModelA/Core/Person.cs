@@ -12,6 +12,7 @@ namespace Model.Core
         public Person()
         {
             Spouse = new List<Person>();
+            Offsprings = new List<Person>();
         }
 
         public long Id { get; set; }
@@ -20,6 +21,7 @@ namespace Model.Core
         public Person? Father { get; set; }
         public Person? Mother { get; set; }
         public List<Person> Spouse { get; set; }
+        public List<Person> Offsprings { get; set; }
         public DateTime? WeddingDate { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
