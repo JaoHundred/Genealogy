@@ -4,26 +4,23 @@ using Model.Core;
 using Model.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MvvmHelpers;
 
 namespace GeneA.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    public MainViewModel(NavigationService navigationService, IRepository<Person> repository)
+    public MainViewModel(NavigationService navigationService)
     {
-        RecentlyAdded = new List<Person>();
         _navigationService = navigationService;
-        _repository = repository;
+
+        _navigationService.GoToAsync<HomeViewModel>().SafeFireAndForget();
     }
 
     private readonly NavigationService _navigationService;
-    private readonly IRepository<Person> _repository;
-    [ObservableProperty]
-    private List<Person> _recentlyAdded;
 
-    public async Task AddNewPerson()
+    public async Task SettingsCommand()
     {
-        await _navigationService.GoToAsync<PersonViewModel>();
+        await _navigationService.GoToAsync<SettingsViewModel>();
     }
 }
-//TODO: create app menu of sorts(like maui shell hamburger menu)

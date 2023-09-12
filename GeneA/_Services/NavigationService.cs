@@ -19,20 +19,15 @@ public class NavigationService
     public NavigationService(MainView mainView)
     {
         _mainView = mainView;
-
-        _stack = new List<UserControl>();
     }
 
-    private List<UserControl> _stack;
     private readonly MainView _mainView;
 
     public async Task GoBackAsync()
     {
-        _stack.RemoveAt(_stack.Count - 1);
-
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            _mainView.Content = _stack.Last();
+            _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count-1);
         });
     }
 
@@ -41,11 +36,9 @@ public class NavigationService
         var viewModel = App.ServiceProvider?.GetService<T>();
         var view = GetViewFromViewModel(viewModel!);
 
-        _stack.Add(view);
-
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            _mainView.Content = view;
+            _mainView.ContentGrid.Children.Add(view);
         });
     }
 

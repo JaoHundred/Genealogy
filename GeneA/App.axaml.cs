@@ -32,7 +32,7 @@ public partial class App : Application
 
         var mainViewModel = provider.GetService<MainViewModel>();
         var mainView = provider.GetService<MainView>();
-
+        
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -63,6 +63,8 @@ public partial class App : Application
 
         ViewsViewModels(services);
 
+
+
         return services.BuildServiceProvider();
     }
 
@@ -72,7 +74,14 @@ public partial class App : Application
         services.AddSingleton<MainView>();
         services.AddSingleton<MainViewModel>();
 
+        services.AddTransient<HomeView>();
+        services.AddTransient<HomeViewModel>();
+
         services.AddTransient<PersonView>();
         services.AddTransient<PersonViewModel>();
+
+        services.AddTransient<SettingsView>();
+        services.AddTransient<SettingsViewModel>();
+        
     }
 }

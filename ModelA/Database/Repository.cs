@@ -19,13 +19,13 @@ namespace Model.Database
 
         public T FindById(long id)
         {
-            return _configuration.LiteDB.GetCollection<T>().FindById(id);
+            return _configuration.LiteDB!.GetCollection<T>().FindById(id);
         }
 
         public void Upsert(T entity)
         {
 
-            _configuration.LiteDB.GetCollection<T>().Upsert(entity);
+            _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
             //var obj = FindById(entity.Id);
 
             //if (obj == null)
@@ -36,12 +36,17 @@ namespace Model.Database
 
         public void Delete(T entity)
         {
-            _configuration.LiteDB.GetCollection<T>().Delete(entity.Id);
+            _configuration.LiteDB!.GetCollection<T>().Delete(entity.Id);
         }
 
         public void Update(T entity)
         {
-            _configuration.LiteDB.GetCollection<T>().Update(entity.Id, entity);
+            _configuration.LiteDB!.GetCollection<T>().Update(entity.Id, entity);
+        }
+
+        public IEnumerable<T> Take(int amount)
+        {
+            return _configuration.LiteDB!.GetCollection<T>().FindAll().Take(amount);
         }
     }
 }

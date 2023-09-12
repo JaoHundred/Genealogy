@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GeneA.Views.HomeView"
+             xmlns:vm="clr-namespace:GeneA.ViewModels"
+             x:DataType="vm:HomeViewModel"
+             >
+  <Grid>
+    <ListBox ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single" IsTextSearchEnabled="True">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Id}"/>
+            <TextBlock Text="{Binding Name}"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <Button Classes="round" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10"
+            Command="{Binding AddNewPerson}">
+      <TextBlock Text="+"/>
+    </Button>
+  </Grid>
+</UserControl>

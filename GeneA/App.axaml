@@ -20,6 +20,12 @@
         <Setter Property="FontSize" Value="24"/>
       </Style>
 
+      <Style Selector="Border#BottomMenu>Grid>Button">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="WhiteSmoke"/>
+      </Style>
+
     </Application.Styles>
 </Application>
 
