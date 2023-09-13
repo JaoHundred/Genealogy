@@ -7,26 +7,21 @@
              x:Class="GeneA.Views.MainView"
              x:DataType="vm:MainViewModel"
              xmlns:views="clr-namespace:GeneA.Views">
-  <!--<Design.DataContext>
-    --><!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) --><!--
-    <vm:MainViewModel />
-  </Design.DataContext>-->
 
-  <Grid RowDefinitions="*,auto">
+  <Grid RowDefinitions="*,auto" >
     <Grid Name="ContentGrid"/>
-    
+
     <Border Grid.Row="1" Height="50" Name="BottomMenu"
-            BorderBrush="CadetBlue" BorderThickness="3"
+            BorderBrush="CadetBlue"
             Background="CadetBlue"
-            CornerRadius="10,10,0,0" >
+            CornerRadius="30,30,0,0" >
       <Grid ColumnDefinitions="*,*,*">
-        <Button Grid.Column="0" Content="Home"/>
+        <Button Grid.Column="0" Content="Home" Command="{Binding HomeCommand}"/>
         <Button Grid.Column="1" Content="test"/>
         <Button Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"/>
       </Grid>
     </Border>
   </Grid>
 
-  
+
 </UserControl>

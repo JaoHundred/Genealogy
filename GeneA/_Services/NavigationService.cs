@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using GeneA.Interfaces;
 using GeneA.ViewModels;
 using GeneA.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,9 @@ public class NavigationService
 
     public async Task GoBackAsync()
     {
+        if (_mainView.ContentGrid.Children.LastOrDefault() is HomeView)
+            return;
+
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
             _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count-1);
@@ -35,6 +39,14 @@ public class NavigationService
     {
         var viewModel = App.ServiceProvider?.GetService<T>();
         var view = GetViewFromViewModel(viewModel!);
+
+        var lastView = _mainView.ContentGrid.Children.LastOrDefault();
+        
+        if (lastView != null && lastView.GetType() == view.GetType() )
+            return;
+
+        //TODO: make a way to not add again the IMenuView types if they are already in the children stack
+        //remove and add to the top of the stack
 
         await Dispatcher.UIThread.InvokeAsync(() =>
         {

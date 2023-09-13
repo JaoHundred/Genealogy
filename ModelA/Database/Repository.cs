@@ -44,9 +44,14 @@ namespace Model.Database
             _configuration.LiteDB!.GetCollection<T>().Update(entity.Id, entity);
         }
 
-        public IEnumerable<T> Take(int amount)
+        public IEnumerable<T> Take(int amount, bool takeLast = true)
         {
-            return _configuration.LiteDB!.GetCollection<T>().FindAll().Take(amount);
+            var collection = _configuration.LiteDB!.GetCollection<T>().FindAll();
+
+            if (takeLast)
+                return collection.TakeLast(amount);
+
+            return collection.Take(amount);
         }
     }
 }

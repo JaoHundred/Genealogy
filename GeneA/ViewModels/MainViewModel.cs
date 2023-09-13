@@ -19,6 +19,11 @@ public partial class MainViewModel : ViewModelBase
 
     private readonly NavigationService _navigationService;
 
+    public async Task HomeCommand()
+    {
+        await _navigationService.GoToAsync<HomeViewModel>();
+    }
+
     public async Task SettingsCommand()
     {
         await _navigationService.GoToAsync<SettingsViewModel>();

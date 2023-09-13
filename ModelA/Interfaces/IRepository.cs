@@ -8,7 +8,7 @@ namespace Model.Interfaces
 {
     public interface IRepository<T> where T : IDbEntity
     {
-        IEnumerable<T> Take(int amount);
+        IEnumerable<T> Take(int amount, bool takeLast = true);
         T FindById(long id);
         void Upsert(T entity);
         void Delete(T entity);
