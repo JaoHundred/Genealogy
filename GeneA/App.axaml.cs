@@ -74,14 +74,14 @@ public partial class App : Application
         services.AddSingleton<MainView>();
         services.AddSingleton<MainViewModel>();
 
-        services.AddTransient<HomeView>();
-        services.AddTransient<HomeViewModel>();
+        services.AddSingleton<HomeView>();
+        services.AddSingleton<HomeViewModel>();
+        
+        services.AddSingleton<SettingsView>();
+        services.AddSingleton<SettingsViewModel>();
 
+        
         services.AddTransient<PersonView>();
         services.AddTransient<PersonViewModel>();
-
-        services.AddTransient<SettingsView>();
-        services.AddTransient<SettingsViewModel>();
-        
     }
 }

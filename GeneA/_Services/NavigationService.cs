@@ -29,40 +29,62 @@ public class NavigationService
         if (_mainView.ContentGrid.Children.LastOrDefault() is HomeView)
             return;
 
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        if(_mainView.ContentGrid.Children.LastOrDefault() is IMenuView menuView && menuView is not HomeView)
         {
-            _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count-1);
+            await RunInUIThread(() => 
+            {
+                _mainView.ContentGrid.Children.Clear();
+                _mainView.ContentGrid.Children.Add(GetViewFromViewModel<HomeViewModel>());
+            });
+        }
+
+        await RunInUIThread(() =>
+        {
+            _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count - 1);
         });
     }
 
     public async Task GoToAsync<T>() where T : ViewModelBase
     {
-        var viewModel = App.ServiceProvider?.GetService<T>();
-        var view = GetViewFromViewModel(viewModel!);
+        UserControl view = GetViewFromViewModel<T>();
 
         var lastView = _mainView.ContentGrid.Children.LastOrDefault();
-        
-        if (lastView != null && lastView.GetType() == view.GetType() )
+
+        if (lastView != null && lastView.GetType() == view.GetType())//trying to navigate to the same place
             return;
 
-        //TODO: make a way to not add again the IMenuView types if they are already in the children stack
-        //remove and add to the top of the stack
-
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        if (view is IMenuView)//navigate to any bottom menu
         {
-            _mainView.ContentGrid.Children.Add(view);
-        });
+            await RunInUIThread(() =>
+            {
+                _mainView.ContentGrid.Children.Clear();
+                _mainView.ContentGrid.Children.Add(view);
+            });
+        }
+
+        else//navigate further in a bottom menu
+        {
+            await RunInUIThread(() =>
+            {
+                _mainView.ContentGrid.Children.Add(view);
+            });
+        }
     }
 
-    private UserControl GetViewFromViewModel(ViewModelBase viewModel)
+    private UserControl GetViewFromViewModel<T>() where T : ViewModelBase
     {
-        string viewModelTypeName = viewModel.GetType().FullName!;
+        var viewModel = App.ServiceProvider?.GetService<T>();
+        string viewModelTypeName = viewModel!.GetType().FullName!;
         string viewTypeName = viewModelTypeName.Replace("ViewModel", "View");
 
         Type viewType = Type.GetType(viewTypeName)!;
 
-        var view = App.ServiceProvider?.GetService(viewType);
+        var view = (UserControl)App.ServiceProvider?.GetService(viewType)!;
+        return view;
+    }
 
-        return (UserControl)view!;
+    private async Task RunInUIThread(Action action)
+    {
+        await Dispatcher.UIThread.InvokeAsync(action);
     }
 }

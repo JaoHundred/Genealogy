@@ -33,7 +33,7 @@ public partial class HomeViewModel : ViewModelBase
     {
         await Task.Run(() =>
         {
-            RecentlyAdded.AddRange(_repository.Take(20));
+            RecentlyAdded.ReplaceRange(_repository.Take(20));
         });
     }
 
