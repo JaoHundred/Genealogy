@@ -26,22 +26,25 @@ public class NavigationService
 
     public async Task GoBackAsync()
     {
-        if (_mainView.ContentGrid.Children.LastOrDefault() is HomeView)
+        if (_mainView.ContentGrid.Children.LastOrDefault() is HomeView)//already in HomeView
             return;
 
-        if(_mainView.ContentGrid.Children.LastOrDefault() is IMenuView menuView && menuView is not HomeView)
+        // in any menuView except HomeView
+        else if (_mainView.ContentGrid.Children.LastOrDefault() is IMenuView menuView && menuView is not HomeView)
         {
-            await RunInUIThread(() => 
+            await RunInUIThread(() =>
             {
                 _mainView.ContentGrid.Children.Clear();
                 _mainView.ContentGrid.Children.Add(GetViewFromViewModel<HomeViewModel>());
             });
         }
 
-        await RunInUIThread(() =>
-        {
-            _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count - 1);
-        });
+        //in any view
+        else
+            await RunInUIThread(() =>
+            {
+                _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count - 1);
+            });
     }
 
     public async Task GoToAsync<T>() where T : ViewModelBase
@@ -53,7 +56,7 @@ public class NavigationService
         if (lastView != null && lastView.GetType() == view.GetType())//trying to navigate to the same place
             return;
 
-        if (view is IMenuView)//navigate to any bottom menu
+        else if (view is IMenuView)//navigate to any bottom menu
         {
             await RunInUIThread(() =>
             {
