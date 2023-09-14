@@ -17,7 +17,7 @@
             CornerRadius="30,30,0,0" >
       <Grid ColumnDefinitions="*,*,*">
         <Button Grid.Column="0" Content="Home" Command="{Binding HomeCommand}"/>
-        <Button Grid.Column="1" Content="test"/>
+        <Button Grid.Column="1" Content="People list" Command="{Binding PeopleCommand}"/>
         <Button Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"/>
       </Grid>
     </Border>

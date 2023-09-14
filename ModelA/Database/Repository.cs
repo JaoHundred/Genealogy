@@ -17,6 +17,11 @@ namespace Model.Database
 
         private readonly LiteDBConfiguration _configuration;
 
+        public IEnumerable<T> FindAll()
+        {
+            return _configuration.LiteDB!.GetCollection<T>().FindAll();
+        }
+
         public T FindById(long id)
         {
             return _configuration.LiteDB!.GetCollection<T>().FindById(id);
@@ -53,5 +58,7 @@ namespace Model.Database
 
             return collection.Take(amount);
         }
+
+      
     }
 }

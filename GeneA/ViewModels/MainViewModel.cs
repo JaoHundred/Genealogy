@@ -14,7 +14,7 @@ public partial class MainViewModel : ViewModelBase
     {
         _navigationService = navigationService;
 
-        _navigationService.GoToAsync<HomeViewModel>().SafeFireAndForget();
+        HomeCommand().SafeFireAndForget();
     }
 
     private readonly NavigationService _navigationService;
@@ -22,6 +22,11 @@ public partial class MainViewModel : ViewModelBase
     public async Task HomeCommand()
     {
         await _navigationService.GoToAsync<HomeViewModel>();
+    }
+
+    public async Task PeopleCommand()
+    {
+        await _navigationService.GoToAsync<PeopleViewModel>();
     }
 
     public async Task SettingsCommand()

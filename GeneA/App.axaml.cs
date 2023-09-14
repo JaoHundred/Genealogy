@@ -76,7 +76,10 @@ public partial class App : Application
 
         services.AddSingleton<HomeView>();
         services.AddSingleton<HomeViewModel>();
-        
+
+        services.AddSingleton<PeopleView>();
+        services.AddSingleton<PeopleViewModel>();
+
         services.AddSingleton<SettingsView>();
         services.AddSingleton<SettingsViewModel>();
 
