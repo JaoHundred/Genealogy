@@ -11,10 +11,7 @@
   <Grid RowDefinitions="*,auto" >
     <Grid Name="ContentGrid"/>
 
-    <Border Grid.Row="1" Height="50" Name="BottomMenu"
-            BorderBrush="CadetBlue"
-            Background="CadetBlue"
-            CornerRadius="30,30,0,0" >
+    <Border Grid.Row="1" Name="BottomMenu">
       <Grid ColumnDefinitions="*,*,*">
         <Button Grid.Column="0" Content="Home" Command="{Binding HomeCommand}"/>
         <Button Grid.Column="1" Content="People list" Command="{Binding PeopleCommand}"/>
@@ -22,6 +19,5 @@
       </Grid>
     </Border>
   </Grid>
-
 
 </UserControl>
