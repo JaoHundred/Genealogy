@@ -19,23 +19,29 @@ public class NavigationService
 {
     public NavigationService(MainView mainView)
     {
+        _stack = new List<Control>();
         _mainView = mainView;
     }
 
     private readonly MainView _mainView;
 
+    private List<Control> _stack;
+
     public async Task GoBackAsync()
     {
-        if (_mainView.ContentGrid.Children.LastOrDefault() is HomeView)//already in HomeView
+        if (_stack.LastOrDefault() is HomeView)//already in HomeView
             return;
 
         // in any menuView except HomeView
-        else if (_mainView.ContentGrid.Children.LastOrDefault() is IMenuView menuView && menuView is not HomeView)
+        else if (_stack.LastOrDefault() is IMenuView menuView && menuView is not HomeView)
         {
             await RunInUIThread(() =>
             {
+                _stack.Clear();
                 _mainView.ContentGrid.Children.Clear();
-                _mainView.ContentGrid.Children.Add(GetViewFromViewModel<HomeViewModel>());
+
+                _stack.Add(GetViewFromViewModel<HomeViewModel>());
+                _mainView.ContentGrid.Children.Add(_stack.LastOrDefault()!);
             });
         }
 
@@ -43,7 +49,10 @@ public class NavigationService
         else
             await RunInUIThread(() =>
             {
-                _mainView.ContentGrid.Children.RemoveAt(_mainView.ContentGrid.Children.Count - 1);
+                _stack.RemoveAt(_stack.Count - 1);
+
+                _mainView.ContentGrid.Children.Clear();
+                _mainView.ContentGrid.Children.Add(_stack.ElementAt(_stack.Count - 1));
             });
     }
 
@@ -51,7 +60,7 @@ public class NavigationService
     {
         UserControl view = GetViewFromViewModel<T>();
 
-        var lastView = _mainView.ContentGrid.Children.LastOrDefault();
+        var lastView = _stack.LastOrDefault();
 
         if (lastView != null && lastView.GetType() == view.GetType())//trying to navigate to the same place
             return;
@@ -60,7 +69,10 @@ public class NavigationService
         {
             await RunInUIThread(() =>
             {
+                _stack.Clear();
                 _mainView.ContentGrid.Children.Clear();
+
+                _stack.Add(view);
                 _mainView.ContentGrid.Children.Add(view);
             });
         }
@@ -69,6 +81,9 @@ public class NavigationService
         {
             await RunInUIThread(() =>
             {
+                _stack.Add(view);
+
+                _mainView.ContentGrid.Children.Clear();
                 _mainView.ContentGrid.Children.Add(view);
             });
         }
