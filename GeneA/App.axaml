@@ -11,6 +11,16 @@
       <Setter Property="Background" Value="Transparent"/>
     </Style>
 
+    <Style Selector="Grid.Default>Button">
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="Height" Value="50"/>
+    </Style>
+
+    <Style Selector="Grid.TextLabel>TextBlock">
+      <Setter Property="Padding" Value="0,10,0,0"/>
+    </Style>
+
     <Style Selector="Button.round">
       <Setter Property="CornerRadius" Value="50"/>
       <Setter Property="Height" Value="60"/>

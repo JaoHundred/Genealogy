@@ -56,9 +56,16 @@ public class NavigationService
             });
     }
 
-    public async Task GoToAsync<T>() where T : ViewModelBase
+    public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
     {
         UserControl view = GetViewFromViewModel<T>();
+
+        if(param != null)
+        {
+            var viewModel = (view.DataContext as ViewModelBase)!;
+            viewModel.Param = null;
+            viewModel.Param = param;
+        }
 
         var lastView = _stack.LastOrDefault();
 

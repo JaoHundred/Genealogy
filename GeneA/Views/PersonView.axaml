@@ -2,13 +2,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
              x:Class="GeneA.Views.PersonView"
              x:DataType="vm:PersonViewModel">
-  <!--<UserControl.DataContext>
-    <vm:AddPersonViewModel/>
-  </UserControl.DataContext>-->
-  <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-             Text="Worked" Foreground="BlueViolet" FontSize="40"></TextBlock>
+
+  <Grid RowDefinitions="auto *">
+
+    <Grid Classes="TextLabel"
+          RowDefinitions="auto auto auto auto auto auto"
+          ColumnDefinitions="* *" Margin="5">
+
+      <TextBlock Text="Nome"/>
+      <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Person.Name, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="2"  Text="Birth Date" />
+      <MaskedTextBox Grid.Row="3" Mask="00/00/0000" Margin="0,0,5,0"
+                     Text="{Binding Person.BirthDate, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="2" Grid.Column="1" Text="Death Date" Margin="5,0,0,0"/>
+      <MaskedTextBox Grid.Row="3" Grid.Column="1" Mask="00/00/0000" Margin="5,0,0,0"
+                     Text="{Binding Person.DeathDate, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="4" Text="Wedding"/>
+      <MaskedTextBox Grid.Row="5" Grid.ColumnSpan="2" Mask="00/00/0000"
+                     Text="{Binding Person.WeddingDate, Mode=TwoWay}"/>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </Grid>
+
+    <Grid Classes="Default" Grid.Row="1" ColumnDefinitions="auto,*"
+          VerticalAlignment="Bottom" >
+
+      <Button Content="Delete" Command="{Binding DeleteCommand}"/>
+      <Button Grid.Column="1"  HorizontalAlignment="Stretch" Content="Save"
+              Command="{Binding SaveCommand}"/>
+
+    </Grid>
+  </Grid>
+
 </UserControl>
