@@ -9,6 +9,17 @@
              x:DataType="vm:PersonViewModel"
              Name="view">
 
+  <UserControl.Resources>
+
+    <DataTemplate x:Key="AutoCompleteTemplate" x:DataType="model:Person">
+      <Grid ColumnDefinitions="*, auto">
+        <TextBlock Text="{Binding Name}"/>
+        <TextBlock Grid.Column="1" Text="Birth and death"/>
+      </Grid>
+    </DataTemplate>
+
+  </UserControl.Resources>
+
   <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
 
     <Grid RowDefinitions="* auto">
@@ -35,24 +46,18 @@
                          Text="{Binding Person.DeathDate, Mode=TwoWay}"/>
 
           <TextBlock Grid.Row="4" Text="Father"/>
-          <AutoCompleteBox  Grid.Row="5" 
-                           ItemsSource="{Binding FatherList}" 
+          <AutoCompleteBox  Grid.Row="5"
+                           ItemsSource="{Binding FatherList}"
+                           ItemTemplate="{StaticResource AutoCompleteTemplate}"
                            IsTextCompletionEnabled="True"
-                           ValueMemberBinding="{Binding .Name}"
-                           FilterMode="StartsWith" 
-                           Margin="0,0,5,0">
-            <AutoCompleteBox.ItemTemplate>
-              <DataTemplate x:DataType="model:Person">
-                <Grid ColumnDefinitions="* auto">
-                  <TextBlock Text="{Binding Name}"/>
-                  <TextBlock Grid.Column="1" Text="Birth and death"/>
-                </Grid>
-              </DataTemplate>
-            </AutoCompleteBox.ItemTemplate>
-          </AutoCompleteBox>
+                           Text="{Binding Mode=OneWayToSource}"
+                           FilterMode="Custom"
+                           ItemFilter="{Binding AutoCompleteFilter}" 
+                           Margin="0,0,5,0"/>
 
           <TextBlock Grid.Row="4" Grid.Column="1" Text="Mother" Margin="5,0,0,0"/>
-          <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding MotherList}" Margin="5,0,0,0"/>
+          <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding MotherList}" Margin="5,0,0,0"
+                    ItemTemplate="{StaticResource AutoCompleteTemplate}"/>
 
           <TextBlock Grid.Row="6" Text="Wedding"/>
           <MaskedTextBox Grid.Row="7" Grid.ColumnSpan="2" Mask="00/00/0000"
@@ -68,7 +73,7 @@
           <TextBox Grid.Row="13" Text="Placeholder use popup"/>
 
           <TextBlock Grid.Row="14" Text="Description"/>
-          <TextBox Grid.Row="15" Grid.ColumnSpan="2" 
+          <TextBox Grid.Row="15" Grid.ColumnSpan="2"
                    Text="{Binding Person.Description}" Height="200"
                    TextWrapping="Wrap"/>
         </Grid>
