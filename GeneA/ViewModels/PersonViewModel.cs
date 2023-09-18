@@ -18,7 +18,16 @@ public partial class PersonViewModel : ViewModelBase
     {
         _repository = repository;
 
-        Load().SafeFireAndForget();
+        FatherList = new ObservableRangeCollection<Person>();
+
+
+        var fathers = new List<Person> { new Person { Name = "jose" }, new Person { Name = "maria" } };
+
+        FatherList.ReplaceRange(fathers);
+
+        MotherList = new ObservableRangeCollection<Person>();
+
+        //Load().SafeFireAndForget();
     }
 
     private readonly IRepository<Person> _repository;
@@ -26,20 +35,39 @@ public partial class PersonViewModel : ViewModelBase
     [ObservableProperty]
     private Person? _person;
 
+    [ObservableProperty]
+    private ObservableRangeCollection<Person> _fatherList;
+
+    [ObservableProperty]
+    private ObservableRangeCollection<Person> _motherList;
+
     private async Task Load()
     {
         await Task.Run(() =>
         {
-            Person = Param == null
-            ? new Person()
-            : _repository.FindById((long)Param);
+            var people = _repository.FindAll();
+            
+            FatherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male));
+            MotherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female));
+
+            if (Param == null)
+            {
+                Person = new Person();
+            }
+            else
+            {
+                Person = _repository.FindById((long)Param);
+            }
+
+            FatherList.Remove(Person);
+            MotherList.Remove(Person);
         });
     }
 
     public async Task SaveCommand()
     {
         throw new NotImplementedException();
-        await Task.Run(() => 
+        await Task.Run(() =>
         {
             //TODO: validate(data annotations)
 
@@ -52,7 +80,7 @@ public partial class PersonViewModel : ViewModelBase
     public async Task DeleteCommand()
     {
         throw new NotImplementedException();
-        await Task.Run(() => 
+        await Task.Run(() =>
         {
             //TODO: show popup confirmation
             _repository.Delete(Person!);

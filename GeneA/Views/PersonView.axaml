@@ -4,52 +4,85 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
+             xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
              x:Class="GeneA.Views.PersonView"
-             x:DataType="vm:PersonViewModel">
+             x:DataType="vm:PersonViewModel"
+             Name="view">
 
-  <Grid RowDefinitions="auto *">
+  <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
 
-    <Grid Classes="TextLabel"
-          RowDefinitions="auto auto auto auto auto auto"
-          ColumnDefinitions="* *" Margin="5">
+    <Grid RowDefinitions="* auto">
 
-      <TextBlock Text="Nome"/>
-      <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Person.Name, Mode=TwoWay}"/>
+      <ScrollViewer>
+        <Grid Classes="TextLabel"
+              RowDefinitions="auto auto auto 
+              auto auto auto 
+              auto auto auto 
+              auto auto auto
+              auto auto auto
+              *"
+              ColumnDefinitions="* *" Margin="5">
 
-      <TextBlock Grid.Row="2"  Text="Birth Date" />
-      <MaskedTextBox Grid.Row="3" Mask="00/00/0000" Margin="0,0,5,0"
-                     Text="{Binding Person.BirthDate, Mode=TwoWay}"/>
+          <TextBlock Text="Nome"/>
+          <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Person.Name, Mode=TwoWay}"/>
 
-      <TextBlock Grid.Row="2" Grid.Column="1" Text="Death Date" Margin="5,0,0,0"/>
-      <MaskedTextBox Grid.Row="3" Grid.Column="1" Mask="00/00/0000" Margin="5,0,0,0"
-                     Text="{Binding Person.DeathDate, Mode=TwoWay}"/>
+          <TextBlock Grid.Row="2"  Text="Birth Date" />
+          <MaskedTextBox Grid.Row="3" Mask="00/00/0000" Margin="0,0,5,0"
+                         Text="{Binding Person.BirthDate, Mode=TwoWay}"/>
 
-      <TextBlock Grid.Row="4" Text="Wedding"/>
-      <MaskedTextBox Grid.Row="5" Grid.ColumnSpan="2" Mask="00/00/0000"
-                     Text="{Binding Person.WeddingDate, Mode=TwoWay}"/>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+          <TextBlock Grid.Row="2" Grid.Column="1" Text="Death Date" Margin="5,0,0,0"/>
+          <MaskedTextBox Grid.Row="3" Grid.Column="1" Mask="00/00/0000" Margin="5,0,0,0"
+                         Text="{Binding Person.DeathDate, Mode=TwoWay}"/>
+
+          <TextBlock Grid.Row="4" Text="Father"/>
+          <AutoCompleteBox  Grid.Row="5" 
+                           ItemsSource="{Binding FatherList}" 
+                           IsTextCompletionEnabled="True"
+                           ValueMemberBinding="{Binding .Name}"
+                           FilterMode="StartsWith" 
+                           Margin="0,0,5,0">
+            <AutoCompleteBox.ItemTemplate>
+              <DataTemplate x:DataType="model:Person">
+                <Grid ColumnDefinitions="* auto">
+                  <TextBlock Text="{Binding Name}"/>
+                  <TextBlock Grid.Column="1" Text="Birth and death"/>
+                </Grid>
+              </DataTemplate>
+            </AutoCompleteBox.ItemTemplate>
+          </AutoCompleteBox>
+
+          <TextBlock Grid.Row="4" Grid.Column="1" Text="Mother" Margin="5,0,0,0"/>
+          <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding MotherList}" Margin="5,0,0,0"/>
+
+          <TextBlock Grid.Row="6" Text="Wedding"/>
+          <MaskedTextBox Grid.Row="7" Grid.ColumnSpan="2" Mask="00/00/0000"
+                         Text="{Binding Person.WeddingDate, Mode=TwoWay}"/>
+
+          <TextBlock Grid.Row="8" Text="Spouse"/>
+          <TextBox Grid.Row="9" Text="Placeholder use popup"/>
+
+          <TextBlock Grid.Row="10" Text="Offsprings"/>
+          <TextBox Grid.Row="11" Text="Placeholder use popup"/>
+
+          <TextBlock Grid.Row="12" Text="Nationality"/>
+          <TextBox Grid.Row="13" Text="Placeholder use popup"/>
+
+          <TextBlock Grid.Row="14" Text="Description"/>
+          <TextBox Grid.Row="15" Grid.ColumnSpan="2" 
+                   Text="{Binding Person.Description}" Height="200"
+                   TextWrapping="Wrap"/>
+        </Grid>
+      </ScrollViewer>
+
+      <Grid Classes="Default" Grid.Row="1" ColumnDefinitions="auto,*"
+            Margin="5">
+
+        <Button Content="Delete" Command="{Binding DeleteCommand}"/>
+        <Button Grid.Column="1"  HorizontalAlignment="Stretch" Content="Save"
+                Command="{Binding SaveCommand}"/>
+
+      </Grid>
     </Grid>
-
-    <Grid Classes="Default" Grid.Row="1" ColumnDefinitions="auto,*"
-          VerticalAlignment="Bottom" >
-
-      <Button Content="Delete" Command="{Binding DeleteCommand}"/>
-      <Button Grid.Column="1"  HorizontalAlignment="Stretch" Content="Save"
-              Command="{Binding SaveCommand}"/>
-
-    </Grid>
-  </Grid>
+  </Border>
 
 </UserControl>
