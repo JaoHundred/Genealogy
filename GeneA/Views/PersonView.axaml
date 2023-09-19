@@ -16,30 +16,30 @@
     <conv:BirthDeathConverter x:Key="BirthDeathDateConv"/>
 
     <DataTemplate x:Key="AutoCompleteTemplate" x:DataType="model:Person">
-      <Border Padding="5">
         <Grid RowDefinitions="auto, auto, auto">
           <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                     HorizontalAlignment="Center"
                      TextWrapping="Wrap" Margin="0,0,0,5"
                      FontWeight="SemiBold"/>
 
-          <Grid Grid.Row="1" 
-                ColumnDefinitions="* * * *">
-
-            <TextBlock Text="{x:Static loc:Resource.BirthDate}"/>
-            <TextBlock Grid.Column="1" Text="{Binding BirthDate
+          <Grid Grid.Row="1" RowDefinitions="* *" ColumnDefinitions="* *"
+                HorizontalAlignment="Center">
+            
+            <TextBlock Text="{x:Static loc:Resource.BirthDate}" Margin="0,0,15,0"/>
+            <TextBlock Grid.Row="1" Text="{Binding BirthDate 
                    ,Converter={StaticResource BirthDeathDateConv}
-                   ,ConverterParameter=BD}"/>
+                   ,ConverterParameter=BD}"
+                       HorizontalAlignment="Center" Margin="0,0,15,0"/>
 
-            <TextBlock Grid.Column="2" Text="{x:Static loc:Resource.DeathDate}"/>
-            <TextBlock Grid.Column="3"
-                       Text="{Binding DeathDate
+            <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DeathDate
                    ,Converter={StaticResource BirthDeathDateConv}
-                   ,ConverterParameter=DD}"/>
+                   ,ConverterParameter=DD}"
+                       HorizontalAlignment="Center"/>
           </Grid>
 
           <Separator Grid.Row="2" BorderBrush="Gray"/>
         </Grid>
-      </Border>
     </DataTemplate>
 
   </UserControl.Resources>
