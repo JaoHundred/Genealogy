@@ -21,7 +21,11 @@ public partial class PersonViewModel : ViewModelBase
         FatherList = new ObservableRangeCollection<Person>();
 
 
-        var fathers = new List<Person> { new Person { Name = "jose" }, new Person { Name = "maria" } };
+        var fathers = new List<Person> { 
+            new Person { Name = "jose", BirthDate = DateTime.Today, }
+            , new Person { Name = "maria", DeathDate = DateTime.Today.AddYears(30) } 
+            , new Person { Name = "joseria", BirthDate = DateTime.Today, DeathDate = DateTime.Today.AddYears(100) }
+        };
 
         FatherList.ReplaceRange(fathers);
 
