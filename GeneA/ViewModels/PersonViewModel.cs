@@ -19,20 +19,13 @@ public partial class PersonViewModel : ViewModelBase
         _repository = repository;
 
         FatherList = new ObservableRangeCollection<Person>();
-
-
-        var fathers = new List<Person> { 
-            new Person { Name = "jose", BirthDate = DateTime.Today, }
-            , new Person { Name = "maria", DeathDate = DateTime.Today.AddYears(30) } 
-            , new Person { Name = "joseria", BirthDate = DateTime.Today, DeathDate = DateTime.Today.AddYears(100) }
-        };
-
-        FatherList.ReplaceRange(fathers);
-
         MotherList = new ObservableRangeCollection<Person>();
 
-        //Load().SafeFireAndForget();
+        Load().SafeFireAndForget();
     }
+
+    //TODO: DateTime binded in TextBox dont work, try using string(create string property in ViewModel, it will receive the 
+    //"d" format from DateTime, dont use IValueConverter
 
     private readonly IRepository<Person> _repository;
 
@@ -70,12 +63,12 @@ public partial class PersonViewModel : ViewModelBase
 
     public async Task SaveCommand()
     {
-        throw new NotImplementedException();
+       // throw new NotImplementedException();
         await Task.Run(() =>
         {
             //TODO: validate(data annotations)
 
-            _repository.Upsert(Person!);
+         //   _repository.Upsert(Person!);
 
             //TODO: show success popup
         });
@@ -92,4 +85,3 @@ public partial class PersonViewModel : ViewModelBase
         });
     }
 }
-//TODO:implement features for add, edit and delete one person
