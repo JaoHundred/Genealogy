@@ -103,7 +103,6 @@ public partial class PersonViewModel : ViewModelBase
 
     public async Task SaveCommand()
     {
-        // throw new NotImplementedException();
         await Task.Run(() =>
         {
             //TODO: validate(data annotations)
