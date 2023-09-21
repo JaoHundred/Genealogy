@@ -7,6 +7,7 @@
              xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
+             xmlns:enum="clr-namespace:ModelA.Enums;assembly=ModelA"
              x:Class="GeneA.Views.PersonView"
              x:DataType="vm:PersonViewModel"
              Name="view">
@@ -60,18 +61,26 @@
               ColumnDefinitions="* *" Margin="5">
 
           <TextBlock Text="{x:Static loc:Resource.Name}"/>
-          <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Person.Name, Mode=TwoWay}"/>
+          <TextBox Grid.Row="1" Text="{Binding Person.Name}"
+                   Margin="0,0,5,0"/>
+
+          <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.Gender}" Margin="5,0,0,0"/>
+          <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,0,0"
+                    ItemsSource="{Binding Genders}"
+                    SelectedItem="{Binding SelectedGender, Mode=TwoWay}"
+                    
+                    DisplayMemberBinding="{Binding Name}">
+            
+          </ComboBox>
 
           <TextBlock Grid.Row="2"  Text="{x:Static loc:Resource.BirthDate}" />
           <MaskedTextBox Grid.Row="3" Mask="00/00/0000" Margin="0,0,5,0"
-                         Text="{Binding Person.BirthDate, Mode=TwoWay
-                         , Converter={StaticResource ValidDatetimeConv}}"/>
+                         Text="{Binding BirthDateString}"/>
 
           <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"
                      Margin="5,0,0,0"/>
           <MaskedTextBox Grid.Row="3" Grid.Column="1" Mask="00/00/0000" Margin="5,0,0,0"
-                         Text="{Binding Person.DeathDate, Mode=TwoWay
-                         , Converter={StaticResource ValidDatetimeConv}}"/>
+                         Text="{Binding DeathDateString}"/>
 
           <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Father}"/>
           <AutoCompleteBox  Grid.Row="5"
@@ -90,8 +99,7 @@
 
           <TextBlock Grid.Row="6" Text="{x:Static loc:Resource.Wedding}"/>
           <MaskedTextBox Grid.Row="7" Grid.ColumnSpan="2" Mask="00/00/0000"
-                         Text="{Binding Person.WeddingDate
-                         , Mode=TwoWay, Converter={StaticResource ValidDatetimeConv}}"/>
+                         Text="{Binding WeddingString}"/>
 
           <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Spouse}"/>
           <TextBox Grid.Row="9" Grid.ColumnSpan="2" Text="Placeholder use popup"/>

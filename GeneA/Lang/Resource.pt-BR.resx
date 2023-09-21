@@ -132,6 +132,15 @@
   <data name="Father" xml:space="preserve">
     <value>Pai</value>
   </data>
+  <data name="Female" xml:space="preserve">
+    <value>Feminino</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Sexo</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Masculino</value>
+  </data>
   <data name="Mother" xml:space="preserve">
     <value>Mãe</value>
   </data>
