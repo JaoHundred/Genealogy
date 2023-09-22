@@ -44,6 +44,7 @@ public partial class HomeViewModel : ViewModelBase
 
     public async Task EditPersonCommand(Person person)
     {
-        await _navigationService.GoToAsync<PersonViewModel>(person.Id);
+        if (person != null)
+            await _navigationService.GoToAsync<PersonViewModel>(person.Id);
     }
 }

@@ -56,8 +56,9 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
+        services.AddScoped<LiteDBConfiguration>();
+
         services.AddSingleton<NavigationService>();
-        services.AddSingleton<LiteDBConfiguration>();
         services.AddSingleton<IGetFolderService, GetFolderService>();
         services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 
@@ -84,7 +85,8 @@ public partial class App : Application
         services.AddSingleton<SettingsViewModel>();
 
         
-        services.AddTransient<PersonView>();
-        services.AddTransient<PersonViewModel>();
+
+        services.AddScoped<PersonView>();
+        services.AddScoped<PersonViewModel>();
     }
 }

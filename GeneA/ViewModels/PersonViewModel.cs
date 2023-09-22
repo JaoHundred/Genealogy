@@ -16,7 +16,6 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    //TODO: this is being called 2 times try to discover why and fix
     public PersonViewModel(IRepository<Person> repository)
     {
         _repository = repository;
@@ -93,6 +92,7 @@ public partial class PersonViewModel : ViewModelBase
                     WeddingString = Person.WeddingDate.Value.ToString("d");
                 }
 
+                //TODO: view is not showing the SelectedItem in combobox
                 SelectedGender = Person.Gender.ToGenderTypes();
             }
 
