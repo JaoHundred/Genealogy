@@ -58,15 +58,7 @@ public class NavigationService
 
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
     {
-        UserControl view = GetViewFromViewModel<T>();
-
-        if(param != null)
-        {
-            var viewModel = (view.DataContext as ViewModelBase)!;
-            viewModel.Param = null;
-            viewModel.Param = param;
-        }
-
+        UserControl view = GetViewFromViewModel<T>(param);
         var lastView = _stack.LastOrDefault();
 
         if (lastView != null && lastView.GetType() == view.GetType())//trying to navigate to the same place
@@ -96,9 +88,11 @@ public class NavigationService
         }
     }
 
-    private UserControl GetViewFromViewModel<T>() where T : ViewModelBase
+    private UserControl GetViewFromViewModel<T>(object? param = null) where T : ViewModelBase
     {
-        var viewModel = App.ServiceProvider?.GetService<T>();
+        ViewModelBase viewModel = App.ServiceProvider?.GetService<T>()!;
+        viewModel!.Param = param;
+
         string viewModelTypeName = viewModel!.GetType().FullName!;
         string viewTypeName = viewModelTypeName.Replace("ViewModel", "View");
 

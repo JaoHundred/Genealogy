@@ -16,12 +16,14 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
+    //TODO: this is being called 2 times try to discover why and fix
     public PersonViewModel(IRepository<Person> repository)
     {
         _repository = repository;
 
         FatherList = new ObservableRangeCollection<Person>();
         MotherList = new ObservableRangeCollection<Person>();
+        SelectedGender = new Gender();
 
         Load().SafeFireAndForget();
     }
@@ -42,17 +44,15 @@ public partial class PersonViewModel : ViewModelBase
     //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
     //MaskedTextBox
     #region workaround
-    [DisplayFormat(DataFormatString = "00/00/0000")]
     [DataType(DataType.Date)]
-    public string BirthDateString { get; set; }
+    [Required]
+    public string BirthDateString { get; set; } = string.Empty;
 
-    [DisplayFormat(DataFormatString = "00/00/0000")]
     [DataType(DataType.Date)]
-    public string DeathDateString { get; set; }
+    public string DeathDateString { get; set; } = string.Empty;
 
-    [DisplayFormat(DataFormatString = "00/00/0000")]
     [DataType(DataType.Date)]
-    public string WeddingString { get; set; }
+    public string WeddingString { get; set; } = string.Empty;
     #endregion
 
     [ObservableProperty]

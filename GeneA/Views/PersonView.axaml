@@ -12,40 +12,6 @@
              x:DataType="vm:PersonViewModel"
              Name="view">
 
-  <UserControl.Resources>
-
-    <conv:BirthDeathConverter x:Key="BirthDeathDateConv"/>
-    <conv:ValidDatetimeConverter x:Key="ValidDatetimeConv"/>
-
-    <DataTemplate x:Key="AutoCompleteTemplate" x:DataType="model:Person">
-        <Grid RowDefinitions="auto, auto, auto">
-          <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
-                     HorizontalAlignment="Center"
-                     TextWrapping="Wrap" Margin="0,0,0,5"
-                     FontWeight="SemiBold"/>
-
-          <Grid Grid.Row="1" RowDefinitions="* *" ColumnDefinitions="* *"
-                HorizontalAlignment="Center">
-            
-            <TextBlock Text="{x:Static loc:Resource.BirthDate}" Margin="0,0,15,0"/>
-            <TextBlock Grid.Row="1" Text="{Binding BirthDate 
-                   ,Converter={StaticResource BirthDeathDateConv}
-                   ,ConverterParameter=BD}"
-                       HorizontalAlignment="Center" Margin="0,0,15,0"/>
-
-            <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DeathDate
-                   ,Converter={StaticResource BirthDeathDateConv}
-                   ,ConverterParameter=DD}"
-                       HorizontalAlignment="Center"/>
-          </Grid>
-
-          <Separator Grid.Row="2" BorderBrush="Gray"/>
-        </Grid>
-    </DataTemplate>
-
-  </UserControl.Resources>
-
   <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
 
     <Grid RowDefinitions="* auto">
@@ -85,7 +51,7 @@
           <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Father}"/>
           <AutoCompleteBox  Grid.Row="5"
                            ItemsSource="{Binding FatherList}"
-                           ItemTemplate="{StaticResource AutoCompleteTemplate}"
+                           ItemTemplate="{StaticResource ListTemplate}"
                            IsTextCompletionEnabled="True"
                            Text="{Binding Mode=OneWayToSource}"
                            FilterMode="StartsWith"
@@ -95,7 +61,7 @@
                      Margin="5,0,0,0"/>
           <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding MotherList}"
                     Margin="5,0,0,0"
-                    ItemTemplate="{StaticResource AutoCompleteTemplate}"/>
+                    ItemTemplate="{StaticResource ListTemplate}"/>
 
           <TextBlock Grid.Row="6" Text="{x:Static loc:Resource.Wedding}"/>
           <MaskedTextBox Grid.Row="7" Grid.ColumnSpan="2" Mask="00/00/0000"

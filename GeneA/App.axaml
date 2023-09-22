@@ -1,6 +1,9 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="GeneA.App"
+             xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
+             xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
+             xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
              RequestedThemeVariant="Default">
   <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -59,5 +62,40 @@
     </Style>
 
   </Application.Styles>
+
+  <Application.Resources>
+
+    <conv:BirthDeathConverter x:Key="BirthDeathDateConv"/>
+    <conv:ValidDatetimeConverter x:Key="ValidDatetimeConv"/>
+
+    
+    <DataTemplate x:Key="ListTemplate" x:DataType="model:Person">
+      <Grid RowDefinitions="auto, auto, auto">
+        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap" Margin="0,0,0,5"
+                   FontWeight="SemiBold"/>
+
+        <Grid Grid.Row="1" RowDefinitions="* *" ColumnDefinitions="* *"
+              HorizontalAlignment="Center">
+
+          <TextBlock Text="{x:Static loc:Resource.BirthDate}" Margin="0,0,15,0"/>
+          <TextBlock Grid.Row="1" Text="{Binding BirthDate 
+                   ,Converter={StaticResource BirthDeathDateConv}
+                   ,ConverterParameter=BD}"
+                     HorizontalAlignment="Center" Margin="0,0,15,0"/>
+
+          <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"/>
+          <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DeathDate
+                   ,Converter={StaticResource BirthDeathDateConv}
+                   ,ConverterParameter=DD}"
+                     HorizontalAlignment="Center"/>
+        </Grid>
+
+        <Separator Grid.Row="2" BorderBrush="Gray"/>
+      </Grid>
+    </DataTemplate>
+  </Application.Resources>
+  
 </Application>
 

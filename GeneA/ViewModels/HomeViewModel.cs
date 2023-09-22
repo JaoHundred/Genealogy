@@ -37,8 +37,13 @@ public partial class HomeViewModel : ViewModelBase
         });
     }
 
-    public async Task AddNewPerson()
+    public async Task AddNewPersonCommand()
     {
         await _navigationService.GoToAsync<PersonViewModel>();
+    }
+
+    public async Task EditPersonCommand(Person person)
+    {
+        await _navigationService.GoToAsync<PersonViewModel>(person.Id);
     }
 }

@@ -5,20 +5,27 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="GeneA.Views.HomeView"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              x:DataType="vm:HomeViewModel">
   <Grid>
-    <ListBox ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single" IsTextSearchEnabled="True">
-      <ListBox.ItemTemplate>
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Id}"/>
-            <TextBlock Text="{Binding Name}"/>
-          </StackPanel>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
+    <ListBox Name="RecentList" 
+             ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single"
+             ItemTemplate="{StaticResource ListTemplate}">
+      <!--<ListBox.GestureRecognizers>
+        <TappedEventBehavior Command="{Binding EditPersonCommand}"
+                                CommandParameter="{Binding #RecentList.SelectedItem}"/>
+      </ListBox.GestureRecognizers>-->
+      <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="Tapped">
+          <ia:InvokeCommandAction 
+            Command="{Binding EditPersonCommand}" 
+            CommandParameter="{Binding #RecentList.SelectedItem}"/>
+        </ia:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
     </ListBox>
     <Button Classes="round" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10"
-            Command="{Binding AddNewPerson}">
+            Command="{Binding AddNewPersonCommand}">
       <TextBlock Text="+"/>
     </Button>
   </Grid>
