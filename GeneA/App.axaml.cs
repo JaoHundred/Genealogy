@@ -56,15 +56,13 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        services.AddScoped<LiteDBConfiguration>();
-
         services.AddSingleton<NavigationService>();
-        services.AddSingleton<IGetFolderService, GetFolderService>();
-        services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+        
+        services.AddScoped<LiteDBConfiguration>();
+        services.AddScoped<IGetFolderService, GetFolderService>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         ViewsViewModels(services);
-
-
 
         return services.BuildServiceProvider();
     }
@@ -83,8 +81,6 @@ public partial class App : Application
 
         services.AddSingleton<SettingsView>();
         services.AddSingleton<SettingsViewModel>();
-
-        
 
         services.AddScoped<PersonView>();
         services.AddScoped<PersonViewModel>();

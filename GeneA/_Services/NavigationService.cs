@@ -56,9 +56,14 @@ public class NavigationService
             });
     }
 
+    //TODO: DI dont work as expected like it would in web dev, here you need to specify what is a scope and how it ends
+    //through IDisposable it might work
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
     {
-        UserControl view = GetViewFromViewModel<T>(param);
+        UserControl view = param == null
+            ? GetViewFromViewModel<T>()
+            : GetViewFromViewModel<T>(param);
+
         var lastView = _stack.LastOrDefault();
 
         if (lastView != null && lastView.GetType() == view.GetType())//trying to navigate to the same place
@@ -69,6 +74,7 @@ public class NavigationService
             await RunInUIThread(() =>
             {
                 _stack.Clear();
+
                 _mainView.ContentGrid.Children.Clear();
 
                 _stack.Add(view);
