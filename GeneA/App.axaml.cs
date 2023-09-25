@@ -57,10 +57,10 @@ public partial class App : Application
         var services = new ServiceCollection();
 
         services.AddSingleton<NavigationService>();
-        
-        services.AddScoped<LiteDBConfiguration>();
-        services.AddScoped<IGetFolderService, GetFolderService>();
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddSingleton<LiteDBConfiguration>();
+
+        services.AddTransient<IGetFolderService, GetFolderService>();
+        services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
         ViewsViewModels(services);
 
@@ -70,6 +70,7 @@ public partial class App : Application
     private static void ViewsViewModels(ServiceCollection services)
     {
         // Add the ViewModels as a service (Main as singleton, others as transient)
+
         services.AddSingleton<MainView>();
         services.AddSingleton<MainViewModel>();
 
@@ -82,7 +83,7 @@ public partial class App : Application
         services.AddSingleton<SettingsView>();
         services.AddSingleton<SettingsViewModel>();
 
-        services.AddScoped<PersonView>();
-        services.AddScoped<PersonViewModel>();
+        services.AddTransient<PersonView>();
+        services.AddTransient<PersonViewModel>();
     }
 }

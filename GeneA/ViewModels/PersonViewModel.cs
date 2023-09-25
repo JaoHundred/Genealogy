@@ -23,6 +23,9 @@ public partial class PersonViewModel : ViewModelBase
         FatherList = new ObservableRangeCollection<Person>();
         MotherList = new ObservableRangeCollection<Person>();
         SelectedGender = new Gender();
+        BirthDateString = string.Empty;
+        DeathDateString = string.Empty;
+        WeddingDateString = string.Empty;
 
         Load().SafeFireAndForget();
     }
@@ -43,15 +46,15 @@ public partial class PersonViewModel : ViewModelBase
     //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
     //MaskedTextBox
     #region workaround
-    [DataType(DataType.Date)]
-    [Required]
-    public string BirthDateString { get; set; } = string.Empty;
 
-    [DataType(DataType.Date)]
-    public string DeathDateString { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string _birthDateString;
 
-    [DataType(DataType.Date)]
-    public string WeddingString { get; set; } = string.Empty;
+    [ObservableProperty]
+    public string _deathDateString;
+
+    [ObservableProperty]
+    public string _weddingDateString;
     #endregion
 
     [ObservableProperty]
@@ -64,11 +67,6 @@ public partial class PersonViewModel : ViewModelBase
     {
         await Task.Run(() =>
         {
-            var people = _repository.FindAll();
-
-            FatherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male));
-            MotherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female));
-
             if (Param == null)
             {
                 Person = new Person();
@@ -89,15 +87,23 @@ public partial class PersonViewModel : ViewModelBase
                 }
                 if (Person.WeddingDate.HasValue)
                 {
-                    WeddingString = Person.WeddingDate.Value.ToString("d");
+                    WeddingDateString = Person.WeddingDate.Value.ToString("d");
                 }
 
                 //TODO: view is not showing the SelectedItem in combobox
                 SelectedGender = Person.Gender.ToGenderTypes();
             }
 
-            FatherList.Remove(Person);
-            MotherList.Remove(Person);
+            //TODO: odd bug happening here, no matter what selecting any person for the second time results into
+            //null param, look more into GoAsync method in navigation
+
+            var people = _repository.FindAll();
+
+            FatherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male && p.Id != Person.Id));
+            MotherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female && p.Id != Person.Id));
+
+            //FatherList.Remove(Person);
+            //MotherList.Remove(Person);
         });
     }
 
@@ -116,7 +122,7 @@ public partial class PersonViewModel : ViewModelBase
             if (DateTime.TryParse(DeathDateString, out var dDate))
                 Person!.DeathDate = dDate;
 
-            if (DateTime.TryParse(WeddingString, out var wDate))
+            if (DateTime.TryParse(WeddingDateString, out var wDate))
                 Person!.WeddingDate = wDate;
 
             if (SelectedGender != null)

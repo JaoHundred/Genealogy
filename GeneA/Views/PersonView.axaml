@@ -33,8 +33,7 @@
           <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.Gender}" Margin="5,0,0,0"/>
           <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,0,0"
                     ItemsSource="{Binding Genders}"
-                    SelectedItem="{Binding SelectedGender, Mode=TwoWay}"
-                    SelectedValue="{Binding SelectedGender.Name}"
+                    SelectedItem="{Binding SelectedGender}"
                     DisplayMemberBinding="{Binding Name}">
             
           </ComboBox>
@@ -65,7 +64,7 @@
 
           <TextBlock Grid.Row="6" Text="{x:Static loc:Resource.Wedding}"/>
           <MaskedTextBox Grid.Row="7" Grid.ColumnSpan="2" Mask="00/00/0000"
-                         Text="{Binding WeddingString}"/>
+                         Text="{Binding WeddingDateString}"/>
 
           <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Spouse}"/>
           <TextBox Grid.Row="9" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
