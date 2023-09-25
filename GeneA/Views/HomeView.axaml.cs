@@ -10,11 +10,5 @@ namespace GeneA.Views
         {
             InitializeComponent();
         }
-
-        public HomeView(HomeViewModel homeViewModel)
-        {
-            InitializeComponent();
-            DataContext = homeViewModel;
-        }
     }
 }

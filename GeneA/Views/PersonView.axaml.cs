@@ -11,10 +11,4 @@ public partial class PersonView : UserControl
     {
         InitializeComponent();
     }
-
-    public PersonView(PersonViewModel personViewModel)
-    {
-        InitializeComponent();
-        DataContext = personViewModel;
-    }
 }

@@ -11,11 +11,5 @@ namespace GeneA.Views
         {
             InitializeComponent();
         }
-
-        public PeopleView(PeopleViewModel peopleViewModel)
-        {
-            InitializeComponent();
-            DataContext = peopleViewModel;
-        }
     }
 }

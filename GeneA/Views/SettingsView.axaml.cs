@@ -2,19 +2,12 @@ using Avalonia.Controls;
 using GeneA.Interfaces;
 using GeneA.ViewModels;
 
-namespace GeneA.Views
-{
-    public partial class SettingsView : UserControl, IMenuView
-    {
-        public SettingsView()
-        {
-            InitializeComponent();
-        }
+namespace GeneA.Views;
 
-        public SettingsView(SettingsViewModel settingsViewModel)
-        {
-            InitializeComponent();
-            DataContext = settingsViewModel;
-        }
+public partial class SettingsView : UserControl, IMenuView
+{
+    public SettingsView()
+    {
+        InitializeComponent();
     }
 }

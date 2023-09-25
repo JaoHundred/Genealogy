@@ -97,14 +97,16 @@ public class NavigationService
     private UserControl GetViewFromViewModel<T>(object? param = null) where T : ViewModelBase
     {
         ViewModelBase viewModel = App.ServiceProvider?.GetService<T>()!;
-        viewModel!.Param = param;
+        viewModel.Param = param;
 
-        string viewModelTypeName = viewModel!.GetType().FullName!;
+        string viewModelTypeName = viewModel.GetType().FullName!;
         string viewTypeName = viewModelTypeName.Replace("ViewModel", "View");
 
         Type viewType = Type.GetType(viewTypeName)!;
 
         var view = (UserControl)App.ServiceProvider?.GetService(viewType)!;
+        view.DataContext = viewModel;
+
         return view;
     }
 
