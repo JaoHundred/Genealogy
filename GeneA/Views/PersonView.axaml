@@ -12,6 +12,10 @@
              x:DataType="vm:PersonViewModel"
              Name="view">
 
+  <UserControl.Resources>
+    <conv:ValidDatetimeConverter x:Key="ValidDatetimeConverter"/>
+  </UserControl.Resources>
+
   <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
 
     <Grid RowDefinitions="* auto">
@@ -39,13 +43,15 @@
           </ComboBox>
 
           <TextBlock Grid.Row="2"  Text="{x:Static loc:Resource.BirthDate}" />
-          <MaskedTextBox Grid.Row="3" Mask="00/00/0000" Margin="0,0,5,0"
-                         Text="{Binding BirthDateString}"/>
+          <CalendarDatePicker Grid.Row="3" Margin="0,0,5,0" 
+                              SelectedDate="{Binding Person.BirthDate
+                              , Converter={StaticResource ValidDatetimeConverter}}"/>
 
           <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"
                      Margin="5,0,0,0"/>
-          <MaskedTextBox Grid.Row="3" Grid.Column="1" Mask="00/00/0000" Margin="5,0,0,0"
-                         Text="{Binding DeathDateString}"/>
+          <CalendarDatePicker Grid.Row="3" Grid.Column="1" Margin="5,0,0,0"
+                              SelectedDate="{Binding Person.DeathDate
+                              , Converter={StaticResource ValidDatetimeConverter}}"/>
 
           <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Father}"/>
           <AutoCompleteBox  Grid.Row="5"
@@ -63,8 +69,9 @@
                     ItemTemplate="{StaticResource ListTemplate}"/>
 
           <TextBlock Grid.Row="6" Text="{x:Static loc:Resource.Wedding}"/>
-          <MaskedTextBox Grid.Row="7" Grid.ColumnSpan="2" Mask="00/00/0000"
-                         Text="{Binding WeddingDateString}"/>
+          <CalendarDatePicker Grid.Row="7" Grid.ColumnSpan="2" 
+                               SelectedDate="{Binding Person.WeddingDate
+                               , Converter={StaticResource ValidDatetimeConverter}}"/>
 
           <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Spouse}"/>
           <TextBox Grid.Row="9" Grid.ColumnSpan="2" Text="Placeholder use popup"/>

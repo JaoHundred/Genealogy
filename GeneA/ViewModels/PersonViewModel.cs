@@ -23,9 +23,6 @@ public partial class PersonViewModel : ViewModelBase
         FatherList = new ObservableRangeCollection<Person>();
         MotherList = new ObservableRangeCollection<Person>();
         SelectedGender = new Gender();
-        BirthDateString = string.Empty;
-        DeathDateString = string.Empty;
-        WeddingDateString = string.Empty;
 
         Load().SafeFireAndForget();
     }
@@ -45,17 +42,6 @@ public partial class PersonViewModel : ViewModelBase
 
     //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
     //MaskedTextBox
-    #region workaround
-
-    [ObservableProperty]
-    private string _birthDateString;
-
-    [ObservableProperty]
-    public string _deathDateString;
-
-    [ObservableProperty]
-    public string _weddingDateString;
-    #endregion
 
     [ObservableProperty]
     private ObservableRangeCollection<Person> _fatherList;
@@ -77,18 +63,6 @@ public partial class PersonViewModel : ViewModelBase
 
                 //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
                 //MaskedTextBox
-                if (Person.BirthDate.HasValue)
-                {
-                    BirthDateString = Person.BirthDate.Value.ToString("d");
-                }
-                if (Person.DeathDate.HasValue)
-                {
-                    DeathDateString = Person.DeathDate.Value.ToString("d");
-                }
-                if (Person.WeddingDate.HasValue)
-                {
-                    WeddingDateString = Person.WeddingDate.Value.ToString("d");
-                }
 
                 //TODO: view is not showing the SelectedItem in combobox
                 SelectedGender = Person.Gender.ToGenderTypes();
@@ -116,15 +90,6 @@ public partial class PersonViewModel : ViewModelBase
 
             //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
             //MaskedTextBox
-            if (DateTime.TryParse(BirthDateString, out var bDate))
-                Person!.BirthDate = bDate;
-
-            if (DateTime.TryParse(DeathDateString, out var dDate))
-                Person!.DeathDate = dDate;
-
-            if (DateTime.TryParse(WeddingDateString, out var wDate))
-                Person!.WeddingDate = wDate;
-
             if (SelectedGender != null)
                 Person!.Gender = SelectedGender.GenderEnum;
 
