@@ -61,6 +61,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Baptism.
+        /// </summary>
+        public static string Baptism {
+            get {
+                return ResourceManager.GetString("Baptism", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Birth date.
         /// </summary>
         public static string BirthDate {

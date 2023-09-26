@@ -27,6 +27,7 @@ namespace Model.Core
         public DateTime? WeddingDate { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
+        public DateTime? BaptismDate { get; set; }
         public string Description { get; set; } = string.Empty;
     }
 }

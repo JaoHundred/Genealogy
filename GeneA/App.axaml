@@ -17,10 +17,12 @@
     <Style Selector="CalendarDatePicker">
       <Setter Property="CustomDateFormatString" Value="dd/MM/yyyy"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="IsTodayHighlighted" Value="True"/>
     </Style>
 
     <Style Selector="TextBlock">
       <Setter Property="FontSize" Value="18"/>
+      <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
     </Style>
 
     <Style Selector="TextBox">
