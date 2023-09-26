@@ -27,9 +27,6 @@ public partial class PersonViewModel : ViewModelBase
         Load().SafeFireAndForget();
     }
 
-    //TODO: DateTime binded in TextBox dont work, try using string(create string property in ViewModel, it will receive the 
-    //"d" format from DateTime, dont use IValueConverter
-
     private readonly IRepository<Person> _repository;
 
     [ObservableProperty]
@@ -39,9 +36,6 @@ public partial class PersonViewModel : ViewModelBase
 
     [ObservableProperty]
     private Gender _selectedGender;
-
-    //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
-    //MaskedTextBox
 
     [ObservableProperty]
     private ObservableRangeCollection<Person> _fatherList;
@@ -60,9 +54,6 @@ public partial class PersonViewModel : ViewModelBase
             else
             {
                 Person = _repository.FindById((long)Param);
-
-                //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
-                //MaskedTextBox
 
                 //TODO: view is not showing the SelectedItem in combobox
                 SelectedGender = Person.Gender.ToGenderTypes();
@@ -85,11 +76,8 @@ public partial class PersonViewModel : ViewModelBase
     {
         await Task.Run(() =>
         {
-            //TODO: validate(data annotations)
+            //TODO: add validations here
 
-
-            //workaround to binding DateTime with avalonia TextBox, when its fixed undo this and bind directly DateTime with
-            //MaskedTextBox
             if (SelectedGender != null)
                 Person!.Gender = SelectedGender.GenderEnum;
 
