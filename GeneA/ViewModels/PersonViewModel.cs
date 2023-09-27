@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
 using GeneA._Services;
 using Microsoft.CodeAnalysis.CSharp;
@@ -7,6 +8,7 @@ using Model.Interfaces;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -20,11 +22,7 @@ public partial class PersonViewModel : ViewModelBase
     {
         _repository = repository;
 
-        FatherList = new ObservableRangeCollection<Person>();
-        MotherList = new ObservableRangeCollection<Person>();
-        SelectedGender = new Gender();
-
-        Load().SafeFireAndForget();
+        LoadAction = () => { Load().SafeFireAndForget(); };
     }
 
     private readonly IRepository<Person> _repository;
@@ -35,18 +33,27 @@ public partial class PersonViewModel : ViewModelBase
     public IEnumerable<Gender> Genders { get; set; } = StaticList.FillGenders();
 
     [ObservableProperty]
-    private Gender _selectedGender;
+    private Gender? _selectedGender;
 
     [ObservableProperty]
-    private ObservableRangeCollection<Person> _fatherList;
+    private Gender? _selectedFather;
 
     [ObservableProperty]
-    private ObservableRangeCollection<Person> _motherList;
+    private Gender? _selectedMother;
+
+    [ObservableProperty]
+    private ObservableRangeCollection<Person>? _fatherList;
+
+    [ObservableProperty]
+    private ObservableRangeCollection<Person>? _motherList;
 
     private async Task Load()
     {
         await Task.Run(() =>
         {
+            FatherList = new ObservableRangeCollection<Person>();
+            MotherList = new ObservableRangeCollection<Person>();
+
             if (Param == null)
             {
                 Person = new Person();
@@ -55,24 +62,24 @@ public partial class PersonViewModel : ViewModelBase
             {
                 Person = _repository.FindById((long)Param);
 
-                //TODO: view is not showing the SelectedItem in combobox
-                SelectedGender = Person.Gender.ToGenderTypes();
+                SelectedGender = Genders.FirstOrDefault(p => p.GenderEnum == Person.Gender)!;
+                
             }
 
-            //TODO: odd bug happening here, no matter what selecting any person for the second time results into
-            //null param, look more into GoAsync method in navigation
-
             var people = _repository.FindAll();
+            
+            var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male && p.Id != Person.Id);
+            var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female && p.Id != Person.Id);
 
-            FatherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male && p.Id != Person.Id));
-            MotherList.ReplaceRange(people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female && p.Id != Person.Id));
-
-            //FatherList.Remove(Person);
-            //MotherList.Remove(Person);
+            //TODO:System.InvalidOperationException: 'Call from invalid thread' when going select on list after add new
+            //(new -> home -> list click -> InvalidOperationException)
+            FatherList.ReplaceRange(fatherList);
+            MotherList.ReplaceRange(motherList);
         });
     }
 
-    public async Task SaveCommand()
+    [RelayCommand]
+    private async Task Save()
     {
         await Task.Run(() =>
         {
@@ -87,9 +94,9 @@ public partial class PersonViewModel : ViewModelBase
         });
     }
 
-    public async Task DeleteCommand()
+    [RelayCommand]
+    private async Task Delete()
     {
-        throw new NotImplementedException();
         await Task.Run(() =>
         {
             //TODO: show popup confirmation

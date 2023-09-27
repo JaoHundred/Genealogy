@@ -5,6 +5,7 @@ using Model.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmHelpers;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GeneA.ViewModels;
 
@@ -14,22 +15,25 @@ public partial class MainViewModel : ViewModelBase
     {
         _navigationService = navigationService;
 
-        HomeCommand().SafeFireAndForget();
+        HomeCommand.Execute(null);
     }
 
     private readonly NavigationService _navigationService;
 
-    public async Task HomeCommand()
+    [RelayCommand]
+    private async Task Home()
     {
         await _navigationService.GoToAsync<HomeViewModel>();
     }
 
-    public async Task PeopleCommand()
+    [RelayCommand]
+    private async Task People()
     {
         await _navigationService.GoToAsync<PeopleViewModel>();
     }
 
-    public async Task SettingsCommand()
+    [RelayCommand]
+    private async Task Settings()
     {
         await _navigationService.GoToAsync<SettingsViewModel>();
     }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GeneA._Services;
 using Model.Core;
 using Model.Interfaces;
@@ -37,12 +38,14 @@ public partial class HomeViewModel : ViewModelBase
         });
     }
 
-    public async Task AddNewPersonCommand()
+    [RelayCommand]
+    private async Task AddNewPerson()
     {
         await _navigationService.GoToAsync<PersonViewModel>();
     }
 
-    public async Task EditPersonCommand(Person person)
+    [RelayCommand]
+    private async Task EditPerson(Person person)
     {
         if (person != null)
             await _navigationService.GoToAsync<PersonViewModel>(person.Id);

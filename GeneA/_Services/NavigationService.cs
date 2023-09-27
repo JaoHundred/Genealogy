@@ -60,9 +60,14 @@ public class NavigationService
     //through IDisposable it might work
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
     {
-        UserControl view = param == null
-            ? GetViewFromViewModel<T>()
-            : GetViewFromViewModel<T>(param);
+        UserControl view = await RunInUIThread(() =>
+        {
+            UserControl view = param == null
+                ? GetViewFromViewModel<T>()
+                : GetViewFromViewModel<T>(param);
+
+            return view;
+        });
 
         var lastView = _stack.LastOrDefault();
 
@@ -98,16 +103,29 @@ public class NavigationService
     {
         ViewModelBase viewModel = App.ServiceProvider?.GetService<T>()!;
         viewModel.Param = param;
+        viewModel.LoadAction?.Invoke();
+
 
         string viewModelTypeName = viewModel.GetType().FullName!;
         string viewTypeName = viewModelTypeName.Replace("ViewModel", "View");
 
         Type viewType = Type.GetType(viewTypeName)!;
 
+
         var view = (UserControl)App.ServiceProvider?.GetService(viewType)!;
         view.DataContext = viewModel;
 
         return view;
+    }
+
+    private async Task<ViewModelBase> RunInUIThread(Func<ViewModelBase> action)
+    {
+        return await Dispatcher.UIThread.InvokeAsync(action);
+    }
+
+    private async Task<UserControl> RunInUIThread(Func<UserControl> action)
+    {
+        return await Dispatcher.UIThread.InvokeAsync(action);
     }
 
     private async Task RunInUIThread(Action action)
