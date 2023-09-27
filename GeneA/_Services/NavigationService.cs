@@ -56,8 +56,6 @@ public class NavigationService
             });
     }
 
-    //TODO: DI dont work as expected like it would in web dev, here you need to specify what is a scope and how it ends
-    //through IDisposable it might work
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
     {
         UserControl view = await RunInUIThread(() =>

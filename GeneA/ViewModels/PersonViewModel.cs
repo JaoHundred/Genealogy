@@ -42,18 +42,15 @@ public partial class PersonViewModel : ViewModelBase
     private Gender? _selectedMother;
 
     [ObservableProperty]
-    private ObservableRangeCollection<Person>? _fatherList;
+    private List<Person>? _fatherList;
 
     [ObservableProperty]
-    private ObservableRangeCollection<Person>? _motherList;
+    private List<Person>? _motherList;
 
     private async Task Load()
     {
         await Task.Run(() =>
         {
-            FatherList = new ObservableRangeCollection<Person>();
-            MotherList = new ObservableRangeCollection<Person>();
-
             if (Param == null)
             {
                 Person = new Person();
@@ -63,7 +60,6 @@ public partial class PersonViewModel : ViewModelBase
                 Person = _repository.FindById((long)Param);
 
                 SelectedGender = Genders.FirstOrDefault(p => p.GenderEnum == Person.Gender)!;
-                
             }
 
             var people = _repository.FindAll();
@@ -71,10 +67,8 @@ public partial class PersonViewModel : ViewModelBase
             var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male && p.Id != Person.Id);
             var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female && p.Id != Person.Id);
 
-            //TODO:System.InvalidOperationException: 'Call from invalid thread' when going select on list after add new
-            //(new -> home -> list click -> InvalidOperationException)
-            FatherList.ReplaceRange(fatherList);
-            MotherList.ReplaceRange(motherList);
+            FatherList = new List<Person>(fatherList);
+            MotherList = new List<Person>(motherList);
         });
     }
 

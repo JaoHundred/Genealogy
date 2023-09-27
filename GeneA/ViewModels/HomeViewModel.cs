@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GeneA._Services;
 using Model.Core;
 using Model.Interfaces;
-using MvvmHelpers;
+using   MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
