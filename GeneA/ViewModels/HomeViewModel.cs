@@ -21,14 +21,13 @@ public partial class HomeViewModel : ViewModelBase
 
         RecentlyAdded = new ObservableRangeCollection<Person>();
 
-        Load().SafeFireAndForget();
+        LoadAction = () => { Load().SafeFireAndForget(); };
     }
 
     private readonly NavigationService _navigationService;
     private readonly IRepository<Person> _repository;
 
-    [ObservableProperty]
-    private ObservableRangeCollection<Person> _recentlyAdded;
+    public ObservableRangeCollection<Person> RecentlyAdded { get; set; }
 
     private async Task Load()
     {

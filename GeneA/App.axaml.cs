@@ -21,18 +21,23 @@ public partial class App : Application
 
     public static ServiceProvider? ServiceProvider { get; private set; }
 
+    public override void RegisterServices()
+    {
+        base.RegisterServices();
+
+        ServiceProvider = ConfigureServices();
+
+    }
+
     public override void OnFrameworkInitializationCompleted()
     {
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
-        ServiceProvider provider = ConfigureServices();
-        ServiceProvider = provider;
+        var mainViewModel = ServiceProvider!.GetService<MainViewModel>();
+        var mainView = ServiceProvider!.GetService<MainView>();
 
-        var mainViewModel = provider.GetService<MainViewModel>();
-        var mainView = provider.GetService<MainView>();
-        
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
