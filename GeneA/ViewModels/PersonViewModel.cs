@@ -67,13 +67,13 @@ public partial class PersonViewModel : ViewModelBase
 
                 SelectedGender = Genders.FirstOrDefault(p => p.GenderEnum == Person.Gender)!;
                 SelectedFather = fatherList.FirstOrDefault(p => p.Id == Person.Father?.Id);
+                SelectedMother = motherList.FirstOrDefault(p => p.Id == Person.Mother?.Id);
 
                 if (Person.Gender == ModelA.Enums.GenderEnum.Gender.Male)
                     fatherList.RemoveAll(p => p.Id == Person.Id);
                 else
                     motherList.RemoveAll(p => p.Id == Person.Id);
             }
-
 
             FatherList = fatherList;
             MotherList = motherList;
@@ -89,6 +89,12 @@ public partial class PersonViewModel : ViewModelBase
 
             if (SelectedGender != null)
                 Person!.Gender = SelectedGender.GenderEnum;
+
+            if (SelectedMother != null)
+                Person!.Mother = SelectedMother;
+
+            if(SelectedFather != null)
+                Person!.Father = SelectedFather;
 
             _repository.Upsert(Person!);
 
@@ -107,12 +113,12 @@ public partial class PersonViewModel : ViewModelBase
         });
     }
 
-    public async Task<IEnumerable<object>> PopulateFatherAsync(string str, CancellationToken token)
-    {
-        return await Task.Run(() =>
-        {
-            var list = FatherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
-            return list;
-        });
-    }
+    //public async Task<IEnumerable<object>> PopulateFatherAsync(string str, CancellationToken token)
+    //{
+    //    return await Task.Run(() =>
+    //    {
+    //        var list = FatherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
+    //        return list;
+    //    });
+    //}
 }
