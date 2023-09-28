@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GeneA.ViewModels;
@@ -36,10 +37,10 @@ public partial class PersonViewModel : ViewModelBase
     private Gender? _selectedGender;
 
     [ObservableProperty]
-    private Gender? _selectedFather;
+    private Person? _selectedFather;
 
     [ObservableProperty]
-    private Gender? _selectedMother;
+    private Person? _selectedMother;
 
     [ObservableProperty]
     private List<Person>? _fatherList;
@@ -51,6 +52,11 @@ public partial class PersonViewModel : ViewModelBase
     {
         await Task.Run(() =>
         {
+            var people = _repository.FindAll();
+
+            var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList();
+            var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
+
             if (Param == null)
             {
                 Person = new Person();
@@ -60,15 +66,17 @@ public partial class PersonViewModel : ViewModelBase
                 Person = _repository.FindById((long)Param);
 
                 SelectedGender = Genders.FirstOrDefault(p => p.GenderEnum == Person.Gender)!;
+                SelectedFather = fatherList.FirstOrDefault(p => p.Id == Person.Father?.Id);
+
+                if (Person.Gender == ModelA.Enums.GenderEnum.Gender.Male)
+                    fatherList.RemoveAll(p => p.Id == Person.Id);
+                else
+                    motherList.RemoveAll(p => p.Id == Person.Id);
             }
 
-            var people = _repository.FindAll();
-            
-            var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male && p.Id != Person.Id);
-            var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female && p.Id != Person.Id);
 
-            FatherList = new List<Person>(fatherList);
-            MotherList = new List<Person>(motherList);
+            FatherList = fatherList;
+            MotherList = motherList;
         });
     }
 
@@ -96,6 +104,15 @@ public partial class PersonViewModel : ViewModelBase
             //TODO: show popup confirmation
             _repository.Delete(Person!);
             //TODO: show popup success
+        });
+    }
+
+    public async Task<IEnumerable<object>> PopulateFatherAsync(string str, CancellationToken token)
+    {
+        return await Task.Run(() =>
+        {
+            var list = FatherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
+            return list;
         });
     }
 }

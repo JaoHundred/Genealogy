@@ -29,14 +29,7 @@ namespace Model.Database
 
         public void Upsert(T entity)
         {
-
             _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
-            //var obj = FindById(entity.Id);
-
-            //if (obj == null)
-            //    _configuration.LiteDB.GetCollection<T>().Insert(entity.Id, entity);
-            //else
-            //    Update(entity);
         }
 
         public void Delete(T entity)
@@ -54,7 +47,7 @@ namespace Model.Database
             var collection = _configuration.LiteDB!.GetCollection<T>().FindAll();
 
             if (takeLast)
-                return collection.TakeLast(amount);
+                return collection.TakeLast(amount).Reverse();
 
             return collection.Take(amount);
         }
