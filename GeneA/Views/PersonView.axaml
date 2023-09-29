@@ -60,16 +60,19 @@
           <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Father}"/>
           <AutoCompleteBox Grid.Row="5"
                            ItemsSource="{Binding FatherList}"
+                           AsyncPopulator="{Binding FatherStartsWithAsync}"
                            ItemTemplate="{StaticResource ListTemplate}"
                            SelectedItem="{Binding SelectedFather}"
-                           IsTextCompletionEnabled="True"
                            Margin="0,0,5,0"/>
 
           <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Static loc:Resource.Mother}"
                      Margin="5,0,0,0"/>
-          <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding MotherList}"
-                    Margin=".5,0,0,0"
-                    ItemTemplate="{StaticResource ListTemplate}"/>
+          <AutoCompleteBox Grid.Row="5" Grid.Column="1" 
+                           ItemsSource="{Binding MotherList}"
+                           AsyncPopulator="{Binding MotherStartsWithAsync}"
+                           ItemTemplate="{StaticResource ListTemplate}"
+                           SelectedItem="{Binding SelectedMother}"
+                           Margin=".5,0,0,0"/>
 
           <TextBlock Grid.Row="6" Text="{x:Static loc:Resource.Spouse}"/>
           <TextBox Grid.Row="7" Text="Placeholder use popup"/>

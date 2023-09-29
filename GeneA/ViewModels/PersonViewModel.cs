@@ -65,6 +65,10 @@ public partial class PersonViewModel : ViewModelBase
             {
                 Person = _repository.FindById((long)Param);
 
+                //constraints to dont show offsprings in father/mother list of father/mother
+                fatherList = fatherList.ExceptBy(Person.Offsprings.Select(p => p.Id), q => q.Id).ToList();
+                motherList = motherList.ExceptBy(Person.Offsprings.Select(p => p.Id), q => q.Id).ToList();
+
                 SelectedGender = Genders.FirstOrDefault(p => p.GenderEnum == Person.Gender)!;
                 SelectedFather = fatherList.FirstOrDefault(p => p.Id == Person.Father?.Id);
                 SelectedMother = motherList.FirstOrDefault(p => p.Id == Person.Mother?.Id);
@@ -113,12 +117,21 @@ public partial class PersonViewModel : ViewModelBase
         });
     }
 
-    //public async Task<IEnumerable<object>> PopulateFatherAsync(string str, CancellationToken token)
-    //{
-    //    return await Task.Run(() =>
-    //    {
-    //        var list = FatherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
-    //        return list;
-    //    });
-    //}
+    public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)
+    {
+        return await Task.Run(() =>
+        {
+            var list = FatherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
+            return list;
+        });
+    }
+
+    public async Task<IEnumerable<object>> MotherStartsWithAsync(string str, CancellationToken token)
+    {
+        return await Task.Run(() =>
+        {
+            var list = MotherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
+            return list;
+        });
+    }
 }

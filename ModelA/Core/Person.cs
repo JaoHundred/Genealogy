@@ -12,7 +12,7 @@ namespace Model.Core
     {
         public Person()
         {
-            Spouse = new List<Person>();
+            Spouses = new List<Person>();
             Offsprings = new List<Person>();
         }
 
@@ -22,12 +22,38 @@ namespace Model.Core
         public Nationality? Nacionality { get; set; }
         public Person? Father { get; set; }
         public Person? Mother { get; set; }
-        public List<Person> Spouse { get; set; }
+        public List<Person> Spouses { get; set; }
         public List<Person> Offsprings { get; set; }
         public DateTime? WeddingDate { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
         public DateTime? BaptismDate { get; set; }
         public string Description { get; set; } = string.Empty;
+
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Name);
+            sb.Append(" (");
+
+            if (BirthDate == null)
+                sb.Append("?/?/?");
+            else
+                sb.Append(BirthDate.Value.ToString("d"));
+
+            sb.Append(" - ");
+
+            if (DeathDate == null)
+                sb.Append("?/?/?");
+            else
+                sb.Append(DeathDate.Value.ToString("d"));
+
+            sb.Append(' ');
+            sb.Append(char.ConvertFromUtf32(0x271D));//cross sign ✝
+            sb.Append(')');
+
+            return sb.ToString();
+        }
     }
 }

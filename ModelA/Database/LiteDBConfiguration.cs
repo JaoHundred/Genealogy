@@ -41,7 +41,14 @@ namespace Model.Database
         private void StartLiteDB()
         {
             BsonMapper bsonMapper = BsonMapper.Global;
-            bsonMapper.Entity<Person>().Id(p => p.Id);
+            bsonMapper.Entity<Person>()
+                .Id(p => p.Id)
+                .DbRef(p => p.Father)
+                .DbRef(p => p.Mother)
+                .DbRef(p => p.Offsprings)
+                .DbRef(p => p.Spouses)
+                .DbRef(p => p.Nacionality);
+
             bsonMapper.Entity<Nationality>().Id(p => p.Id);
 
             string completePath = $"Filename={GetLiteDBPath(LiteDataName)}";
