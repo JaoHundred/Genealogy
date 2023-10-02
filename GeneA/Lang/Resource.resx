@@ -123,6 +123,12 @@
   <data name="BirthDate" xml:space="preserve">
     <value>Birth date</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
   <data name="DeathDate" xml:space="preserve">
     <value>Death date</value>
   </data>
@@ -146,6 +152,12 @@
   </data>
   <data name="Mother" xml:space="preserve">
     <value>Mother</value>
+  </data>
+  <data name="MSGconfirm" xml:space="preserve">
+    <value>This action can't be undone, are you sure you want to continue?</value>
+  </data>
+  <data name="MSGconfirmTitle" xml:space="preserve">
+    <value>Removing alert</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>

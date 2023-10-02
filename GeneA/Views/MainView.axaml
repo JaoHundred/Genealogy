@@ -8,16 +8,18 @@
              x:DataType="vm:MainViewModel"
              xmlns:views="clr-namespace:GeneA.Views">
 
-  <Grid RowDefinitions="*,auto" >
-    <Grid Name="ContentGrid"/>
+  <Grid Name="FullViewGrid" >
+    <Grid RowDefinitions="*,auto" >
+      <Grid Name="ContentGrid"/>
 
-    <Border Grid.Row="1" Name="BottomMenu">
-      <Grid ColumnDefinitions="*,*,*">
-        <Button Grid.Column="0" Content="Home" Command="{Binding HomeCommand}"/>
-        <Button Grid.Column="1" Content="People list" Command="{Binding PeopleCommand}"/>
-        <Button Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"/>
-      </Grid>
-    </Border>
+      <Border Grid.Row="1" Name="BottomMenu">
+        <Grid ColumnDefinitions="*,*,*">
+          <Button Grid.Column="0" Content="Home" Command="{Binding HomeCommand}"/>
+          <Button Grid.Column="1" Content="People list" Command="{Binding PeopleCommand}"/>
+          <Button Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"/>
+        </Grid>
+      </Border>
+    </Grid>
   </Grid>
 
 </UserControl>

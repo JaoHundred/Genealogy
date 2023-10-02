@@ -19,14 +19,16 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    public PersonViewModel(IRepository<Person> repository)
+    public PersonViewModel(IRepository<Person> repository, NavigationService navigation)
     {
         _repository = repository;
+        _navigation = navigation;
 
         LoadAction = () => { Load().SafeFireAndForget(); };
     }
 
     private readonly IRepository<Person> _repository;
+    private readonly NavigationService _navigation;
 
     [ObservableProperty]
     private Person? _person;
@@ -97,7 +99,7 @@ public partial class PersonViewModel : ViewModelBase
             if (SelectedMother != null)
                 Person!.Mother = SelectedMother;
 
-            if(SelectedFather != null)
+            if (SelectedFather != null)
                 Person!.Father = SelectedFather;
 
             _repository.Upsert(Person!);
@@ -109,11 +111,30 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task Delete()
     {
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
-            //TODO: show popup confirmation
-            _repository.Delete(Person!);
-            //TODO: show popup success
+            //TODO:make easier to call for Popup(helper class probably)
+
+            var dialog = await _navigation.PopUpAsync<ConfirmationPopupViewModel>();
+            
+            if (dialog != null)
+            {
+                dialog.Title = DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle);
+                dialog.Message = DynamicTranslate.Translate(MessageConsts.Confirmation);
+
+                dialog.ConfirmAction = async () => 
+                {
+                    _repository.Delete(Person!);
+
+                    await _navigation.GoBackAsync();//close popup
+                    await _navigation.GoBackAsync();//back to HomeView
+                };
+
+                dialog.CancelAction = async () => 
+                {
+                    await _navigation.GoBackAsync();
+                };
+            }
         });
     }
 

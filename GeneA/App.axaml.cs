@@ -90,5 +90,8 @@ public partial class App : Application
 
         services.AddTransient<PersonView>();
         services.AddTransient<PersonViewModel>();
+
+        services.AddTransient<ConfirmationPopupView>();
+        services.AddTransient<ConfirmationPopupViewModel>();
     }
 }

@@ -29,7 +29,18 @@ public class NavigationService
 
     public async Task GoBackAsync()
     {
-        if (_stack.LastOrDefault() is HomeView)//already in HomeView
+        if (_mainView.FullViewGrid.Children.LastOrDefault() is IPopup)
+        {
+            await RunInUIThread(() =>
+            {
+                var children = _mainView.FullViewGrid.Children;
+                children.RemoveAt(children.Count - 1);
+            });
+
+            return;
+        }
+
+        else if (_stack.LastOrDefault() is HomeView)//already in HomeView
             return;
 
         // in any menuView except HomeView
@@ -52,7 +63,12 @@ public class NavigationService
                 _stack.RemoveAt(_stack.Count - 1);
 
                 _mainView.ContentGrid.Children.Clear();
-                _mainView.ContentGrid.Children.Add(_stack.ElementAt(_stack.Count - 1));
+
+                var view = _stack.ElementAt(_stack.Count - 1);
+
+                (view.DataContext as ViewModelBase)!.LoadAction?.Invoke();//reload the previous view
+
+                _mainView.ContentGrid.Children.Add(view);
             });
     }
 
@@ -95,6 +111,27 @@ public class NavigationService
                 _mainView.ContentGrid.Children.Add(view);
             });
         }
+    }
+
+    public async Task<T> PopUpAsync<T>(object? param = null) where T : ViewModelBase
+    {
+        UserControl view = await RunInUIThread(() =>
+        {
+            UserControl view = param == null
+                ? GetViewFromViewModel<T>()
+                : GetViewFromViewModel<T>(param);
+
+            return view;
+        });
+
+        ViewModelBase vm = await RunInUIThread(() =>
+        {
+            _mainView.FullViewGrid.Children.Add(view);
+            
+            return (ViewModelBase)view.DataContext!;
+        });
+
+        return (T)vm;
     }
 
     private UserControl GetViewFromViewModel<T>(object? param = null) where T : ViewModelBase

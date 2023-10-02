@@ -79,6 +79,24 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Death date.
         /// </summary>
         public static string DeathDate {
@@ -147,6 +165,24 @@ namespace GeneA.Lang {
         public static string Mother {
             get {
                 return ResourceManager.GetString("Mother", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This action can&apos;t be undone, are you sure you want to continue?.
+        /// </summary>
+        public static string MSGconfirm {
+            get {
+                return ResourceManager.GetString("MSGconfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing alert.
+        /// </summary>
+        public static string MSGconfirmTitle {
+            get {
+                return ResourceManager.GetString("MSGconfirmTitle", resourceCulture);
             }
         }
         
