@@ -27,7 +27,8 @@
   </UserControl.Styles>
 
   <Border BorderThickness="10" CornerRadius="5" BorderBrush="Gray"
-          Margin="40,140">
+          Margin="40" Height="250"
+          VerticalAlignment="Center" HorizontalAlignment="Center">
 
     <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
       <TextBlock Name="TitleTextBox" Text="{Binding Title}" Margin="5"
