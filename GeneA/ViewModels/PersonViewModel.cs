@@ -113,28 +113,23 @@ public partial class PersonViewModel : ViewModelBase
     {
         await Task.Run(async () =>
         {
-            //TODO:make easier to call for Popup(helper class probably)
+            string title = DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle);
+            string message = DynamicTranslate.Translate(MessageConsts.Confirmation);
 
-            var dialog = await _navigation.PopUpAsync<ConfirmationPopupViewModel>();
-            
-            if (dialog != null)
+            Action confirm = async () =>
             {
-                dialog.Title = DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle);
-                dialog.Message = DynamicTranslate.Translate(MessageConsts.Confirmation);
+                _repository.Delete(Person!);
 
-                dialog.ConfirmAction = async () => 
-                {
-                    _repository.Delete(Person!);
+                await _navigation.GoBackAsync();//close popup
+                await _navigation.GoBackAsync();//back to HomeView
+            };
+            Action cancel = async () =>
+            {
+                await _navigation.GoBackAsync();
+            };
 
-                    await _navigation.GoBackAsync();//close popup
-                    await _navigation.GoBackAsync();//back to HomeView
-                };
-
-                dialog.CancelAction = async () => 
-                {
-                    await _navigation.GoBackAsync();
-                };
-            }
+            await _navigation.PopUpAsync<ConfirmationPopupViewModel>()
+            .ConfigurePopUpProperties(title, message, confirm, cancel);
         });
     }
 
