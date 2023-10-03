@@ -1,4 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Notifications;
+using Avalonia.Media;
+using Avalonia.Notification;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
 using GeneA._Services;
@@ -19,16 +23,22 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    public PersonViewModel(IRepository<Person> repository, NavigationService navigation)
+    //TODO: implement the popup for selecting offsprings, this popup will have an textbox for searching existing data, listbox
+    //to showing the correct data(offsprings, spouse or nationality)
+    //an add and remove button to the listbox items
+    //https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=40205162
+
+    public PersonViewModel(IRepository<Person> repository, NavigationService navigation, MainViewModel mainViewModel)
     {
         _repository = repository;
         _navigation = navigation;
-
+        _mainViewModel = mainViewModel;
         LoadAction = () => { Load().SafeFireAndForget(); };
     }
 
     private readonly IRepository<Person> _repository;
     private readonly NavigationService _navigation;
+    private readonly MainViewModel _mainViewModel;
 
     [ObservableProperty]
     private Person? _person;
@@ -89,7 +99,7 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task Save()
     {
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
             //TODO: add validations here
 
@@ -104,7 +114,14 @@ public partial class PersonViewModel : ViewModelBase
 
             _repository.Upsert(Person!);
 
-            //TODO: show success popup
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                _mainViewModel.NotificationManager.CreateMessage()
+                .Animates(true)
+                .HasMessage(DynamicTranslate.Translate(MessageConsts.SavedWithSuccess))
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(2))
+                .Queue();
+            });
         });
     }
 

@@ -32,7 +32,7 @@
           <Grid Grid.ColumnSpan="2" RowDefinitions="auto auto" ColumnDefinitions="* * *">
 
             <TextBlock Text="{x:Static loc:Resource.Name}"/>
-            <TextBox Name="nameTextBox" 
+            <TextBox Name="nameTextBox"
                      Grid.Row="1" Text="{Binding Person.Name}" Margin="0,0,5,0"/>
 
             <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.Gender}" />
@@ -53,7 +53,7 @@
 
           <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"
                      Margin="5,0,0,0"/>
-          <CalendarDatePicker Grid.Row="3" Grid.Column="1" 
+          <CalendarDatePicker Grid.Row="3" Grid.Column="1"
                               SelectedDate="{Binding Person.DeathDate
                               , Converter={StaticResource ValidDatetimeConverter}}"/>
 
@@ -67,7 +67,7 @@
 
           <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Static loc:Resource.Mother}"
                      Margin="5,0,0,0"/>
-          <AutoCompleteBox Grid.Row="5" Grid.Column="1" 
+          <AutoCompleteBox Grid.Row="5" Grid.Column="1"
                            ItemsSource="{Binding MotherList}"
                            AsyncPopulator="{Binding MotherStartsWithAsync}"
                            ItemTemplate="{StaticResource ListTemplate}"
@@ -103,13 +103,12 @@
           <TextBlock Text="{x:Static loc:Resource.Delete}" FontSize="14"/>
         </Button>
         <Button Grid.Column="1"  HorizontalAlignment="Stretch" Content="Save"
-                Command="{Binding SaveCommand}" 
+                Command="{Binding SaveCommand}"
                 IsEnabled="{Binding #nameTextBox.Text.Length > 0}">
           <TextBlock Text="{x:Static loc:Resource.Save}" FontSize="14"/>
         </Button>
 
       </Grid>
-      
     </Grid>
   </Border>
 

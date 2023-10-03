@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:GeneA.ViewModels"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              x:Class="GeneA.Views.MainView"
+             xmlns:not="using:Avalonia.Notification.Controls"
              x:DataType="vm:MainViewModel"
              xmlns:views="clr-namespace:GeneA.Views">
 
@@ -18,6 +19,10 @@
           <Button Grid.Column="1" Content="People list" Command="{Binding PeopleCommand}"/>
           <Button Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"/>
         </Grid>
+      </Border>
+      <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="40">
+        <not:NotificationMessageContainer Manager="{Binding NotificationManager}"  
+                            Background="RoyalBlue" />
       </Border>
     </Grid>
   </Grid>

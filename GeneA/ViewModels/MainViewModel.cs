@@ -6,19 +6,25 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmHelpers;
 using CommunityToolkit.Mvvm.Input;
+using Avalonia.Notification;
 
 namespace GeneA.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    public MainViewModel(NavigationService navigationService)
+    public MainViewModel(NavigationService navigationService, INotificationMessageManager notificationManager)
     {
         _navigationService = navigationService;
+        NotificationManager = notificationManager;
 
         HomeCommand.Execute(null);
     }
 
     private readonly NavigationService _navigationService;
+
+
+    [ObservableProperty]
+    private INotificationMessageManager _notificationManager;
 
     [RelayCommand]
     private async Task Home()
