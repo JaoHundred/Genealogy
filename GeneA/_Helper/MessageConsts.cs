@@ -10,5 +10,6 @@ namespace GeneA._Helper
     {
         public const string ConfirmationDialogTitle = "MSGconfirmTitle";
         public const string Confirmation = "MSGconfirm";
+        public const string SavedWithSuccess = "MSGSavedSuccess";
     }
 }

@@ -159,6 +159,9 @@
   <data name="MSGconfirmTitle" xml:space="preserve">
     <value>Alerta de remoção</value>
   </data>
+  <data name="MSGSavedSuccess" xml:space="preserve">
+    <value>Salvo com sucesso</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nome</value>
   </data>

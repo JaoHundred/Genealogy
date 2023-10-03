@@ -187,6 +187,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved with success.
+        /// </summary>
+        public static string MSGSavedSuccess {
+            get {
+                return ResourceManager.GetString("MSGSavedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
