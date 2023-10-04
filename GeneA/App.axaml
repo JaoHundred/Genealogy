@@ -69,6 +69,16 @@
       <Setter Property="Height" Value="50"/>
     </Style>
 
+    <Style Selector="Border.popup">
+      <Setter Property="BorderThickness" Value="10"/>
+      <Setter Property="CornerRadius" Value="5"/>
+      <Setter Property="BorderBrush" Value="Gray"/>
+      <Setter Property="Margin" Value="40"/>
+      <Setter Property="Height" Value="250"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
   </Application.Styles>
 
   <Application.Resources>
