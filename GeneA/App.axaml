@@ -11,7 +11,7 @@
     <FluentTheme />
     <StyleInclude Source="/CustomControls/PopupBase.axaml"/>
     <StyleInclude Source="avares://Notification.Avalonia/Themes/Generic.xaml" />
-    
+
     <Style Selector="ListBox">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
@@ -86,16 +86,18 @@
 
     <conv:BirthDeathConverter x:Key="BirthDeathDateConv"/>
     <conv:ValidDatetimeConverter x:Key="ValidDatetimeConv"/>
+    <conv:PersonEmptyFieldsConverter x:Key="PersonEmptyFieldsConv"/>
 
-    
     <DataTemplate x:Key="ListTemplate" x:DataType="model:Person">
-      <Grid RowDefinitions="auto, auto, auto">
-        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
-                   HorizontalAlignment="Center"
-                   TextWrapping="Wrap" Margin="0,0,0,5"
-                   FontWeight="SemiBold"/>
+      <Grid RowDefinitions="auto auto, auto"
+            ColumnDefinitions="* auto *">
 
-        <Grid Grid.Row="1" RowDefinitions="* *" ColumnDefinitions="* *"
+        <TextBlock Grid.Column="1"  Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                     HorizontalAlignment="Center"
+                     TextWrapping="Wrap" Margin="0,0,0,5"
+                     FontWeight="SemiBold"/>
+
+        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="* *" ColumnDefinitions="* *"
               HorizontalAlignment="Center">
 
           <TextBlock Text="{x:Static loc:Resource.BirthDate}" Margin="0,0,15,0"/>
@@ -111,10 +113,18 @@
                      HorizontalAlignment="Center"/>
         </Grid>
 
-        <Separator Grid.Row="2" BorderBrush="Gray"/>
+        <Border Grid.Column="2" Background="LightGray" CornerRadius="100" Width="40"
+                IsVisible="{Binding ., Converter={StaticResource PersonEmptyFieldsConv}}"
+                VerticalAlignment="Center" HorizontalAlignment="Left">
+
+          <TextBlock HorizontalAlignment="Center" Text="!" Foreground="Red"
+                     FontSize="30" FontWeight="ExtraBlack"/>
+        </Border>
+
+        <Separator Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="Gray"/>
       </Grid>
     </DataTemplate>
   </Application.Resources>
-  
+
 </Application>
 
