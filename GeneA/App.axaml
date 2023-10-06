@@ -9,6 +9,7 @@
 
   <Application.Styles>
     <FluentTheme />
+    <StyleInclude Source="/CustomControls/PopupBase.axaml"/>
     <StyleInclude Source="avares://Notification.Avalonia/Themes/Generic.xaml" />
     
     <Style Selector="ListBox">

@@ -7,8 +7,8 @@
              xmlns:loc="using:GeneA.Lang"
              xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              x:DataType="vm:ConfirmationPopupViewModel"
-             Name="PopupView"
-             Background="rgb(211, 211, 211, 0.6)"> <!--light gray 60% opacity-->
+             xmlns:controls="using:GeneA.CustomControls"
+             Name="PopupView">
 
   <UserControl.Styles>
 
@@ -26,35 +26,36 @@
 
   </UserControl.Styles>
 
-  <Border Classes="popup">
+  <controls:PopupBase >
+    <controls:PopupBase.PopupContent>
+      <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
+        <TextBlock Name="TitleTextBox" Text="{Binding Title}" Margin="5"
+                   HorizontalAlignment="Center" FontSize="20"
+                   FontWeight="Bold"/>
 
-    <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
-      <TextBlock Name="TitleTextBox" Text="{Binding Title}" Margin="5"
-                 HorizontalAlignment="Center" FontSize="20"
-                 FontWeight="Bold"/>
+        <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gray" Margin="10"
+                CornerRadius="2">
+          <ScrollViewer>
+            <TextBlock Margin="5"
+                       Text="{Binding Message}"
+                       TextWrapping="Wrap" FontWeight="Medium"/>
+          </ScrollViewer>
+        </Border>
 
-      <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gray" Margin="10"
-              CornerRadius="2">
-        <ScrollViewer>
-          <TextBlock Margin="5" 
-                     Text="{Binding Message}" 
-                     TextWrapping="Wrap" FontWeight="Medium"/>
-        </ScrollViewer>
-      </Border>
+        <Grid Grid.Row="2" ColumnDefinitions="* *"
+              Margin="5">
+          <Button Name="CancelButton" Classes="PopButton"
+                  Command="{Binding CancelCommand}">
+            <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
+          </Button>
 
-      <Grid Grid.Row="2" ColumnDefinitions="* *"
-            Margin="5">
-        <Button Name="CancelButton" Classes="PopButton"
-                Command="{Binding CancelCommand}">
-          <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
-        </Button>
-        
-        <Button Name="ConfirmButton" Classes="PopButton" Grid.Column="1" 
-                Command="{Binding ConfirmCommand}">
-          <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
-        </Button>
+          <Button Name="ConfirmButton" Classes="PopButton" Grid.Column="1"
+                  Command="{Binding ConfirmCommand}">
+            <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
+          </Button>
+        </Grid>
       </Grid>
+    </controls:PopupBase.PopupContent>
+  </controls:PopupBase>
 
-    </Grid>
-  </Border>
 </UserControl>
