@@ -64,17 +64,17 @@ public partial class PersonViewModel : ViewModelBase
     {
         await Task.Run(() =>
         {
-            var people = _repository.FindAll();
-
-            var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList();
-            var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
-
             if (Param == null)
             {
                 Person = new Person();
             }
             else
             {
+                var people = _repository.FindAll();
+
+                var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList();
+                var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
+
                 Person = _repository.FindById((long)Param);
 
                 //constraints to dont show offsprings in father/mother list of father/mother
@@ -89,10 +89,10 @@ public partial class PersonViewModel : ViewModelBase
                     fatherList.RemoveAll(p => p.Id == Person.Id);
                 else
                     motherList.RemoveAll(p => p.Id == Person.Id);
-            }
 
-            FatherList = fatherList;
-            MotherList = motherList;
+                FatherList = fatherList;
+                MotherList = motherList;
+            }
         });
     }
 
@@ -122,6 +122,8 @@ public partial class PersonViewModel : ViewModelBase
                 .Dismiss().WithDelay(TimeSpan.FromSeconds(2))
                 .Queue();
             });
+
+            await _navigation.GoBackAsync();
         });
     }
 

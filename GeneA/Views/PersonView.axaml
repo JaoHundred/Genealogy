@@ -24,9 +24,7 @@
         <Grid Classes="TextLabel"
               RowDefinitions="auto auto auto 
               auto auto auto 
-              auto auto auto 
-              auto auto auto
-              auto *"
+              auto auto auto"
               ColumnDefinitions="* *" Margin="5">
 
           <Grid Grid.ColumnSpan="2" RowDefinitions="auto auto" ColumnDefinitions="* * *">
@@ -57,40 +55,46 @@
                               SelectedDate="{Binding Person.DeathDate
                               , Converter={StaticResource ValidDatetimeConverter}}"/>
 
-          <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Father}"/>
-          <AutoCompleteBox Grid.Row="5"
-                           ItemsSource="{Binding FatherList}"
-                           AsyncPopulator="{Binding FatherStartsWithAsync}"
-                           ItemTemplate="{StaticResource ListTemplate}"
-                           SelectedItem="{Binding SelectedFather}"
-                           Margin="0,0,5,0"/>
+          <Grid Grid.Row="4" Grid.ColumnSpan="2" 
+                RowDefinitions="auto auto auto auto auto auto"
+                ColumnDefinitions="* *"
+                IsVisible="{Binding Person.Id>0}">
+            <TextBlock Text="{x:Static loc:Resource.Father}"/>
+            <AutoCompleteBox Grid.Row="1"
+                             ItemsSource="{Binding FatherList}"
+                             AsyncPopulator="{Binding FatherStartsWithAsync}"
+                             ItemTemplate="{StaticResource ListTemplate}"
+                             SelectedItem="{Binding SelectedFather}"
+                             Margin="0,0,5,0"/>
 
-          <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Static loc:Resource.Mother}"
-                     Margin="5,0,0,0"/>
-          <AutoCompleteBox Grid.Row="5" Grid.Column="1"
-                           ItemsSource="{Binding MotherList}"
-                           AsyncPopulator="{Binding MotherStartsWithAsync}"
-                           ItemTemplate="{StaticResource ListTemplate}"
-                           SelectedItem="{Binding SelectedMother}"
-                           Margin=".5,0,0,0"/>
+            <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.Mother}"
+                       Margin="5,0,0,0"/>
+            <AutoCompleteBox Grid.Row="1" Grid.Column="1"
+                             ItemsSource="{Binding MotherList}"
+                             AsyncPopulator="{Binding MotherStartsWithAsync}"
+                             ItemTemplate="{StaticResource ListTemplate}"
+                             SelectedItem="{Binding SelectedMother}"
+                             Margin=".5,0,0,0"/>
 
-          <TextBlock Grid.Row="6" Text="{x:Static loc:Resource.Spouse}"/>
-          <TextBox Grid.Row="7" Text="Placeholder use popup"/>
+            <TextBlock Grid.Row="2" Text="{x:Static loc:Resource.Spouse}"/>
+            <TextBox Grid.Row="3" Text="Placeholder use popup"/>
 
-          <TextBlock Grid.Row="6" Grid.Column="1" Text="{x:Static loc:Resource.Wedding}"
-                     Margin="5,0,0,0"/>
-          <CalendarDatePicker Grid.Row="7" Grid.Column="1" Margin="5,0,0,0"
-                               SelectedDate="{Binding Person.WeddingDate
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static loc:Resource.Wedding}"
+                       Margin="5,0,0,0"/>
+            <CalendarDatePicker Grid.Row="3" Grid.Column="1" Margin="5,0,0,0"
+                                 SelectedDate="{Binding Person.WeddingDate
                                , Converter={StaticResource ValidDatetimeConverter}}"/>
 
-          <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Offsprings}"/>
-          <TextBox Grid.Row="9" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
+            <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Offsprings}"/>
+            <TextBox Grid.Row="5" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
 
-          <TextBlock Grid.Row="10" Text="{x:Static loc:Resource.Nationality}"/>
-          <TextBox Grid.Row="11" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
+          </Grid>
+          
+          <TextBlock Grid.Row="5" Text="{x:Static loc:Resource.Nationality}"/>
+          <TextBox Grid.Row="6" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
 
-          <TextBlock Grid.Row="12" Text="{x:Static loc:Resource.Description}"/>
-          <TextBox Grid.Row="13" Grid.ColumnSpan="2" Focusable="True"
+          <TextBlock Grid.Row="7" Text="{x:Static loc:Resource.Description}"/>
+          <TextBox Grid.Row="8" Grid.ColumnSpan="2" Focusable="True"
                    Text="{Binding Person.Description}" Height="200"
                    TextWrapping="Wrap"/>
         </Grid>
