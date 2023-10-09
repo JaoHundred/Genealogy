@@ -86,7 +86,10 @@
                                , Converter={StaticResource ValidDatetimeConverter}}"/>
 
             <TextBlock Grid.Row="4" Text="{x:Static loc:Resource.Offsprings}"/>
-            <TextBox Grid.Row="5" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
+            <Button Grid.Row="5" Grid.ColumnSpan="2" 
+                    Command="{Binding OpenOffSpringsCommand}">
+              <TextBlock Text="{x:Static loc:Resource.SelectOffsprings}"/>
+            </Button>
 
           </Grid>
           

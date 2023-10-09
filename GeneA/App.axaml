@@ -4,6 +4,7 @@
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
+             xmlns:controls="using:GeneA.CustomControls"
              RequestedThemeVariant="Default">
   <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -78,6 +79,18 @@
       <Setter Property="Height" Value="250"/>
       <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style Selector="Button.PopButton">
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="FontSize" Value="10"/>
+      <Setter Property="Margin" Value="4,3"/>
+    </Style>
+
+    <Style Selector="Button.PopButton>TextBlock">
+      <Setter Property="FontSize" Value="20"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
   </Application.Styles>

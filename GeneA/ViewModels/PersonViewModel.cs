@@ -152,6 +152,12 @@ public partial class PersonViewModel : ViewModelBase
         });
     }
 
+    [RelayCommand]
+    private async Task OpenOffSprings()
+    {
+        await _navigation.PopUpAsync<SelectionPopupViewModel>(Person!.Id);
+    }
+
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)
     {
         return await Task.Run(() =>

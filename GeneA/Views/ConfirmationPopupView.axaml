@@ -10,21 +10,7 @@
              xmlns:controls="using:GeneA.CustomControls"
              Name="PopupView">
 
-  <UserControl.Styles>
-
-    <Style Selector="Button.PopButton">
-      <Setter Property="HorizontalAlignment" Value="Stretch"/>
-      <Setter Property="HorizontalContentAlignment" Value="Center"/>
-      <Setter Property="FontSize" Value="10"/>
-      <Setter Property="Margin" Value="4,3"/>
-    </Style>
-
-    <Style Selector="Button.PopButton>TextBlock">
-      <Setter Property="FontSize" Value="20"/>
-      <Setter Property="FontWeight" Value="SemiBold"/>
-    </Style>
-
-  </UserControl.Styles>
+  
 
   <controls:PopupBase >
     <controls:PopupBase.PopupContent>

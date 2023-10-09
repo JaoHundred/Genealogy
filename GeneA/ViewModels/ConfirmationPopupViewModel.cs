@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GeneA.ViewModels
 {
-    public partial class ConfirmationPopupViewModel : ViewModelBase
+    public partial class ConfirmationPopupViewModel : ViewModelBase, IpopupViewModel
     {
         public ConfirmationPopupViewModel()
         {
