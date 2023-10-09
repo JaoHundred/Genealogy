@@ -2,15 +2,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:GeneA.CustomControls">
   <Design.PreviewWith>
-    <controls:PopupBase  Width="600" Height="600"/>
+
+      <controls:PopupBase PopupHeight="300" PopupWidth="300"/>
   </Design.PreviewWith>
 
   <Style Selector="controls|PopupBase">
     <!-- Set Defaults -->
     <Setter Property="Template">
       <ControlTemplate>
-        <UserControl Background="rgb(211, 211, 211, 0.6)"><!--light gray 60% opacity-->
-          <Border Classes="popup" >
+        <UserControl Background="rgb(211, 211, 211, 0.6)"
+                     >
+          <!--light gray 60% opacity-->
+          <Border Classes="popup"
+                  Height="{TemplateBinding PopupHeight}"
+                  Width="{TemplateBinding PopupWidth}">
             <UserControl Content="{TemplateBinding PopupContent}"/>
           </Border>
         </UserControl>

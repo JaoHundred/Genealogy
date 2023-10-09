@@ -8,32 +8,40 @@
              xmlns:vm="using:GeneA.ViewModels"
              x:DataType="vm:SelectionPopupViewModel"
              x:Class="GeneA.Views.SelectionPopupView">
-  
-  <controls:PopupBase>
+
+  <controls:PopupBase PopupHeight="400" PopupWidth="350">
     <controls:PopupBase.PopupContent>
       <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
         <TextBox Margin="10"/>
-        <ListBox Margin="10" Grid.Row="1" SelectionMode="Toggle"
-                 ItemsSource="{Binding OffSprings}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsSelected}">
-                  <TextBlock Text="{Binding .}"/>
-                </CheckBox>
-              </StackPanel>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
+        <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                      HorizontalScrollBarVisibility="Auto"
+                      Margin="10" Grid.Row="1" >
 
-        </ListBox>
+          <ListBox SelectionMode="Toggle"
+                   ItemsSource="{Binding OffSprings}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <CheckBox IsChecked="{Binding IsSelected}">
+                    <TextBlock Text="{Binding .}"/>
+                  </CheckBox>
+                </StackPanel>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+
+          </ListBox>
+        </ScrollViewer>
         <Grid Grid.Row="2" ColumnDefinitions="* *"
               Margin="5">
-          <Button Classes="PopButton" Name="CancelButton">
+          <Button Classes="PopButton" Name="CancelButton"
+                  Command="{Binding CancelCommand}">
             <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
           </Button>
-          
+
           <Button Classes="PopButton" Grid.Column="1"
-                  Name="ConfirmButton">
+                  Command="{Binding ConfirmCommand}"
+                  IsEnabled="{Binding OffSprings}"
+                  Name="ConfirmButton" >
             <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
           </Button>
         </Grid>

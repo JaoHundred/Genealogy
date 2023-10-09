@@ -41,5 +41,25 @@ namespace GeneA._Helper
                 WeddingDate = p.WeddingDate,
             });
         }
+
+        public static IEnumerable<Person> ToPeople(this IEnumerable<PersonItemViewModel> people) 
+        {
+            return people.Select(p => new Person
+            {
+                BaptismDate = p.BaptismDate,
+                BirthDate = p.BirthDate,
+                DeathDate = p.DeathDate,
+                Description = p.Description,
+                Father = p.Father,
+                Mother = p.Mother,
+                Gender = p.Gender,
+                Id = p.Id,
+                Nacionality = p.Nacionality,
+                Name = p.Name,
+                Offsprings = p.Offsprings,
+                Spouses = p.Spouses,
+                WeddingDate = p.WeddingDate,
+            });
+        }
     }
 }

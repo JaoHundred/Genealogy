@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GeneA.Interfaces;
 using Model.Core;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace GeneA.ViewModelItems
 {
     [ObservableObject]
-    public partial class PersonItemViewModel : Person
+    public partial class PersonItemViewModel : Person, ISelectable
     {
         [ObservableProperty]
         private bool _isSelected;

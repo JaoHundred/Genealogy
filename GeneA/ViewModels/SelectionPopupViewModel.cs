@@ -26,7 +26,7 @@ namespace GeneA.ViewModels
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
 
-        private Person _person;
+        private Person? _person;
         private IRepository<Person> _repository;
 
         [ObservableProperty]
@@ -60,11 +60,25 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
-        public void Confirm()
+        public async Task TextFilter()
         {
-            //TODO: set all checked offpsprings in _person.offsprings and then save _person in litedb
+            //TODO: implement text filtering, think about filter options too(ascending, descending, birthdate, deathdate, etc)
+        }
 
-            ConfirmAction?.Invoke();
+        [RelayCommand]
+        public async Task Confirm()
+        {
+            if (!OffSprings.Any(p => p.IsSelected))
+                return;
+
+            await Task.Run(() =>
+            {
+                _person!.Offsprings = OffSprings.Where(p => p.IsSelected).ToPeople().ToList();
+                
+                _repository.Upsert(_person);
+
+                ConfirmAction?.Invoke();
+            });
         }
 
         [RelayCommand]

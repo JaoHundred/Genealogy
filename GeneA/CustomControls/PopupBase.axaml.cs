@@ -14,5 +14,23 @@ namespace GeneA.CustomControls
             get { return GetValue(PopupContentProperty); }
             set { SetValue(PopupContentProperty, value); }
         }
+
+        public static readonly StyledProperty<double> PopupHeightProperty =
+       AvaloniaProperty.Register<PopupBase, double>(nameof(PopupHeight));
+
+        public double PopupHeight
+        {
+            get { return GetValue(PopupHeightProperty); }
+            set { SetValue(PopupHeightProperty, value); }
+        }
+
+        public static readonly StyledProperty<double> PopupWidthProperty =
+       AvaloniaProperty.Register<PopupBase, double>(nameof(PopupWidth));
+
+        public double PopupWidth
+        {
+            get { return GetValue(PopupWidthProperty); }
+            set { SetValue(PopupWidthProperty, value); }
+        }
     }
 }

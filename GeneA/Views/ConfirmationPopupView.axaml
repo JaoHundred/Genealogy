@@ -10,9 +10,7 @@
              xmlns:controls="using:GeneA.CustomControls"
              Name="PopupView">
 
-  
-
-  <controls:PopupBase >
+  <controls:PopupBase PopupHeight="250" PopupWidth="300">
     <controls:PopupBase.PopupContent>
       <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
         <TextBlock Name="TitleTextBox" Text="{Binding Title}" Margin="5"
