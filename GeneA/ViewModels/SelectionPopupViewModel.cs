@@ -31,6 +31,7 @@ namespace GeneA.ViewModels
 
         [ObservableProperty]
         private ObservableRangeCollection<PersonItemViewModel> _offSprings;
+        
 
         public string? Title { get; set; }
         public string? Message { get; set; }
@@ -60,9 +61,10 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
-        public async Task TextFilter()
+        public async Task TextFilter(string searchText)
         {
             //TODO: implement text filtering, think about filter options too(ascending, descending, birthdate, deathdate, etc)
+            
         }
 
         [RelayCommand]
