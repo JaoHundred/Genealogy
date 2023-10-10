@@ -1,6 +1,7 @@
 ﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DynamicData;
 using GeneA._Helper;
 using GeneA.Interfaces;
 using GeneA.ViewModelItems;
@@ -9,19 +10,20 @@ using Model.Interfaces;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GeneA.ViewModels
 {
+
     public partial class SelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
         public SelectionPopupViewModel(IRepository<Person> repository)
         {
             _repository = repository;
-
-            OffSprings = new ObservableRangeCollection<PersonItemViewModel>();
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
@@ -29,9 +31,10 @@ namespace GeneA.ViewModels
         private Person? _person;
         private IRepository<Person> _repository;
 
-        [ObservableProperty]
-        private ObservableRangeCollection<PersonItemViewModel> _offSprings;
-        
+        private ReadOnlyObservableCollection<PersonItemViewModel>? _offSprings;
+        public ReadOnlyObservableCollection<PersonItemViewModel>? OffSprings => _offSprings;
+
+        private SourceCache<PersonItemViewModel, long>? _sourceCache;
 
         public string? Title { get; set; }
         public string? Message { get; set; }
@@ -45,7 +48,7 @@ namespace GeneA.ViewModels
                 if (Param != null)
                 {
                     _person = _repository.FindById((long)Param);
-
+                        
                     var people = _repository.FindAll().ToPersonItemViewModels().ToList();
                     people.RemoveAll(p => p.Id == _person.Id);//remove self
 
@@ -54,7 +57,14 @@ namespace GeneA.ViewModels
 
                     Dispatcher.UIThread.Invoke(() =>
                     {
-                        OffSprings.ReplaceRange(people);
+                        //TODO: its not loading as expected in second dialog opening, find what is happening
+
+                        _sourceCache = new SourceCache<PersonItemViewModel, long>(p => p.Id);
+
+                        _sourceCache.AddOrUpdate(people);
+                        _sourceCache.Connect()    
+                        .Bind(out _offSprings)
+                        .Subscribe();
                     });
                 }
             });
@@ -64,19 +74,19 @@ namespace GeneA.ViewModels
         public async Task TextFilter(string searchText)
         {
             //TODO: implement text filtering, think about filter options too(ascending, descending, birthdate, deathdate, etc)
-            
+
         }
 
         [RelayCommand]
         public async Task Confirm()
         {
-            if (!OffSprings.Any(p => p.IsSelected))
+            if (!OffSprings!.Any(p => p.IsSelected))
                 return;
 
             await Task.Run(() =>
             {
-                _person!.Offsprings = OffSprings.Where(p => p.IsSelected).ToPeople().ToList();
-                
+                _person!.Offsprings = OffSprings!.Where(p => p.IsSelected).ToPeople().ToList();
+
                 _repository.Upsert(_person);
 
                 ConfirmAction?.Invoke();
