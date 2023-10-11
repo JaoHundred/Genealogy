@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using GeneA.Interfaces;
+using GeneA.ViewModels;
 using System;
 
 namespace GeneA.Views

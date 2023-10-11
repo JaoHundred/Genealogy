@@ -92,6 +92,13 @@
       <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
+    <Style Selector="TextBlock.popupHeader">
+      <Setter Property="Margin" Value="5"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="FontSize" Value="20"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
   </Application.Styles>
 
   <Application.Resources>

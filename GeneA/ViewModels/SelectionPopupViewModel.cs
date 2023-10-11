@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using GeneA._Helper;
+using GeneA._Services;
 using GeneA.Interfaces;
 using GeneA.ViewModelItems;
 using Model.Core;
@@ -11,6 +12,7 @@ using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
@@ -21,20 +23,22 @@ namespace GeneA.ViewModels
 
     public partial class SelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
-        public SelectionPopupViewModel(IRepository<Person> repository)
+        public SelectionPopupViewModel(IRepository<Person> repository, NavigationService navigationService)
         {
             _repository = repository;
+            _navigationService = navigationService;
+            OffSprings = new ObservableRangeCollection<PersonItemViewModel>();
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
 
         private Person? _person;
         private IRepository<Person> _repository;
+        private NavigationService _navigationService;
 
-        private ReadOnlyObservableCollection<PersonItemViewModel>? _offSprings;
-        public ReadOnlyObservableCollection<PersonItemViewModel>? OffSprings => _offSprings;
-
-        private SourceCache<PersonItemViewModel, long>? _sourceCache;
+        [ObservableProperty]
+        private ObservableRangeCollection<PersonItemViewModel> _offSprings;
+        private List<PersonItemViewModel>? _offSpringsOriginal;
 
         public string? Title { get; set; }
         public string? Message { get; set; }
@@ -43,7 +47,7 @@ namespace GeneA.ViewModels
 
         private async Task Load()
         {
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 if (Param != null)
                 {
@@ -55,16 +59,11 @@ namespace GeneA.ViewModels
                     foreach (var ps in people)//set as checked if person.offsprings
                         ps.IsSelected = _person.Offsprings.Any(p => p.Id == ps.Id);
 
-                    Dispatcher.UIThread.Invoke(() =>
+                    _offSpringsOriginal = people;
+
+                    await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        //TODO: its not loading as expected in second dialog opening, find what is happening
-
-                        _sourceCache = new SourceCache<PersonItemViewModel, long>(p => p.Id);
-
-                        _sourceCache.AddOrUpdate(people);
-                        _sourceCache.Connect()    
-                        .Bind(out _offSprings)
-                        .Subscribe();
+                        OffSprings.ReplaceRange(_offSpringsOriginal);
                     });
                 }
             });
@@ -73,23 +72,24 @@ namespace GeneA.ViewModels
         [RelayCommand]
         public async Task TextFilter(string searchText)
         {
-            //TODO: implement text filtering, think about filter options too(ascending, descending, birthdate, deathdate, etc)
-
+            await Dispatcher.UIThread.InvokeAsync(() => 
+            {
+                OffSprings.ReplaceRange(_offSpringsOriginal!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower()))); 
+            });
         }
 
         [RelayCommand]
         public async Task Confirm()
         {
-            if (!OffSprings!.Any(p => p.IsSelected))
-                return;
-
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
-                _person!.Offsprings = OffSprings!.Where(p => p.IsSelected).ToPeople().ToList();
+                _person!.Offsprings = _offSpringsOriginal!.Where(p => p.IsSelected).ToPeople().ToList();
 
                 _repository.Upsert(_person);
 
-                ConfirmAction?.Invoke();
+                await _navigationService.GoBackAsync();
+
+                //ConfirmAction?.Invoke();
             });
         }
 

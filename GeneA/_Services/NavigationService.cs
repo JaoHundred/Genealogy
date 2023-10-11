@@ -27,13 +27,17 @@ public class NavigationService
 
     private List<Control> _stack;
 
+    //TODO: review GoBackAsync method, some issues are occuring when going back from the SelectionPopupView and then clicking in saving
+    //its not reloading PersonView on Selectionpopupview GoBackAsync method
     public async Task GoBackAsync()
     {
-        if (_mainView.FullViewGrid.Children.LastOrDefault() is IPopup)
+        if (_stack.LastOrDefault() is IPopup)
         {
             await RunInUIThread(() =>
             {
                 var children = _mainView.FullViewGrid.Children;
+
+                _stack.RemoveAt(_stack.Count - 1);
                 children.RemoveAt(children.Count - 1);
             });
 
@@ -66,10 +70,13 @@ public class NavigationService
 
                 var view = _stack.ElementAt(_stack.Count - 1);
 
-                (view.DataContext as ViewModelBase)!.LoadAction?.Invoke();//reload the previous view
-
                 _mainView.ContentGrid.Children.Add(view);
             });
+
+        await RunInUIThread(() =>
+        {
+            (_stack.LastOrDefault()?.DataContext as ViewModelBase)!.LoadAction?.Invoke();//reload the previous view
+        });
     }
 
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
@@ -126,8 +133,9 @@ public class NavigationService
 
         ViewModelBase vm = await RunInUIThread(() =>
         {
+            _stack.Add(view);
             _mainView.FullViewGrid.Children.Add(view);
-            
+
             return (ViewModelBase)view.DataContext!;
         });
 

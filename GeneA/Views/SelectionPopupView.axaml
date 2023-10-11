@@ -13,8 +13,11 @@
 
   <controls:PopupBase PopupHeight="400" PopupWidth="350">
     <controls:PopupBase.PopupContent>
-      <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
-        <TextBox Name="searchTextBox" Margin="10">
+      <Grid Background="WhiteSmoke" RowDefinitions="auto auto * auto">
+        <TextBlock Classes="popupHeader" Text="{x:Static loc:Resource.Offsprings}"
+                   HorizontalAlignment="Center" Margin="5"/>
+        <TextBox Grid.Row="1" Name="searchTextBox" Margin="10"
+                 Watermark="{x:Static loc:Resource.SearchTheName}">
           <i:Interaction.Behaviors>
             <ia:EventTriggerBehavior EventName="TextChanged">
               <ia:InvokeCommandAction
@@ -25,7 +28,7 @@
         </TextBox>
         <ScrollViewer VerticalScrollBarVisibility="Disabled"
                       HorizontalScrollBarVisibility="Auto"
-                      Margin="10" Grid.Row="1" >
+                      Margin="10" Grid.Row="2" >
 
           <ListBox SelectionMode="Toggle"
                    ItemsSource="{Binding OffSprings}">
@@ -41,7 +44,7 @@
 
           </ListBox>
         </ScrollViewer>
-        <Grid Grid.Row="2" ColumnDefinitions="* *"
+        <Grid Grid.Row="3" ColumnDefinitions="* *"
               Margin="5">
           <Button Classes="PopButton" Name="CancelButton"
                   Command="{Binding CancelCommand}">

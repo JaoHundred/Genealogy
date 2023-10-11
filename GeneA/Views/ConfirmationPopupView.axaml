@@ -13,9 +13,7 @@
   <controls:PopupBase PopupHeight="250" PopupWidth="300">
     <controls:PopupBase.PopupContent>
       <Grid Background="WhiteSmoke" RowDefinitions="auto * auto">
-        <TextBlock Name="TitleTextBox" Text="{Binding Title}" Margin="5"
-                   HorizontalAlignment="Center" FontSize="20"
-                   FontWeight="Bold"/>
+        <TextBlock Classes="popupHeader" Name="TitleTextBox" Text="{Binding Title}" />
 
         <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gray" Margin="10"
                 CornerRadius="2">
