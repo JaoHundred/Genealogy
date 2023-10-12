@@ -23,5 +23,17 @@ namespace GeneA._Helper
 
             return vm;
         }
+
+        public static async Task<T> ConfigurePopUpProperties<T>(
+           this Task<T> viewModel, Action confirmAction, Action cancelAction)
+           where T : IpopupViewModel
+        {
+            var vm = await viewModel;
+
+            vm.ConfirmAction = confirmAction;
+            vm.CancelAction = cancelAction;
+
+            return vm;
+        }
     }
 }

@@ -89,13 +89,15 @@ namespace GeneA.ViewModels
 
                 await _navigationService.GoBackAsync();
 
-                //ConfirmAction?.Invoke();
+                ConfirmAction?.Invoke();
             });
         }
 
         [RelayCommand]
-        public void Cancel()
+        public async Task Cancel()
         {
+            await _navigationService.GoBackAsync();
+
             CancelAction?.Invoke();
         }
     }

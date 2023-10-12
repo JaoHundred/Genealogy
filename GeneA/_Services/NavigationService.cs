@@ -27,8 +27,6 @@ public class NavigationService
 
     private List<Control> _stack;
 
-    //TODO: review GoBackAsync method, some issues are occuring when going back from the SelectionPopupView and then clicking in saving
-    //its not reloading PersonView on Selectionpopupview GoBackAsync method
     public async Task GoBackAsync()
     {
         if (_stack.LastOrDefault() is IPopup)
@@ -40,8 +38,6 @@ public class NavigationService
                 _stack.RemoveAt(_stack.Count - 1);
                 children.RemoveAt(children.Count - 1);
             });
-
-            return;
         }
 
         else if (_stack.LastOrDefault() is HomeView)//already in HomeView

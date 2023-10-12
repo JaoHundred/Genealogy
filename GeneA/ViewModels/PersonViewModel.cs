@@ -103,16 +103,7 @@ public partial class PersonViewModel : ViewModelBase
         {
             //TODO: add validations here
 
-            if (SelectedGender != null)
-                Person!.Gender = SelectedGender.GenderEnum;
-
-            if (SelectedMother != null)
-                Person!.Mother = SelectedMother;
-
-            if (SelectedFather != null)
-                Person!.Father = SelectedFather;
-
-            _repository.Upsert(Person!);
+            SaveToDB();
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -155,6 +146,8 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenOffSprings()
     {
+        SaveToDB();//partial save before openning new view
+
         await _navigation.PopUpAsync<SelectionPopupViewModel>(Person!.Id);
     }
 
@@ -164,7 +157,7 @@ public partial class PersonViewModel : ViewModelBase
         {
             var list = FatherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
             return list;
-        });
+        }, token);
     }
 
     public async Task<IEnumerable<object>> MotherStartsWithAsync(string str, CancellationToken token)
@@ -173,6 +166,20 @@ public partial class PersonViewModel : ViewModelBase
         {
             var list = MotherList!.Where(p => p.Name.ToLower().StartsWith(str.ToLower()));
             return list;
-        });
+        }, token);
+    }
+
+    private void SaveToDB()
+    {
+        if (SelectedGender != null)
+            Person!.Gender = SelectedGender.GenderEnum;
+
+        if (SelectedMother != null)
+            Person!.Mother = SelectedMother;
+
+        if (SelectedFather != null)
+            Person!.Father = SelectedFather;
+
+        _repository.Upsert(Person!);
     }
 }
