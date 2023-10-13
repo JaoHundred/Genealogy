@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:controls="using:GeneA.CustomControls"
+             xmlns:loc="using:GeneA.Lang"
+             xmlns:vm="using:GeneA.ViewModels"
+             x:DataType="vm:NationalitySelectionPopupViewModel"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             x:Class="GeneA.Views.NationalitySelectionPopupView">
+
+  <controls:PopupBase PopupHeight="400" PopupWidth="350">
+    <controls:PopupBase.PopupContent>
+      <Grid Background="WhiteSmoke" RowDefinitions="auto auto * auto">
+        <TextBlock Classes="popupHeader" Text="{x:Static loc:Resource.Nationality}"
+                   HorizontalAlignment="Center" Margin="5"/>
+        <TextBox Grid.Row="1" Name="searchTextBox" Margin="10"
+                 Watermark="{x:Static loc:Resource.SearchTheName}">
+          <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="TextChanged">
+              <ia:InvokeCommandAction
+                Command="{Binding TextFilterCommand}"
+                CommandParameter="{Binding #searchTextBox.Text}"/>
+            </ia:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </TextBox>
+        <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                      HorizontalScrollBarVisibility="Auto"
+                      Margin="10" Grid.Row="2" >
+
+          <ListBox SelectionMode="Toggle"
+                   ItemsSource="{Binding Nationalities}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <CheckBox IsChecked="{Binding IsSelected}">
+                    <TextBlock Text="{Binding .}"/>
+                  </CheckBox>
+                </StackPanel>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+
+          </ListBox>
+        </ScrollViewer>
+        <Grid Grid.Row="3" ColumnDefinitions="* *"
+              Margin="5">
+          <Button Classes="PopButton" Name="CancelButton"
+                  Command="{Binding CancelCommand}">
+            <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
+          </Button>
+
+          <Button Classes="PopButton" Grid.Column="1"
+                  Command="{Binding ConfirmCommand}"
+                  Name="ConfirmButton" >
+            <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
+          </Button>
+        </Grid>
+      </Grid>
+    </controls:PopupBase.PopupContent>
+  </controls:PopupBase>
+</UserControl>
