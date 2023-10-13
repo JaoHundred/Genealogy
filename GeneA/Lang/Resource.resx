@@ -180,6 +180,9 @@
   <data name="SelectOffsprings" xml:space="preserve">
     <value>Select offsprings</value>
   </data>
+  <data name="SelectSpouses" xml:space="preserve">
+    <value>Select spouses</value>
+  </data>
   <data name="Spouse" xml:space="preserve">
     <value>Spouse</value>
   </data>

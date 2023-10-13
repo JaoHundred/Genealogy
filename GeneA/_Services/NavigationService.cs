@@ -29,7 +29,7 @@ public class NavigationService
 
     public async Task GoBackAsync()
     {
-        if (_stack.LastOrDefault() is IPopup)
+        if (_stack.LastOrDefault() is IPopupView)
         {
             await RunInUIThread(() =>
             {

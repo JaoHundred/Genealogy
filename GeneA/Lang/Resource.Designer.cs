@@ -250,6 +250,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select spouses.
+        /// </summary>
+        public static string SelectSpouses {
+            get {
+                return ResourceManager.GetString("SelectSpouses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spouse.
         /// </summary>
         public static string Spouse {

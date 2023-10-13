@@ -99,5 +99,8 @@ public partial class App : Application
 
         services.AddTransient<SelectionPopupView>();
         services.AddTransient<SelectionPopupViewModel>();
+
+        services.AddTransient<SpouseSelectionPopupView>();
+        services.AddTransient<SpouseSelectionPopupViewModel>();
     }
 }

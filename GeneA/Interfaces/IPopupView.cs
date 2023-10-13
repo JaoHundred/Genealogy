@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace GeneA.Interfaces;
 
-public interface IPopup
+public interface IPopupView
 {
 }

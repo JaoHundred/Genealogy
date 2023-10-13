@@ -1,14 +1,13 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using GeneA.Interfaces;
-using GeneA.ViewModels;
 using System;
 
 namespace GeneA.Views
 {
-    public partial class SelectionPopupView : UserControl, IDisposable, IPopupView
+    public partial class SpouseSelectionPopupView : UserControl, IPopupView, IDisposable
     {
-        public SelectionPopupView()
+        public SpouseSelectionPopupView()
         {
             InitializeComponent();
             CancelButton.Tapped += CancelButton_Tapped;

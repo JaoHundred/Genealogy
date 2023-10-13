@@ -151,6 +151,14 @@ public partial class PersonViewModel : ViewModelBase
         await _navigation.PopUpAsync<SelectionPopupViewModel>(Person!.Id);
     }
 
+    [RelayCommand]
+    private async Task OpenSpouses()
+    {
+        SaveToDB();//partial save before openning new view
+
+        await _navigation.PopUpAsync<SpouseSelectionPopupViewModel>(Person!.Id);
+    }
+
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)
     {
         return await Task.Run(() =>

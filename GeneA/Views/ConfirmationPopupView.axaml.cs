@@ -6,7 +6,7 @@ using System;
 
 namespace GeneA.Views
 {
-    public partial class ConfirmationPopupView : UserControl, IDisposable, IPopup
+    public partial class ConfirmationPopupView : UserControl, IDisposable, IPopupView
     {
         public ConfirmationPopupView()
         {
