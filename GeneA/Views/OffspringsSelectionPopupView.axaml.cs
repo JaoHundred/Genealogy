@@ -6,9 +6,9 @@ using System;
 
 namespace GeneA.Views
 {
-    public partial class SelectionPopupView : UserControl, IDisposable, IPopupView
+    public partial class OffspringsSelectionPopupView : UserControl, IDisposable, IPopupView
     {
-        public SelectionPopupView()
+        public OffspringsSelectionPopupView()
         {
             InitializeComponent();
             CancelButton.Tapped += CancelButton_Tapped;

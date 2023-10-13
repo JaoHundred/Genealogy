@@ -21,9 +21,9 @@ using System.Threading.Tasks;
 namespace GeneA.ViewModels
 {
 
-    public partial class SelectionPopupViewModel : ViewModelBase, IpopupViewModel
+    public partial class OffspringsSelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
-        public SelectionPopupViewModel(IRepository<Person> repository, NavigationService navigationService)
+        public OffspringsSelectionPopupViewModel(IRepository<Person> repository, NavigationService navigationService)
         {
             _repository = repository;
             _navigationService = navigationService;

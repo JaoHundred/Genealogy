@@ -97,8 +97,8 @@ public partial class App : Application
         services.AddTransient<ConfirmationPopupView>();
         services.AddTransient<ConfirmationPopupViewModel>();
 
-        services.AddTransient<SelectionPopupView>();
-        services.AddTransient<SelectionPopupViewModel>();
+        services.AddTransient<OffspringsSelectionPopupView>();
+        services.AddTransient<OffspringsSelectionPopupViewModel>();
 
         services.AddTransient<SpouseSelectionPopupView>();
         services.AddTransient<SpouseSelectionPopupViewModel>();

@@ -148,7 +148,7 @@ public partial class PersonViewModel : ViewModelBase
     {
         SaveToDB();//partial save before openning new view
 
-        await _navigation.PopUpAsync<SelectionPopupViewModel>(Person!.Id);
+        await _navigation.PopUpAsync<OffspringsSelectionPopupViewModel>(Person!.Id);
     }
 
     [RelayCommand]

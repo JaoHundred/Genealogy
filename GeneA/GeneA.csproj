@@ -43,6 +43,9 @@
     <Compile Update="Views\MainView.axaml.cs">
       <DependentUpon>MainView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\OffspringsSelectionPopupView.axaml.cs">
+      <DependentUpon>OffspringsSelectionPopupView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

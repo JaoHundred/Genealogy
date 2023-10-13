@@ -6,10 +6,10 @@
              xmlns:controls="using:GeneA.CustomControls"
              xmlns:loc="using:GeneA.Lang"
              xmlns:vm="using:GeneA.ViewModels"
-             x:DataType="vm:SelectionPopupViewModel"
+             x:DataType="vm:OffspringsSelectionPopupViewModel"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             x:Class="GeneA.Views.SelectionPopupView">
+             x:Class="GeneA.Views.OffspringsSelectionPopupView">
 
   <controls:PopupBase PopupHeight="400" PopupWidth="350">
     <controls:PopupBase.PopupContent>
@@ -53,7 +53,6 @@
 
           <Button Classes="PopButton" Grid.Column="1"
                   Command="{Binding ConfirmCommand}"
-                  IsEnabled="{Binding OffSprings}"
                   Name="ConfirmButton" >
             <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
           </Button>

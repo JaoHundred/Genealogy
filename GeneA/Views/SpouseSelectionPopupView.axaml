@@ -53,7 +53,6 @@
 
           <Button Classes="PopButton" Grid.Column="1"
                   Command="{Binding ConfirmCommand}"
-                  IsEnabled="{Binding Spouses}"
                   Name="ConfirmButton" >
             <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
           </Button>
