@@ -47,7 +47,7 @@ namespace Model.Database
                 .DbRef(p => p.Mother)
                 .DbRef(p => p.Offsprings)
                 .DbRef(p => p.Spouses)
-                .DbRef(p => p.Nacionality);
+                .DbRef(p => p.Nationality);
 
             bsonMapper.Entity<Nationality>().Id(p => p.Id);
 

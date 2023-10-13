@@ -24,7 +24,7 @@ namespace GeneA.Converters
                     || person.Father == null
                     || person.Mother == null
                     || person.Spouses == null
-                    || person.Nacionality == null
+                    || person.Nationality == null
                     || person.Spouses?.Count == 0
                     || person.Offsprings?.Count == 0
                     || person.Description.Length == 0
