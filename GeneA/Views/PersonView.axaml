@@ -81,7 +81,10 @@
 
           <TextBlock Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center"
                      Text="{x:Static loc:Resource.Nationality}"/>
-          <TextBox Grid.Row="6" Grid.ColumnSpan="2" Text="Placeholder use popup"/>
+          <Button Classes="PopupButton" Grid.Row="6" Grid.ColumnSpan="2"
+                  Command="{Binding OpenNationalityCommand}">
+            <TextBlock Text="{x:Static loc:Resource.SelectNationality}"/>
+          </Button>
 
           <Grid Grid.Row="7" Grid.ColumnSpan="2"
                 RowDefinitions="auto auto auto auto auto auto"

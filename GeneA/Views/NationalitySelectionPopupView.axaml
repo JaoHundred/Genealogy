@@ -13,19 +13,41 @@
 
   <controls:PopupBase PopupHeight="400" PopupWidth="350">
     <controls:PopupBase.PopupContent>
-      <Grid Background="WhiteSmoke" RowDefinitions="auto auto * auto">
+      <Grid Background="WhiteSmoke"
+            RowDefinitions="auto auto * auto">
+        
+        <Button Classes="round" Height="30" Width="30" Margin="5" Content="?">
+          <Button.Flyout>
+            <Flyout Content="Formato aceito: lugar sigla(duas letras)" Placement="RightEdgeAlignedTop"/>
+          </Button.Flyout>
+          <TextBlock Text="?" FontSize="20"/>
+        </Button>
+
         <TextBlock Classes="popupHeader" Text="{x:Static loc:Resource.Nationality}"
                    HorizontalAlignment="Center" Margin="5"/>
-        <TextBox Grid.Row="1" Name="searchTextBox" Margin="10"
-                 Watermark="{x:Static loc:Resource.SearchTheName}">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="TextChanged">
-              <ia:InvokeCommandAction
-                Command="{Binding TextFilterCommand}"
-                CommandParameter="{Binding #searchTextBox.Text}"/>
-            </ia:EventTriggerBehavior>
-          </i:Interaction.Behaviors>
-        </TextBox>
+        <Grid Grid.Row="1" ColumnDefinitions="0.65* 0.3*" Margin="10">
+
+          <TextBox Name="searchTextBox" CornerRadius="3,0,0,3"
+                   Text="{Binding SearchedNationality}"
+                   Watermark="{x:Static loc:Resource.CreateOrSearchNationality}">
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="TextChanged">
+                <ia:InvokeCommandAction
+                  Command="{Binding TextFilterCommand}"
+                  CommandParameter="{Binding #searchTextBox.Text}"/>
+              </ia:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </TextBox>
+          <Button Grid.Column="1"
+                  IsEnabled="{Binding CanAdd}"
+                  VerticalContentAlignment="Center"
+                  Command="{Binding NewNationalityCommand}"
+                  Height="{Binding #searchTextBox.Bounds.Height}"
+                  CornerRadius="0">
+            <TextBlock FontSize="14"  
+                       Text="{x:Static loc:Resource.AddNewNationality}"/>
+          </Button>
+        </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Disabled"
                       HorizontalScrollBarVisibility="Auto"
                       Margin="10" Grid.Row="2" >

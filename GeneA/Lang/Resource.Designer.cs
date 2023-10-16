@@ -61,6 +61,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New nationality.
+        /// </summary>
+        public static string AddNewNationality {
+            get {
+                return ResourceManager.GetString("AddNewNationality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Baptism.
         /// </summary>
         public static string Baptism {
@@ -93,6 +102,15 @@ namespace GeneA.Lang {
         public static string Confirm {
             get {
                 return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search or create.
+        /// </summary>
+        public static string CreateOrSearchNationality {
+            get {
+                return ResourceManager.GetString("CreateOrSearchNationality", resourceCulture);
             }
         }
         
@@ -237,6 +255,15 @@ namespace GeneA.Lang {
         public static string SearchTheName {
             get {
                 return ResourceManager.GetString("SearchTheName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select nationality.
+        /// </summary>
+        public static string SelectNationality {
+            get {
+                return ResourceManager.GetString("SelectNationality", resourceCulture);
             }
         }
         

@@ -30,6 +30,7 @@ namespace GeneA.ViewModels
             _navigationService = navigationService;
 
             Nationalities = new ObservableRangeCollection<NationalityItemViewModel>();
+            SearchedNationality = string.Empty;
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
@@ -42,6 +43,11 @@ namespace GeneA.ViewModels
         private List<NationalityItemViewModel>? _originalNationalities;
         [ObservableProperty]
         private ObservableRangeCollection<NationalityItemViewModel> _nationalities;
+
+        [ObservableProperty]
+        private bool _canAdd;
+        [ObservableProperty]
+        private string _searchedNationality;
 
         public string? Title { get; set; }
         public string? Message { get; set; }
@@ -70,7 +76,29 @@ namespace GeneA.ViewModels
         {
             await Task.Run(() =>
             {
-                //TODO: make possible to create new nationality, it will be addede to the listing and to the DB
+
+                //TODO: extract the information from SearchedNationality and create an Nationality
+                //object, add it in the Nationalities, _originalNationalities and database
+                //see if the lists remain syncronized
+
+            });
+        }
+
+        [RelayCommand]
+        private async Task TextFilter(string searchText)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Nationalities.ReplaceRange(_originalNationalities!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower())));
+
+                if (Nationalities.Count == 0 || Nationalities.Count == 1)
+                {
+                    //TODO: make possible to create new nationality, it will be addede to the listing and to the DB
+                    //the rule is: country(can contain spaces) space place(2 letters), regex could work for this
+                    //$"{country} {place.length == 2}" valid format
+                    //TODO: regex here, if its the correct formar enable CanAdd
+                    CanAdd = true;
+                }
             });
         }
 
@@ -80,15 +108,6 @@ namespace GeneA.ViewModels
             await Task.Run(() =>
             {
                 //TODO: make possible to delete existing nationality, it will be removed from the list and DB
-            });
-        }
-
-        [RelayCommand]
-        public async Task TextFilter(string searchText)
-        {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                Nationalities.ReplaceRange(_originalNationalities!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower())));
             });
         }
 

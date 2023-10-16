@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddNewNationality" xml:space="preserve">
+    <value>Nova nacionalidade</value>
+  </data>
   <data name="Baptism" xml:space="preserve">
     <value>Batismo</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirmar</value>
+  </data>
+  <data name="CreateOrSearchNationality" xml:space="preserve">
+    <value>Pesquise ou crie</value>
   </data>
   <data name="DeathDate" xml:space="preserve">
     <value>Falecimento</value>
@@ -176,6 +182,9 @@
   </data>
   <data name="SearchTheName" xml:space="preserve">
     <value>Pesquise aqui o nome</value>
+  </data>
+  <data name="SelectNationality" xml:space="preserve">
+    <value>Selecione nacionalidade</value>
   </data>
   <data name="SelectOffsprings" xml:space="preserve">
     <value>Selecione descendentes</value>
