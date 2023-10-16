@@ -6,19 +6,27 @@
              xmlns:controls="using:GeneA.CustomControls"
              xmlns:loc="using:GeneA.Lang"
              xmlns:vm="using:GeneA.ViewModels"
+             xmlns:conv="using:GeneA.Converters"
              x:DataType="vm:NationalitySelectionPopupViewModel"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              x:Class="GeneA.Views.NationalitySelectionPopupView">
 
+  <UserControl.Resources>
+    <conv:LineBreakConverter x:Key="LineBreakConverter"/>
+  </UserControl.Resources>
+
   <controls:PopupBase PopupHeight="400" PopupWidth="350">
     <controls:PopupBase.PopupContent>
       <Grid Background="WhiteSmoke"
             RowDefinitions="auto auto * auto">
-        
+
         <Button Classes="round" Height="30" Width="30" Margin="5" Content="?">
           <Button.Flyout>
-            <Flyout Content="Formato aceito: lugar sigla(duas letras)" Placement="RightEdgeAlignedTop"/>
+            <Flyout Placement="RightEdgeAlignedTop">
+                <TextBlock Text="{Binding FlyoutNationalityHelp,
+                           Converter={StaticResource LineBreakConverter}}"/>
+            </Flyout>
           </Button.Flyout>
           <TextBlock Text="?" FontSize="20"/>
         </Button>
@@ -44,7 +52,7 @@
                   Command="{Binding NewNationalityCommand}"
                   Height="{Binding #searchTextBox.Bounds.Height}"
                   CornerRadius="0,3,3,0">
-            <TextBlock FontSize="14"  
+            <TextBlock FontSize="14"
                        Text="{x:Static loc:Resource.AddNewNationality}"/>
           </Button>
         </Grid>
@@ -57,9 +65,10 @@
             <ListBox.ItemTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                  <CheckBox IsChecked="{Binding IsSelected}">
+                  <RadioButton GroupName="Nationality"
+                               IsChecked="{Binding IsSelected}">
                     <TextBlock Text="{Binding .}"/>
-                  </CheckBox>
+                  </RadioButton>
                 </StackPanel>
               </DataTemplate>
             </ListBox.ItemTemplate>

@@ -150,6 +150,9 @@
   <data name="Female" xml:space="preserve">
     <value>Feminino</value>
   </data>
+  <data name="FlyoutNationalityHelp" xml:space="preserve">
+    <value>Preenchimento:\n"{País} {sigla}"</value>
+  </data>
   <data name="Gender" xml:space="preserve">
     <value>Sexo</value>
   </data>

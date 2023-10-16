@@ -160,6 +160,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fill:\n&quot;{Country} {Acronym}&quot;.
+        /// </summary>
+        public static string FlyoutNationalityHelp {
+            get {
+                return ResourceManager.GetString("FlyoutNationalityHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gender.
         /// </summary>
         public static string Gender {

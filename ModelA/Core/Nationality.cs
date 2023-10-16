@@ -14,5 +14,11 @@ namespace Model.Core
         public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Abbreviation { get; set; } = string.Empty;
+
+
+        public override string ToString()
+        {
+            return $"{Name} {Abbreviation}";
+        }
     }
 }

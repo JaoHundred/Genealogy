@@ -42,7 +42,7 @@ public static class MapperExtension
         });
     }
 
-    public static IEnumerable<Person> ToPeople(this IEnumerable<PersonItemViewModel> people) 
+    public static IEnumerable<Person> ToPeople(this IEnumerable<PersonItemViewModel> people)
     {
         return people.Select(p => new Person
         {
@@ -62,7 +62,7 @@ public static class MapperExtension
         });
     }
 
-    public static IEnumerable<NationalityItemViewModel> ToNationalityItemViewModels(this IEnumerable< Nationality> nationalities)
+    public static IEnumerable<NationalityItemViewModel> ToNationalityItemViewModels(this IEnumerable<Nationality> nationalities)
     {
         return nationalities.Select(p => new NationalityItemViewModel
         {
@@ -80,6 +80,17 @@ public static class MapperExtension
             Abbreviation = nationality.Abbreviation,
             Id = nationality.Id,
             Name = nationality.Name,
+        };
+    }
+
+    public static NationalityItemViewModel ToNationalityItemViewModel(this Nationality nationality)
+    {
+        return new NationalityItemViewModel
+        {
+            Abbreviation = nationality.Abbreviation,
+            Id = nationality.Id,
+            Name = nationality.Name,
+            IsSelected = false,
         };
     }
 }

@@ -150,6 +150,9 @@
   <data name="Female" xml:space="preserve">
     <value>Female</value>
   </data>
+  <data name="FlyoutNationalityHelp" xml:space="preserve">
+    <value>Fill:\n"{Country} {Acronym}"</value>
+  </data>
   <data name="Gender" xml:space="preserve">
     <value>Gender</value>
   </data>

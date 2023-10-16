@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeneA._Helper;
+using System.Text.RegularExpressions;
 
 namespace GeneA.ViewModels
 {
@@ -31,6 +32,7 @@ namespace GeneA.ViewModels
 
             Nationalities = new ObservableRangeCollection<NationalityItemViewModel>();
             SearchedNationality = string.Empty;
+            FlyoutNationalityHelp = DynamicTranslate.Translate(nameof(FlyoutNationalityHelp));
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
@@ -46,8 +48,12 @@ namespace GeneA.ViewModels
 
         [ObservableProperty]
         private bool _canAdd;
+
         [ObservableProperty]
         private string _searchedNationality;
+
+        [ObservableProperty]
+        private string _flyoutNationalityHelp;
 
         public string? Title { get; set; }
         public string? Message { get; set; }
@@ -76,11 +82,20 @@ namespace GeneA.ViewModels
         {
             await Task.Run(() =>
             {
+                Match match = Regex.Match(SearchedNationality, @"^(.*) ([A-Z]+)$");//"{anything}{space}{anything in uppercase}"
+                if (match.Success)
+                {
+                    var nationality = new Nationality { Name = match.Groups[1].Value, Abbreviation = match.Groups[2].Value }
+                    .ToNationalityItemViewModel();
 
-                //TODO: extract the information from SearchedNationality and create an Nationality
-                //object, add it in the Nationalities, _originalNationalities and database
-                //see if the lists remain syncronized
+                    _originalNationalities?.Add(nationality);
+                    Nationalities.Add(nationality);
 
+                    //TODO:save in database and test if the lists are sync
+
+
+                    CanAdd = false;
+                }
             });
         }
 
@@ -89,16 +104,11 @@ namespace GeneA.ViewModels
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Nationalities.ReplaceRange(_originalNationalities!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower())));
+                Nationalities.ReplaceRange(_originalNationalities!.Where(p => p.ToString()
+                .ToLower().Contains(searchText.ToLower())));
 
-                if (Nationalities.Count == 0 || Nationalities.Count == 1)
-                {
-                    //TODO: make possible to create new nationality, it will be addede to the listing and to the DB
-                    //the rule is: country(can contain spaces) space place(2 letters), regex could work for this
-                    //$"{country} {place.length == 2}" valid format
-                    //TODO: regex here, if its the correct form enable CanAdd
-                    CanAdd = true;
-                }
+                if (Nationalities.Count == 0)
+                    CanAdd = Regex.IsMatch(searchText, @"^.* [A-Z]+$"); //"{anything}{space}{anything in uppercase}"
             });
         }
 
