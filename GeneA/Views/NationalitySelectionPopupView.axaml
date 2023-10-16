@@ -43,7 +43,7 @@
                   VerticalContentAlignment="Center"
                   Command="{Binding NewNationalityCommand}"
                   Height="{Binding #searchTextBox.Bounds.Height}"
-                  CornerRadius="0">
+                  CornerRadius="0,3,3,0">
             <TextBlock FontSize="14"  
                        Text="{x:Static loc:Resource.AddNewNationality}"/>
           </Button>

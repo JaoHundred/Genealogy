@@ -96,7 +96,7 @@ namespace GeneA.ViewModels
                     //TODO: make possible to create new nationality, it will be addede to the listing and to the DB
                     //the rule is: country(can contain spaces) space place(2 letters), regex could work for this
                     //$"{country} {place.length == 2}" valid format
-                    //TODO: regex here, if its the correct formar enable CanAdd
+                    //TODO: regex here, if its the correct form enable CanAdd
                     CanAdd = true;
                 }
             });
