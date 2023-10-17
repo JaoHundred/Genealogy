@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GeneA._Helper;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GeneA.ViewModels
 {
@@ -40,7 +41,9 @@ namespace GeneA.ViewModels
         private readonly IRepository<Person> _personRepo;
         private readonly IRepository<Nationality> _nationalityRepo;
         private readonly NavigationService _navigationService;
+
         private Person? _person;
+        private Match? _canAddNationalityMatch;
 
         private List<NationalityItemViewModel>? _originalNationalities;
         [ObservableProperty]
@@ -67,7 +70,20 @@ namespace GeneA.ViewModels
                 if (Param != null)
                 {
                     _person = _personRepo.FindById((long)Param);
+
+                    if (_person.Nationality?.Id > 0)
+                        _person.Nationality = _nationalityRepo.FindById(_person.Nationality.Id);
+                    
                     _originalNationalities = _nationalityRepo.FindAll().ToNationalityItemViewModels().ToList();
+
+                    foreach (var item in _originalNationalities)
+                    {
+                        if (item.Id == _person.Nationality?.Id)
+                        {
+                            item.IsSelected = true;
+                            break;
+                        }
+                    }
 
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
@@ -77,26 +93,50 @@ namespace GeneA.ViewModels
             });
         }
 
-        private Match _canAddNationalityMatch;
+        //TODO:bug found in creating new nationality, checked and confirmed dont mantain the newly checked nationality
         [RelayCommand]
         private async Task NewNationality()
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                if (_canAddNationalityMatch.Success)
+                if (_canAddNationalityMatch!.Success)
                 {
-                    var nationality = new Nationality { Name = _canAddNationalityMatch.Groups[1].Value
-                        , Abbreviation = _canAddNationalityMatch.Groups[2].Value }
+                    var nationality = new Nationality
+                    {
+                        Name = _canAddNationalityMatch.Groups[1].Value
+                        ,
+                        Abbreviation = _canAddNationalityMatch.Groups[2].Value
+                    }
                     .ToNationalityItemViewModel();
 
                     _originalNationalities?.Add(nationality);
-                    Nationalities.Add(nationality);
 
-                    //TODO:save in database and test if the lists are sync
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Nationalities.Add(nationality);
+                        SearchedNationality = string.Empty;
+                        CanAdd = false;
+                    });
 
-
-                    CanAdd = false;
+                    _nationalityRepo.Upsert(nationality.ToNationality());
                 }
+            });
+        }
+
+        [RelayCommand]
+        private async Task DeleteNationality(NationalityItemViewModel nationalityItem)
+        {
+            await Task.Run(async () =>
+            {
+                _originalNationalities!.Remove(nationalityItem);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Nationalities.Remove(nationalityItem);
+                    SearchedNationality = string.Empty;
+                });
+
+                _nationalityRepo.Delete(nationalityItem);
             });
         }
 
@@ -117,11 +157,22 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
-        private async Task DeleteNationality()
+        private async Task SelectChanged(NationalityItemViewModel nationalityItem)
         {
             await Task.Run(() =>
             {
-                //TODO: make possible to delete existing nationality, it will be removed from the list and DB
+                //desselect anything
+                if (nationalityItem != null)
+                {
+                    _originalNationalities!.ForEach((NationalityItemViewModel nationality) =>
+                    {
+                        if (nationality.Id != nationalityItem.Id)
+                        {
+                            nationality.IsSelected = false;
+                        }
+                    });
+
+                }
             });
         }
 
@@ -130,7 +181,7 @@ namespace GeneA.ViewModels
         {
             await Task.Run(async () =>
             {
-                _person!.Nationality = _originalNationalities!.FirstOrDefault(p => p.IsSelected)!.ToNationality();
+                _person!.Nationality = _originalNationalities!.FirstOrDefault(p => p.IsSelected)?.ToNationality();
 
                 _personRepo.Upsert(_person);
 

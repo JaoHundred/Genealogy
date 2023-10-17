@@ -10,7 +10,8 @@
              x:DataType="vm:NationalitySelectionPopupViewModel"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             x:Class="GeneA.Views.NationalitySelectionPopupView">
+             x:Class="GeneA.Views.NationalitySelectionPopupView"
+             Name="UC">
 
   <UserControl.Resources>
     <conv:LineBreakConverter x:Key="LineBreakConverter"/>
@@ -24,7 +25,7 @@
         <Button Classes="round" Height="30" Width="30" Margin="5" Content="?">
           <Button.Flyout>
             <Flyout Placement="RightEdgeAlignedTop">
-                <TextBlock Text="{Binding FlyoutNationalityHelp,
+              <TextBlock Text="{Binding FlyoutNationalityHelp,
                            Converter={StaticResource LineBreakConverter}}"/>
             </Flyout>
           </Button.Flyout>
@@ -56,23 +57,38 @@
                        Text="{x:Static loc:Resource.AddNewNationality}"/>
           </Button>
         </Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Disabled"
-                      HorizontalScrollBarVisibility="Auto"
-                      Margin="10" Grid.Row="2" >
 
-          <ListBox SelectionMode="Toggle"
-                   ItemsSource="{Binding Nationalities}">
-            <ListBox.ItemTemplate>
-              <DataTemplate>
-                  <RadioButton GroupName="Nationality"
-                               IsChecked="{Binding IsSelected}">
+
+        <ListBox SelectionMode="Toggle" Margin="10" Grid.Row="2"
+                 ItemsSource="{Binding Nationalities}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid ColumnDefinitions="* auto">
+
+                <RadioButton GroupName="Nationality"
+                             IsChecked="{Binding IsSelected}">
+                  <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="Checked">
+                      <ia:InvokeCommandAction
+                        Command="{Binding #UC.((vm:NationalitySelectionPopupViewModel)DataContext).SelectChangedCommand}"
+                        CommandParameter="{Binding .}"/>
+                    </ia:EventTriggerBehavior>
+                  </i:Interaction.Behaviors>
+                  <ScrollViewer HorizontalScrollBarVisibility="Auto">
                     <TextBlock Text="{Binding .}"/>
-                  </RadioButton>
-              </DataTemplate>
-            </ListBox.ItemTemplate>
+                  </ScrollViewer>
+                </RadioButton>
 
-          </ListBox>
-        </ScrollViewer>
+                <Button Grid.Column="1"
+                        Command="{Binding #UC.((vm:NationalitySelectionPopupViewModel)DataContext).DeleteNationalityCommand}"
+                        CommandParameter="{Binding .}">
+                  <TextBlock Text="{x:Static loc:Resource.Delete}" FontSize="12"/>
+                </Button>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+
+        </ListBox>
         <Grid Grid.Row="3" ColumnDefinitions="* *"
               Margin="5">
           <Button Classes="PopButton" Name="CancelButton"
