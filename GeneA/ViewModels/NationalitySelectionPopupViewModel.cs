@@ -77,15 +77,16 @@ namespace GeneA.ViewModels
             });
         }
 
+        private Match _canAddNationalityMatch;
         [RelayCommand]
         private async Task NewNationality()
         {
             await Task.Run(() =>
             {
-                Match match = Regex.Match(SearchedNationality, @"^(.*) ([A-Z]+)$");//"{anything}{space}{anything in uppercase}"
-                if (match.Success)
+                if (_canAddNationalityMatch.Success)
                 {
-                    var nationality = new Nationality { Name = match.Groups[1].Value, Abbreviation = match.Groups[2].Value }
+                    var nationality = new Nationality { Name = _canAddNationalityMatch.Groups[1].Value
+                        , Abbreviation = _canAddNationalityMatch.Groups[2].Value }
                     .ToNationalityItemViewModel();
 
                     _originalNationalities?.Add(nationality);
@@ -108,7 +109,10 @@ namespace GeneA.ViewModels
                 .ToLower().Contains(searchText.ToLower())));
 
                 if (Nationalities.Count == 0)
-                    CanAdd = Regex.IsMatch(searchText, @"^.* [A-Z]+$"); //"{anything}{space}{anything in uppercase}"
+                {
+                    _canAddNationalityMatch = RegexHelper.CanAddNationality(searchText);
+                    CanAdd = _canAddNationalityMatch.Success;
+                }
             });
         }
 

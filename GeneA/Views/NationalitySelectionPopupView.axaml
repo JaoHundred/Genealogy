@@ -64,12 +64,10 @@
                    ItemsSource="{Binding Nationalities}">
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <StackPanel Orientation="Horizontal">
                   <RadioButton GroupName="Nationality"
                                IsChecked="{Binding IsSelected}">
                     <TextBlock Text="{Binding .}"/>
                   </RadioButton>
-                </StackPanel>
               </DataTemplate>
             </ListBox.ItemTemplate>
 
