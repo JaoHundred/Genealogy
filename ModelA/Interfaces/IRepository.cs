@@ -12,7 +12,7 @@ namespace Model.Interfaces
 
         IEnumerable<T> FindAll();
         T FindById(long id);
-        void Upsert(T entity);
+        T Upsert(T entity);
         void Delete(T entity);
         void Update(T entity);
     }

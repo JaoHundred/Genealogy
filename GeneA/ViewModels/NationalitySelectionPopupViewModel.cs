@@ -73,7 +73,7 @@ namespace GeneA.ViewModels
 
                     if (_person.Nationality?.Id > 0)
                         _person.Nationality = _nationalityRepo.FindById(_person.Nationality.Id);
-                    
+
                     _originalNationalities = _nationalityRepo.FindAll().ToNationalityItemViewModels().ToList();
 
                     foreach (var item in _originalNationalities)
@@ -93,7 +93,6 @@ namespace GeneA.ViewModels
             });
         }
 
-        //TODO:bug found in creating new nationality, checked and confirmed dont mantain the newly checked nationality
         [RelayCommand]
         private async Task NewNationality()
         {
@@ -106,19 +105,19 @@ namespace GeneA.ViewModels
                         Name = _canAddNationalityMatch.Groups[1].Value
                         ,
                         Abbreviation = _canAddNationalityMatch.Groups[2].Value
-                    }
-                    .ToNationalityItemViewModel();
+                    };
 
-                    _originalNationalities?.Add(nationality);
+                    var nationalityItemViewModel =
+                     _nationalityRepo.Upsert(nationality).ToNationalityItemViewModel();
+
+                    _originalNationalities?.Add(nationalityItemViewModel);
 
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        Nationalities.Add(nationality);
+                        Nationalities.Add(nationalityItemViewModel);
                         SearchedNationality = string.Empty;
                         CanAdd = false;
                     });
-
-                    _nationalityRepo.Upsert(nationality.ToNationality());
                 }
             });
         }
@@ -159,20 +158,20 @@ namespace GeneA.ViewModels
         [RelayCommand]
         private async Task SelectChanged(NationalityItemViewModel nationalityItem)
         {
+            if (nationalityItem == null)
+                return;
+
             await Task.Run(() =>
             {
                 //desselect anything
-                if (nationalityItem != null)
+                _originalNationalities!.ForEach((NationalityItemViewModel nationality) =>
                 {
-                    _originalNationalities!.ForEach((NationalityItemViewModel nationality) =>
+                    if (nationality.Id != nationalityItem.Id)
                     {
-                        if (nationality.Id != nationalityItem.Id)
-                        {
-                            nationality.IsSelected = false;
-                        }
-                    });
+                        nationality.IsSelected = false;
+                    }
+                });
 
-                }
             });
         }
 

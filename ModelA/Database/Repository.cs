@@ -27,9 +27,10 @@ namespace Model.Database
             return _configuration.LiteDB!.GetCollection<T>().FindById(id);
         }
 
-        public void Upsert(T entity)
+        public T Upsert(T entity)
         {
             _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
+            return FindById(entity.Id);
         }
 
         public void Delete(T entity)
