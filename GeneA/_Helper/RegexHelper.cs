@@ -11,7 +11,7 @@ namespace GeneA._Helper
     {
         public static Match CanAddNationality(string searchText)
         {
-            return Regex.Match(searchText, @"^(.*) ([A-Z]+)$"); //"{anything}{space}{anything in uppercase}"
+            return Regex.Match(searchText, @"^([a-zA-Z]+(?: [a-zA-Z]+)*) ([A-Z]+)$"); //"{anything}{space}{anything in uppercase}"
         }
     }
 }
