@@ -23,11 +23,6 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    //TODO: implement the popup for selecting offsprings, this popup will have an textbox for searching existing data, listbox
-    //to showing the correct data(offsprings, spouse or nationality)
-    //an add and remove button to the listbox items
-    //https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=40205162
-
     public PersonViewModel(IRepository<Person> repository, NavigationService navigation, MainViewModel mainViewModel)
     {
         _repository = repository;

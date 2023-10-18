@@ -19,9 +19,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GeneA.ViewModels
 {
-    //TODO: edit NationalitySelectionPopupView to make possible to register nationalities, the base overall functonality of the
-    //popup is the same as OffspringSelectionPopupView and Spouse
-
     public partial class NationalitySelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
         public NationalitySelectionPopupViewModel(

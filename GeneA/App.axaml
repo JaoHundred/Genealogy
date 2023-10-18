@@ -132,12 +132,12 @@
                      HorizontalAlignment="Center"/>
         </Grid>
 
-        <Border Grid.Column="2" Background="LightGray" CornerRadius="100" Width="40"
+        <Border Grid.Column="2" Background="LightGray" CornerRadius="100" Width="40" Height="40"
                 IsVisible="{Binding ., Converter={StaticResource PersonEmptyFieldsConv}}"
                 VerticalAlignment="Center" HorizontalAlignment="Left">
 
           <TextBlock HorizontalAlignment="Center" Text="!" Foreground="Red"
-                     FontSize="30" FontWeight="ExtraBlack"/>
+                     FontSize="35" FontWeight="ExtraBlack"/>
         </Border>
 
         <Separator Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="Gray"/>
