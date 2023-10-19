@@ -4,10 +4,10 @@ using GeneA.ViewModels;
 
 namespace GeneA.Views
 {
-    public partial class PeopleView : UserControl, IMenuView
+    public partial class PersonListingView : UserControl, IMenuView
     {
 
-        public PeopleView()
+        public PersonListingView()
         {
             InitializeComponent();
         }

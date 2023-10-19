@@ -12,10 +12,6 @@
     <ListBox Name="RecentList" 
              ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single"
              ItemTemplate="{StaticResource ListTemplate}">
-      <!--<ListBox.GestureRecognizers>
-        <TappedEventBehavior Command="{Binding EditPersonCommand}"
-                                CommandParameter="{Binding #RecentList.SelectedItem}"/>
-      </ListBox.GestureRecognizers>-->
       <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="Tapped">
           <ia:InvokeCommandAction 

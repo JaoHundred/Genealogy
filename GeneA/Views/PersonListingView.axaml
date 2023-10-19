@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
+             xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
+             x:DataType="vm:PersonListingViewModel"
+             x:Class="GeneA.Views.PersonListingView">
+
+  <Grid RowDefinitions="auto auto *" Margin="5">
+    <TextBox Watermark="{x:Static loc:Resource.SearchTheName}" ></TextBox>
+    <Grid Grid.Row="1" ColumnDefinitions="auto *">
+      <StackPanel Orientation="Horizontal" Margin="12,5,0,0">
+        <CheckBox/>
+        <Rectangle Fill="LightGray" Width="3"/>
+      </StackPanel>
+      <Grid Grid.Column="1" ColumnDefinitions="* *" Margin="0,5,0,0">
+
+        <TextBlock HorizontalAlignment="Center" Text="filters here"/>
+      </Grid>
+    </Grid>
+    <ListBox Grid.Row="2" ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"
+             ItemsSource="{Binding People}"
+             SelectionMode="Toggle"
+             Name="PeopleListing">
+      <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="Tapped">
+          <ia:InvokeCommandAction
+            Command="{Binding EditPersonCommand}"
+            CommandParameter="{Binding #PeopleListing.SelectedItem}"/>
+        </ia:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </ListBox>
+  </Grid>
+</UserControl>

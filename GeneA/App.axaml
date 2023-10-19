@@ -3,6 +3,7 @@
              x:Class="GeneA.App"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
+             xmlns:IVM="clr-namespace:GeneA.ViewModelItems;assembly=GeneA"
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
              xmlns:controls="using:GeneA.CustomControls"
              RequestedThemeVariant="Default">
@@ -141,6 +142,48 @@
         </Border>
 
         <Separator Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="Gray"/>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="ListTemplatePersonItemViewModel" x:DataType="IVM:PersonItemViewModel">
+      <Grid ColumnDefinitions="auto auto *">
+        <CheckBox IsChecked="{Binding IsSelected}"/>
+        <Rectangle Grid.Column="1" Width="3" Height="{Binding $parent[Grid].Bounds.Height}" 
+                   Fill="LightGray" />
+
+        <Grid Grid.Column="2" RowDefinitions="auto auto, auto"
+              ColumnDefinitions="* auto *">
+
+          <TextBlock Grid.Column="1"  Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap" Margin="0,0,0,5"
+                       FontWeight="SemiBold"/>
+
+          <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="* *" ColumnDefinitions="* *"
+                HorizontalAlignment="Center">
+
+            <TextBlock Text="{x:Static loc:Resource.BirthDate}" Margin="0,0,15,0"/>
+            <TextBlock Grid.Row="1" Text="{Binding BirthDate 
+                   ,Converter={StaticResource BirthDeathDateConv}
+                   ,ConverterParameter=BD}"
+                       HorizontalAlignment="Center" Margin="0,0,15,0"/>
+
+            <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.DeathDate}"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DeathDate
+                   ,Converter={StaticResource BirthDeathDateConv}
+                   ,ConverterParameter=DD}"
+                       HorizontalAlignment="Center"/>
+          </Grid>
+
+          <Border Grid.Column="2" Background="LightGray" CornerRadius="100" Width="40" Height="40"
+                  IsVisible="{Binding ., Converter={StaticResource PersonEmptyFieldsConv}}"
+                  VerticalAlignment="Center" HorizontalAlignment="Left">
+
+            <TextBlock HorizontalAlignment="Center" Text="!" Foreground="Red"
+                       FontSize="35" FontWeight="ExtraBlack"/>
+          </Border>
+
+          <Separator Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="Gray"/>
+        </Grid>
       </Grid>
     </DataTemplate>
   </Application.Resources>

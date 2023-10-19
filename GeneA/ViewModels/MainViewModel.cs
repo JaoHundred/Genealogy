@@ -35,7 +35,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task People()
     {
-        await _navigationService.GoToAsync<PeopleViewModel>();
+        await _navigationService.GoToAsync<PersonListingViewModel>();
     }
 
     [RelayCommand]
