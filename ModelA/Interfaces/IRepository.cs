@@ -14,6 +14,7 @@ namespace Model.Interfaces
         T FindById(long id);
         T Upsert(T entity);
         void Delete(T entity);
+        Task DeleteBatchAsync(IEnumerable<T> entities);
         void Update(T entity);
     }
 }

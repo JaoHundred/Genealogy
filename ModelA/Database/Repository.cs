@@ -38,6 +38,15 @@ namespace Model.Database
             _configuration.LiteDB!.GetCollection<T>().Delete(entity.Id);
         }
 
+        public async Task DeleteBatchAsync(IEnumerable<T> entities)
+        {
+            await Task.Run(() =>
+            {
+                foreach (T entity in entities)
+                    Delete(entity);
+            });
+        }
+
         public void Update(T entity)
         {
             _configuration.LiteDB!.GetCollection<T>().Update(entity.Id, entity);
@@ -53,6 +62,6 @@ namespace Model.Database
             return collection.Take(amount);
         }
 
-      
+
     }
 }

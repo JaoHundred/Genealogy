@@ -21,7 +21,7 @@ public static class MapperExtension
         };
     }
 
-    public static IEnumerable<PersonItemViewModel> ToPersonItemViewModels(this IEnumerable<Person> people)
+    public static IEnumerable<PersonItemViewModel> ToPersonItemViewModels(this IEnumerable<Person> people, bool isSelected = true)
     {
         return people.Select(p => new PersonItemViewModel
         {
@@ -33,7 +33,7 @@ public static class MapperExtension
             Mother = p.Mother,
             Gender = p.Gender,
             Id = p.Id,
-            IsSelected = true,
+            IsSelected = isSelected,
             Nationality = p.Nationality,
             Name = p.Name,
             Offsprings = p.Offsprings,

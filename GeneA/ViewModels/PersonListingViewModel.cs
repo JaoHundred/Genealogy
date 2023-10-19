@@ -1,4 +1,5 @@
 ﻿using Avalonia.Threading;
+using Avalonia.Xaml.Interactions.Custom;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
@@ -38,10 +39,7 @@ namespace GeneA.ViewModels
         {
             await Task.Run(async () =>
             {
-                _originalPeople = _repository.FindAll().ToPersonItemViewModels().ToList();
-                
-                foreach (var item in _originalPeople)//I dont need IsSelected true here
-                    item.IsSelected = false;
+                _originalPeople = _repository.FindAll().ToPersonItemViewModels(isSelected: false).ToList();
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
@@ -55,6 +53,26 @@ namespace GeneA.ViewModels
         {
             if (person != null)
                 await _navigationService.GoToAsync<PersonViewModel>(person.Id);
+        }
+
+        [RelayCommand]
+        private async Task DeleteSelectedPeople()
+        {
+            //TODO: ask for delete confirmation here with dialog
+
+
+            var entitiesToDelete = _originalPeople!.Where(x => x.IsSelected).ToList();
+
+            Task databaseDeleteTask = _repository.DeleteBatchAsync(entitiesToDelete);
+
+            _originalPeople!.RemoveAll(p => p.IsSelected);
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                People.ReplaceRange(_originalPeople);
+            });
+
+            await databaseDeleteTask;
         }
     }
 }
