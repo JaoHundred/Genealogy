@@ -35,6 +35,12 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private ObservableRangeCollection<PersonItemViewModel> _people;
 
+        [ObservableProperty]
+        private bool _canDelete;
+        
+        [ObservableProperty]
+        private bool _isAllChecked;
+
         public async Task Load()
         {
             await Task.Run(async () =>
@@ -55,24 +61,53 @@ namespace GeneA.ViewModels
                 await _navigationService.GoToAsync<PersonViewModel>(person.Id);
         }
 
+        //TODO: tapping to fast in checkbox dont register correctly CheckAll and Checked, try to find a solution
+        [RelayCommand]
+        private void CheckAll(bool state)
+        {
+            foreach (var item in People)
+                item.IsSelected = state;
+
+            CanDelete = state;
+        }
+
+        [RelayCommand]
+        private void Checked()
+        {
+            CanDelete = People.Any(p => p.IsSelected);
+        }
+
         [RelayCommand]
         private async Task DeleteSelectedPeople()
         {
-            //TODO: ask for delete confirmation here with dialog
+            await _navigationService.PopUpAsync<ConfirmationPopupViewModel>().ConfigurePopUpProperties
+                (
+                 confirmAction: async () =>
+                 {
+                     var entitiesToDelete = _originalPeople!.Where(x => x.IsSelected).ToList();
 
+                     Task databaseDeleteTask = _repository.DeleteBatchAsync(entitiesToDelete);
 
-            var entitiesToDelete = _originalPeople!.Where(x => x.IsSelected).ToList();
+                     _originalPeople!.RemoveAll(p => p.IsSelected);
 
-            Task databaseDeleteTask = _repository.DeleteBatchAsync(entitiesToDelete);
+                     await Dispatcher.UIThread.InvokeAsync(() =>
+                     {
+                         People.ReplaceRange(_originalPeople);
+                     });
 
-            _originalPeople!.RemoveAll(p => p.IsSelected);
+                     await databaseDeleteTask;
+                     await _navigationService.GoBackAsync();
+                 },
+                 cancelAction: async () =>
+                 {
+                     _originalPeople!.ForEach((personVM) => { personVM.IsSelected = false; });
+                     IsAllChecked = false;
 
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                People.ReplaceRange(_originalPeople);
-            });
-
-            await databaseDeleteTask;
+                     await _navigationService.GoBackAsync();
+                 },
+                 title: DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle),
+                 message: DynamicTranslate.Translate(MessageConsts.Confirmation)
+                );
         }
     }
 }

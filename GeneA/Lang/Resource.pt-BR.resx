@@ -141,6 +141,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Deletar</value>
   </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Deletar selecionados</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Descrição</value>
   </data>

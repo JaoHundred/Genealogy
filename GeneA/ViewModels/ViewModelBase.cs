@@ -11,6 +11,8 @@ public partial class ViewModelBase : ObservableObject
     /// a way to passing runtime parameter to the View Model
     /// </summary>
     public object? Param { get; set; }
+    public bool IsBusy { get; set; }
 
     public  Action? LoadAction;
+
 }

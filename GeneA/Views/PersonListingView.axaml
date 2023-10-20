@@ -14,12 +14,25 @@
     <TextBox Watermark="{x:Static loc:Resource.SearchTheName}" ></TextBox>
     <Grid Grid.Row="1" ColumnDefinitions="auto *">
       <StackPanel Orientation="Horizontal" Margin="12,5,0,0">
-        <CheckBox/>
+        <CheckBox Name="CheckAll" IsChecked="{Binding IsAllChecked}">
+          <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+              <ia:InvokeCommandAction
+                Command="{Binding CheckAllCommand}"
+                CommandParameter="{Binding #CheckAll.IsChecked}"/>
+            </ia:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </CheckBox>
         <Rectangle Fill="LightGray" Width="3"/>
       </StackPanel>
       <Grid Grid.Column="1" ColumnDefinitions="* *" Margin="0,5,0,0">
 
         <TextBlock HorizontalAlignment="Center" Text="filters here"/>
+        <Button Grid.Column="1" IsEnabled="{Binding CanDelete}"
+                Command="{Binding DeleteSelectedPeopleCommand}">
+          <TextBlock Text="{x:Static loc:Resource.DeleteSelected}"
+                     FontSize="12"/>
+        </Button>
       </Grid>
     </Grid>
     <ListBox Grid.Row="2" ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"

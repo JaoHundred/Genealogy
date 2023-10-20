@@ -4,8 +4,11 @@
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
              xmlns:IVM="clr-namespace:GeneA.ViewModelItems;assembly=GeneA"
+             xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
              xmlns:controls="using:GeneA.CustomControls"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              RequestedThemeVariant="Default">
   <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -146,7 +149,14 @@
     </DataTemplate>
     <DataTemplate x:Key="ListTemplatePersonItemViewModel" x:DataType="IVM:PersonItemViewModel">
       <Grid ColumnDefinitions="auto auto *">
-        <CheckBox IsChecked="{Binding IsSelected}"/>
+        <CheckBox IsChecked="{Binding IsSelected}" >
+          <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+              <ia:InvokeCommandAction
+                Command="{Binding $parent[UserControl].((vm:PersonListingViewModel)DataContext).CheckedCommand}"/>
+            </ia:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </CheckBox>
         <Rectangle Grid.Column="1" Width="3" Height="{Binding $parent[Grid].Bounds.Height}" 
                    Fill="LightGray" />
 
