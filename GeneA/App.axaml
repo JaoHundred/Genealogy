@@ -149,9 +149,9 @@
     </DataTemplate>
     <DataTemplate x:Key="ListTemplatePersonItemViewModel" x:DataType="IVM:PersonItemViewModel">
       <Grid ColumnDefinitions="auto auto *">
-        <CheckBox IsChecked="{Binding IsSelected}" >
+        <CheckBox IsChecked="{Binding IsSelected}">
           <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="Tapped">
+            <ia:EventTriggerBehavior EventName="Click">
               <ia:InvokeCommandAction
                 Command="{Binding $parent[UserControl].((vm:PersonListingViewModel)DataContext).CheckedCommand}"/>
             </ia:EventTriggerBehavior>
@@ -161,7 +161,13 @@
                    Fill="LightGray" />
 
         <Grid Grid.Column="2" RowDefinitions="auto auto, auto"
-              ColumnDefinitions="* auto *">
+              ColumnDefinitions="* auto *" Background="Transparent">
+          <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+              <ia:InvokeCommandAction
+                Command="{Binding $parent[UserControl].((vm:PersonListingViewModel)DataContext).EditPersonCommand}"/>
+            </ia:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
 
           <TextBlock Grid.Column="1"  Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                        HorizontalAlignment="Center"

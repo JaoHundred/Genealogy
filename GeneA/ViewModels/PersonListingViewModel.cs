@@ -41,6 +41,9 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private bool _isAllChecked;
 
+        [ObservableProperty]
+        private PersonItemViewModel? _selectedPersonItem;
+
         public async Task Load()
         {
             await Task.Run(async () =>
@@ -55,16 +58,24 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
-        private async Task EditPerson(Person person)
+        private async Task EditPerson()
         {
-            if (person != null)
-                await _navigationService.GoToAsync<PersonViewModel>(person.Id);
+            if (SelectedPersonItem != null)
+            {
+                CanDelete = false;
+                await _navigationService.GoToAsync<PersonViewModel>(SelectedPersonItem.Id);
+            }
         }
 
-        //TODO: tapping to fast in checkbox dont register correctly CheckAll and Checked, try to find a solution
         [RelayCommand]
         private void CheckAll(bool state)
         {
+            if (People.Count == 0)
+            {
+                CanDelete = false;
+                return;
+            }
+
             foreach (var item in People)
                 item.IsSelected = state;
 
@@ -85,7 +96,11 @@ namespace GeneA.ViewModels
                 People.ReplaceRange(_originalPeople!.Where(p => p.Name
                 .ToLower().Contains(searchText.ToLower())));
             });
+
+            CanDelete = People.Count > 0 && People.Any(p=> p.IsSelected);
         }
+
+        //TODO: implement other filtering here, use birth date and death date with slider
 
         [RelayCommand]
         private async Task DeleteSelectedPeople()

@@ -17,22 +17,24 @@
   </UserControl.Styles>
 
   <Grid RowDefinitions="auto auto auto *" >
-    <TextBox Classes="marginControl" 
+    <TextBox Classes="marginControl"
+             Name="SearchTextBox"
              Watermark="{x:Static loc:Resource.SearchTheName}" >
       <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="TextChanged">
           <ia:InvokeCommandAction
             Command="{Binding TextFilterCommand}"
-            CommandParameter="{Binding $parent[TextBox].Text}"/>
+            CommandParameter="{Binding #SearchTextBox.Text}"/>
         </ia:EventTriggerBehavior>
       </i:Interaction.Behaviors>
       
     </TextBox>
     <Grid Classes="marginControl" Grid.Row="1" ColumnDefinitions="auto *">
       <StackPanel Orientation="Horizontal" Margin="12,5,0,0">
-        <CheckBox Name="CheckAll" IsChecked="{Binding IsAllChecked}">
+        <CheckBox IsChecked="{Binding IsAllChecked}"
+                  Name="CheckAll">
           <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="Tapped">
+            <ia:EventTriggerBehavior EventName="Click">
               <ia:InvokeCommandAction
                 Command="{Binding CheckAllCommand}"
                 CommandParameter="{Binding #CheckAll.IsChecked}"/>
@@ -55,15 +57,9 @@
     <ListBox Grid.Row="3" Classes="marginControl"
              ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"
              ItemsSource="{Binding People}"
-             SelectionMode="Toggle"
-             Name="PeopleListing">
-      <i:Interaction.Behaviors>
-        <ia:EventTriggerBehavior EventName="Tapped">
-          <ia:InvokeCommandAction
-            Command="{Binding EditPersonCommand}"
-            CommandParameter="{Binding #PeopleListing.SelectedItem}"/>
-        </ia:EventTriggerBehavior>
-      </i:Interaction.Behaviors>
+             SelectionMode="Single"
+             Name="PeopleListing"
+             SelectedItem="{Binding SelectedPersonItem}">
     </ListBox>
   </Grid>
 </UserControl>
