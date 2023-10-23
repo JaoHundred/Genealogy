@@ -37,7 +37,7 @@ namespace GeneA.ViewModels
 
         [ObservableProperty]
         private bool _canDelete;
-        
+
         [ObservableProperty]
         private bool _isAllChecked;
 
@@ -75,6 +75,16 @@ namespace GeneA.ViewModels
         private void Checked()
         {
             CanDelete = People.Any(p => p.IsSelected);
+        }
+
+        [RelayCommand]
+        private async Task TextFilter(string searchText)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                People.ReplaceRange(_originalPeople!.Where(p => p.Name
+                .ToLower().Contains(searchText.ToLower())));
+            });
         }
 
         [RelayCommand]

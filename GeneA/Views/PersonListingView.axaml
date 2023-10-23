@@ -10,9 +10,25 @@
              x:DataType="vm:PersonListingViewModel"
              x:Class="GeneA.Views.PersonListingView">
 
-  <Grid RowDefinitions="auto auto *" Margin="5">
-    <TextBox Watermark="{x:Static loc:Resource.SearchTheName}" ></TextBox>
-    <Grid Grid.Row="1" ColumnDefinitions="auto *">
+  <UserControl.Styles>
+    <Style Selector=":is(Control).marginControl">
+      <Setter Property="Margin" Value="5"/>
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="auto auto auto *" >
+    <TextBox Classes="marginControl" 
+             Watermark="{x:Static loc:Resource.SearchTheName}" >
+      <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="TextChanged">
+          <ia:InvokeCommandAction
+            Command="{Binding TextFilterCommand}"
+            CommandParameter="{Binding $parent[TextBox].Text}"/>
+        </ia:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+      
+    </TextBox>
+    <Grid Classes="marginControl" Grid.Row="1" ColumnDefinitions="auto *">
       <StackPanel Orientation="Horizontal" Margin="12,5,0,0">
         <CheckBox Name="CheckAll" IsChecked="{Binding IsAllChecked}">
           <i:Interaction.Behaviors>
@@ -35,7 +51,9 @@
         </Button>
       </Grid>
     </Grid>
-    <ListBox Grid.Row="2" ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"
+    <Rectangle Grid.Row="2" Fill="LightGray" Height="5" />
+    <ListBox Grid.Row="3" Classes="marginControl"
+             ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"
              ItemsSource="{Binding People}"
              SelectionMode="Toggle"
              Name="PeopleListing">
