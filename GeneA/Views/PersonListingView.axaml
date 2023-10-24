@@ -14,6 +14,22 @@
     <Style Selector=":is(Control).marginControl">
       <Setter Property="Margin" Value="5"/>
     </Style>
+    <Style Selector="Border.filterStyle">
+      <Setter Property="BorderBrush" Value="CadetBlue"/>
+      <Setter Property="BorderThickness" Value="3"/>
+      <Setter Property="CornerRadius" Value="20"/>
+
+      <Style Selector="^>TextBlock">
+        <Setter Property="Margin" Value="5"/>
+      </Style>
+      
+    </Style>
+    <Style Selector="ListBox.filters ListBoxItem:selected /template/ ContentPresenter">
+      <Setter Property="Background" Value="Red"/>
+
+     
+    </Style>
+
   </UserControl.Styles>
 
   <Grid RowDefinitions="auto auto auto *" >
@@ -27,10 +43,10 @@
             CommandParameter="{Binding #SearchTextBox.Text}"/>
         </ia:EventTriggerBehavior>
       </i:Interaction.Behaviors>
-      
+
     </TextBox>
     <Grid Classes="marginControl" Grid.Row="1" ColumnDefinitions="auto *">
-      <StackPanel Orientation="Horizontal" Margin="12,5,0,0">
+      <StackPanel Orientation="Horizontal" Margin="12,5,0,0" >
         <CheckBox IsChecked="{Binding IsAllChecked}"
                   Name="CheckAll">
           <i:Interaction.Behaviors>
@@ -43,10 +59,30 @@
         </CheckBox>
         <Rectangle Fill="LightGray" Width="3"/>
       </StackPanel>
-      <Grid Grid.Column="1" ColumnDefinitions="* *" Margin="0,5,0,0">
+      <Grid Grid.Column="1" ColumnDefinitions="* auto" Margin="0,5,0,0">
 
-        <TextBlock HorizontalAlignment="Center" Text="filters here"/>
+        <ListBox Classes="filters" ItemsSource="{Binding FilterItems}"
+                 SelectionMode="Toggle"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="filterStyle">
+                <TextBlock Text="{Binding .}"/>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          
+
+          
+        </ListBox>
         <Button Grid.Column="1" IsEnabled="{Binding CanDelete}"
+                Margin="5"
                 Command="{Binding DeleteSelectedPeopleCommand}">
           <TextBlock Text="{x:Static loc:Resource.DeleteSelected}"
                      FontSize="12"/>

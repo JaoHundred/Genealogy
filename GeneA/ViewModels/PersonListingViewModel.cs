@@ -23,6 +23,7 @@ namespace GeneA.ViewModels
             _repository = repository;
             _navigationService = navigationService;
 
+            FilterItems = new List<FilterItemViewModel>();
             People = new ObservableRangeCollection<PersonItemViewModel>();
 
             LoadAction = () => { Load().SafeFireAndForget(); };
@@ -44,15 +45,19 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private PersonItemViewModel? _selectedPersonItem;
 
+        public List<FilterItemViewModel> FilterItems { get; set; }
+
         public async Task Load()
         {
             await Task.Run(async () =>
             {
+                var filters = FilterHelper.FillFilters();
                 _originalPeople = _repository.FindAll().ToPersonItemViewModels(isSelected: false).ToList();
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     People.ReplaceRange(_originalPeople);
+                    FilterItems.AddRange(filters);
                 });
             });
         }
@@ -97,7 +102,7 @@ namespace GeneA.ViewModels
                 .ToLower().Contains(searchText.ToLower())));
             });
 
-            CanDelete = People.Count > 0 && People.Any(p=> p.IsSelected);
+            CanDelete = People.Count > 0 && People.Any(p => p.IsSelected);
         }
 
         //TODO: implement other filtering here, use birth date and death date with slider
