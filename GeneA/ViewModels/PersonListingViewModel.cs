@@ -23,7 +23,6 @@ namespace GeneA.ViewModels
             _repository = repository;
             _navigationService = navigationService;
 
-            FilterItems = new List<FilterItemViewModel>();
             People = new ObservableRangeCollection<PersonItemViewModel>();
 
             LoadAction = () => { Load().SafeFireAndForget(); };
@@ -45,7 +44,11 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private PersonItemViewModel? _selectedPersonItem;
 
-        public List<FilterItemViewModel> FilterItems { get; set; }
+        [ObservableProperty]
+        private List<FilterItemViewModel>? _filterItems;
+
+        [ObservableProperty]
+        private FilterItemViewModel? _selectedFilterItem;
 
         public async Task Load()
         {
@@ -57,7 +60,7 @@ namespace GeneA.ViewModels
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     People.ReplaceRange(_originalPeople);
-                    FilterItems.AddRange(filters);
+                    FilterItems = filters;
                 });
             });
         }

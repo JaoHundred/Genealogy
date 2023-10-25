@@ -25,9 +25,11 @@
       
     </Style>
     <Style Selector="ListBox.filters ListBoxItem:selected /template/ ContentPresenter">
-      <Setter Property="Background" Value="Red"/>
+      <Setter Property="Background" Value="Transparent"/>
 
-     
+      <Style Selector="^ :is(Border)">
+        <Setter Property="Background" Value="Red"/>
+      </Style>
     </Style>
 
   </UserControl.Styles>
@@ -62,8 +64,10 @@
       <Grid Grid.Column="1" ColumnDefinitions="* auto" Margin="0,5,0,0">
 
         <ListBox Classes="filters" ItemsSource="{Binding FilterItems}"
-                 SelectionMode="Toggle"
+                 SelectionMode="Single" Name="FilterListing"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+          
+          
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <StackPanel Orientation="Horizontal"/>
@@ -72,13 +76,11 @@
 
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <Border Classes="filterStyle">
+              <Border Classes="filterStyle" >
                 <TextBlock Text="{Binding .}"/>
               </Border>
             </DataTemplate>
           </ListBox.ItemTemplate>
-          
-
           
         </ListBox>
         <Button Grid.Column="1" IsEnabled="{Binding CanDelete}"
