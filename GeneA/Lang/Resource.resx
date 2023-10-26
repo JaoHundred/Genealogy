@@ -120,6 +120,9 @@
   <data name="AddNewNationality" xml:space="preserve">
     <value>New nationality</value>
   </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
   <data name="Baptism" xml:space="preserve">
     <value>Baptism</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="DeleteSelected" xml:space="preserve">
     <value>Delete selected</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>

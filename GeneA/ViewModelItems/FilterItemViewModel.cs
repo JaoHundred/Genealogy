@@ -26,12 +26,8 @@ namespace GeneA.ViewModelItems
 
     public enum FilterType
     {
-        AscendingName,
-        DescendingName,
-        AscendingBirth,
-        DescendingBirth,
-        AscendingDeath,
-        DescendingDeath,
+        Birth,
+        Death,
         BirthDeath,
         Baptism,
         Wedding,
