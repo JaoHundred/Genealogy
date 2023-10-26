@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GeneA._Helper;
 using GeneA.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,23 +19,22 @@ namespace GeneA.ViewModelItems
         public override string ToString()
         {
             string? enumName = Enum.GetName(typeof(FilterType), FilterType);
-
-            //TODO: translate here the enum name
-            return enumName ?? string.Empty;
+            string name = enumName ?? string.Empty;
+            
+            return DynamicTranslate.Translate(name);
         }
     }
 
     public enum FilterType
     {
-        Birth,
-        Death,
-        BirthDeath,
+        BirthDate,
+        DeathDate,
         Baptism,
         Wedding,
         HasParents,
         HasChildren,
         HasSpouse,
         Gender,
-        Nacionality
+        Nationality
     }
 }

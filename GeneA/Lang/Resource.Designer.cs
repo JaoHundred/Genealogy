@@ -205,6 +205,33 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Has children.
+        /// </summary>
+        public static string HasChildren {
+            get {
+                return ResourceManager.GetString("HasChildren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Has parents.
+        /// </summary>
+        public static string HasParents {
+            get {
+                return ResourceManager.GetString("HasParents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Has spouse.
+        /// </summary>
+        public static string HasSpouse {
+            get {
+                return ResourceManager.GetString("HasSpouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Male.
         /// </summary>
         public static string Male {

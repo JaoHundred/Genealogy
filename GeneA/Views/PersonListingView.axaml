@@ -23,14 +23,14 @@
         <Setter Property="Margin" Value="5"/>
         <Setter Property="FontSize" Value="16"/>
       </Style>
-      
+
     </Style>
 
     <Style Selector="RadioButton TextBlock">
       <Setter Property="FontSize" Value="12"/>
     </Style>
 
-    
+
     <Style Selector="ListBox.filters ListBoxItem:selected /template/ ContentPresenter">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
@@ -73,22 +73,23 @@
         </CheckBox>
         <Rectangle Fill="LightGray" Width="3"/>
       </StackPanel>
-      <Grid Grid.Column="1" RowDefinitions="auto auto" ColumnDefinitions="auto * auto" Margin="0,5,0,0">
-        <StackPanel Margin="5" Orientation="Horizontal" Grid.ColumnSpan="3">
+      <Grid Grid.Column="1" RowDefinitions="auto auto" ColumnDefinitions="auto *"
+            Margin="0,5,0,0">
+        <StackPanel Margin="5" Orientation="Horizontal" >
           <RadioButton GroupName="Order" >
             <TextBlock Text="{x:Static loc:Resource.Ascending}"/>
           </RadioButton >
-            <RadioButton GroupName="Order" Margin="5,0,0,0">
-              <TextBlock Text="{x:Static loc:Resource.Descending}"/>
-            </RadioButton>
+          <RadioButton GroupName="Order" Margin="5,0,0,0">
+            <TextBlock Text="{x:Static loc:Resource.Descending}"/>
+          </RadioButton>
         </StackPanel>
 
-        <ListBox Grid.Row="1" Grid.Column="1" Classes="filters" ItemsSource="{Binding FilterItems}"
-                 SelectionMode="Multiple" 
+        <ListBox Grid.Row="1" Grid.ColumnSpan="2"
+                 Classes="filters" ItemsSource="{Binding FilterItems}"
+                 SelectionMode="Multiple"
                  Name="FilterListing"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
-          
-          
+
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <VirtualizingStackPanel Orientation="Horizontal"/>
@@ -102,10 +103,10 @@
               </Border>
             </DataTemplate>
           </ListBox.ItemTemplate>
-          
+
         </ListBox>
-        <Button Grid.Row="1" Grid.Column="2" IsEnabled="{Binding CanDelete}"
-                Margin="5"
+        <Button Grid.Column="1" IsEnabled="{Binding CanDelete}"
+                Margin="5" HorizontalAlignment="Right"
                 Command="{Binding DeleteSelectedPeopleCommand}">
           <TextBlock Text="{x:Static loc:Resource.DeleteSelected}"
                      FontSize="12"/>

@@ -165,6 +165,15 @@
   <data name="Gender" xml:space="preserve">
     <value>Sexo</value>
   </data>
+  <data name="HasChildren" xml:space="preserve">
+    <value>Tem filhos</value>
+  </data>
+  <data name="HasParents" xml:space="preserve">
+    <value>Tem pais</value>
+  </data>
+  <data name="HasSpouse" xml:space="preserve">
+    <value>Tem cônjuge</value>
+  </data>
   <data name="Male" xml:space="preserve">
     <value>Masculino</value>
   </data>
