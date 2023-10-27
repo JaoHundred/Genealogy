@@ -95,6 +95,8 @@ public class NavigationService
         {
             await RunInUIThread(() =>
             {
+                
+
                 _stack.Clear();
 
                 _mainView.ContentGrid.Children.Clear();
@@ -140,6 +142,8 @@ public class NavigationService
 
     private UserControl GetViewFromViewModel<T>(object? param = null) where T : ViewModelBase
     {
+        DisposeLastEvents();
+
         ViewModelBase viewModel = App.ServiceProvider?.GetService<T>()!;
         viewModel.Param = param;
         viewModel.LoadAction?.Invoke();
@@ -155,6 +159,15 @@ public class NavigationService
         view.DataContext = viewModel;
 
         return view;
+    }
+
+    private void DisposeLastEvents()
+    {
+        foreach (var item in _stack)
+        {
+            if (item.DataContext is IDisposable disposable)
+                disposable.Dispose();
+        }
     }
 
     private async Task<ViewModelBase> RunInUIThread(Func<ViewModelBase> action)

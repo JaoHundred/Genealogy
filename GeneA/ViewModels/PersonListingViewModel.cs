@@ -10,13 +10,15 @@ using Model.Interfaces;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GeneA.ViewModels
 {
-    public partial class PersonListingViewModel : ViewModelBase
+    public partial class PersonListingViewModel : ViewModelBase, IDisposable
     {
         public PersonListingViewModel(IRepository<Person> repository, NavigationService navigationService)
         {
@@ -24,6 +26,8 @@ namespace GeneA.ViewModels
             _navigationService = navigationService;
 
             People = new ObservableRangeCollection<PersonItemViewModel>();
+            SelectedFilterItems = new ObservableRangeCollection<FilterItemViewModel>();
+            SelectedFilterItems.CollectionChanged += SelectedFilterItems_CollectionChanged;
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
@@ -48,7 +52,12 @@ namespace GeneA.ViewModels
         private List<FilterItemViewModel>? _filterItems;
 
         [ObservableProperty]
-        private FilterItemViewModel? _selectedFilterItem;
+        private ObservableRangeCollection<FilterItemViewModel> _selectedFilterItems;
+
+        private void SelectedFilterItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+           //TODO: find a way to execute this only once when adding, removing or selecting one item after various were selected
+        }
 
         public async Task Load()
         {
@@ -141,6 +150,11 @@ namespace GeneA.ViewModels
                  title: DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle),
                  message: DynamicTranslate.Translate(MessageConsts.Confirmation)
                 );
+        }
+
+        public void Dispose()
+        {
+            SelectedFilterItems.CollectionChanged -= SelectedFilterItems_CollectionChanged;
         }
     }
 }

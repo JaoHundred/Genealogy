@@ -87,6 +87,7 @@
         <ListBox Grid.Row="1" Grid.ColumnSpan="2"
                  Classes="filters" ItemsSource="{Binding FilterItems}"
                  SelectionMode="Multiple"
+                 SelectedItems="{Binding SelectedFilterItems}"
                  Name="FilterListing"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
 
