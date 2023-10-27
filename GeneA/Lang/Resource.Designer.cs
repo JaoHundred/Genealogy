@@ -214,6 +214,33 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dont has children.
+        /// </summary>
+        public static string HasNotChildren {
+            get {
+                return ResourceManager.GetString("HasNotChildren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dont has parents.
+        /// </summary>
+        public static string HasNotParents {
+            get {
+                return ResourceManager.GetString("HasNotParents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dont has spouse.
+        /// </summary>
+        public static string HasNotSpouse {
+            get {
+                return ResourceManager.GetString("HasNotSpouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Has parents.
         /// </summary>
         public static string HasParents {

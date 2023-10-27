@@ -27,14 +27,15 @@ namespace GeneA.ViewModelItems
 
     public enum FilterType
     {
-        BirthDate,
-        DeathDate,
         Baptism,
         Wedding,
         HasParents,
+        HasNotParents,
         HasChildren,
+        HasNotChildren,
         HasSpouse,
+        HasNotSpouse,
+        Nationality,
         Gender,
-        Nationality
     }
 }

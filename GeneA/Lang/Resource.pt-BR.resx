@@ -168,6 +168,15 @@
   <data name="HasChildren" xml:space="preserve">
     <value>Tem filhos</value>
   </data>
+  <data name="HasNotChildren" xml:space="preserve">
+    <value>Não tem filhos</value>
+  </data>
+  <data name="HasNotParents" xml:space="preserve">
+    <value>Não tem pais</value>
+  </data>
+  <data name="HasNotSpouse" xml:space="preserve">
+    <value>Não tem cônjuge</value>
+  </data>
   <data name="HasParents" xml:space="preserve">
     <value>Tem pais</value>
   </data>

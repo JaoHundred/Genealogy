@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,13 +28,14 @@ namespace GeneA.ViewModels
 
             People = new ObservableRangeCollection<PersonItemViewModel>();
             SelectedFilterItems = new ObservableRangeCollection<FilterItemViewModel>();
-            SelectedFilterItems.CollectionChanged += SelectedFilterItems_CollectionChanged;
+            IsAscendingChecked = true;
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
 
         private readonly IRepository<Person> _repository;
         private readonly NavigationService _navigationService;
+        private IDisposable? disposable;
 
         private List<PersonItemViewModel>? _originalPeople;
         [ObservableProperty]
@@ -46,6 +48,9 @@ namespace GeneA.ViewModels
         private bool _isAllChecked;
 
         [ObservableProperty]
+        private bool _isAscendingChecked;
+
+        [ObservableProperty]
         private PersonItemViewModel? _selectedPersonItem;
 
         [ObservableProperty]
@@ -53,11 +58,6 @@ namespace GeneA.ViewModels
 
         [ObservableProperty]
         private ObservableRangeCollection<FilterItemViewModel> _selectedFilterItems;
-
-        private void SelectedFilterItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-           //TODO: find a way to execute this only once when adding, removing or selecting one item after various were selected
-        }
 
         public async Task Load()
         {
@@ -71,8 +71,21 @@ namespace GeneA.ViewModels
                     People.ReplaceRange(_originalPeople);
                     FilterItems = filters;
                 });
+
+                disposable = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>
+                 (
+                   handler => SelectedFilterItems.CollectionChanged += handler,
+                   handler => SelectedFilterItems.CollectionChanged -= handler
+                 )
+                 .Throttle(TimeSpan.FromSeconds(1))
+                 .Subscribe(_ =>
+                 {
+                     SelectFilters();
+                 });
             });
         }
+
+
 
         [RelayCommand]
         private async Task EditPerson()
@@ -117,6 +130,82 @@ namespace GeneA.ViewModels
             CanDelete = People.Count > 0 && People.Any(p => p.IsSelected);
         }
 
+        private List<PersonItemViewModel> _filteredList = new List<PersonItemViewModel>();
+
+        private void SelectFilters()
+        {
+            _filteredList = _originalPeople!.ToList();
+
+            if (SelectedFilterItems.Count  == 0) 
+            {
+                People.ReplaceRange(_originalPeople!);
+                return;
+            }
+
+            bool groupOperationSelected = false;
+
+            //TODO: dont let opposite filters came into play, everyone which have the prefixe "has"
+            //need to be removed here, or create another set of listbox for those filters with only "single"
+            //selection enabled, maybe it is the better way
+
+            foreach (var filter in SelectedFilterItems)
+            {
+                switch (filter.FilterType)
+                {
+                    //case FilterType.BirthDate:
+                    //    _filteredList = IsAscendingChecked
+                    //        ? _filteredList.OrderBy(p => p.BirthDate).ToList()
+                    //        : _filteredList.OrderByDescending(p => p.BirthDate).ToList();
+                    //    break;
+                    //case FilterType.DeathDate:
+                    //    _filteredList = IsAscendingChecked
+                    //        ? _filteredList.OrderBy(p => p.DeathDate).ToList()
+                    //        : _filteredList.OrderByDescending(p => p.DeathDate).ToList();
+                    //    break;
+
+                    //TODO: in the date cases, work with intervals(slider control, left side is the smallest date and right side
+                    //highest date, 
+
+                    case FilterType.Wedding: break;
+
+                    case FilterType.Baptism:
+
+                        _filteredList = IsAscendingChecked
+                            ? _filteredList.OrderBy(p => p.BaptismDate).ToList()
+                            : _filteredList.OrderByDescending(p => p.BaptismDate).ToList();
+                        break;
+                    
+                    case FilterType.HasChildren: 
+
+                        _filteredList = _filteredList.Where(p => p.Offsprings.Count > 0).ToList();
+                        break;
+                    case FilterType.HasParents:
+
+                        _filteredList = _filteredList
+                            .Where(p => p.Father != null && p.Mother != null).ToList();
+                        break;
+                    case FilterType.HasSpouse:
+                        _filteredList = _filteredList
+                            .Where(p => p.Spouses.Count > 0).ToList();
+                        break;
+                    case FilterType.Nationality: 
+                        //TODO: maybe it will be better to use a combobox for this case
+                        //the user picks the nationality and it will be grouped by that
+                        break;
+                    
+
+                    case FilterType.Gender:
+                        groupOperationSelected = true;
+                        break;
+                }
+            }
+
+            if(groupOperationSelected)
+                _filteredList = _filteredList.GroupBy(p => p.Gender).SelectMany(p => p).ToList();
+
+            People.ReplaceRange(_filteredList);
+        }
+
         //TODO: implement other filtering here, use birth date and death date with slider
 
         [RelayCommand]
@@ -154,7 +243,7 @@ namespace GeneA.ViewModels
 
         public void Dispose()
         {
-            SelectedFilterItems.CollectionChanged -= SelectedFilterItems_CollectionChanged;
+            disposable?.Dispose();
         }
     }
 }
