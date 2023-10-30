@@ -187,6 +187,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        public static string Filters {
+            get {
+                return ResourceManager.GetString("Filters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fill:\n&quot;{Country} {Acronym}&quot;.
         /// </summary>
         public static string FlyoutNationalityHelp {
