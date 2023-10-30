@@ -37,101 +37,160 @@
     <Style Selector="ListBox.filters ListBoxItem:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
-    <Style Selector="ListBox.filters ListBoxItem:selected Border">
-      <Setter Property="Background" Value="CadetBlue"/>
-      <Style Selector="^ TextBlock">
-        <Setter Property="Foreground" Value="WhiteSmoke"/>
+    
+
+    <Style Selector="Button.closeFiltersButton">
+      <Setter Property="Background" Value="DarkRed"/>
+      <Setter Property="Foreground" Value="White"/>
+
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
       </Style>
     </Style>
 
+
+
   </UserControl.Styles>
 
-  <Grid RowDefinitions="auto auto auto * auto" >
-    <TextBox Classes="marginControl"
-             Name="SearchTextBox"
-             Watermark="{x:Static loc:Resource.SearchTheName}" >
-      <i:Interaction.Behaviors>
-        <ia:EventTriggerBehavior EventName="TextChanged">
-          <ia:InvokeCommandAction
-            Command="{Binding TextFilterCommand}"
-            CommandParameter="{Binding #SearchTextBox.Text}"/>
-        </ia:EventTriggerBehavior>
-      </i:Interaction.Behaviors>
+  <!--{Binding IsFilterPaneOpen, Mode=TwoWay}-->
+  <SplitView DisplayMode="Inline"
+             IsPaneOpen="True" >
+    <i:Interaction.Behaviors>
+      <ia:EventTriggerBehavior EventName="LostFocus">
+        <ia:InvokeCommandAction
+          Command="{Binding OpenFilterPaneCommand}"
+          CommandParameter="{x:False}"/>
+      </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <SplitView.Pane>
+      <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
+        <Grid RowDefinitions="auto *">
+          <TextBlock Text="{x:Static loc:Resource.Filters}" Margin="5"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-    </TextBox>
-    <Grid Classes="marginControl" Grid.Row="1"
-          ColumnDefinitions="auto *">
-      <StackPanel Orientation="Horizontal" Margin="12,5,0,0" >
-        <CheckBox IsChecked="{Binding IsAllChecked}"
-                  Name="CheckAll">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="Click">
-              <ia:InvokeCommandAction
-                Command="{Binding CheckAllCommand}"
-                CommandParameter="{Binding #CheckAll.IsChecked}"/>
-            </ia:EventTriggerBehavior>
-          </i:Interaction.Behaviors>
-        </CheckBox>
-        <Rectangle Fill="LightGray" Width="3"/>
-      </StackPanel>
-      <Expander Grid.Column="1" Header="{x:Static loc:Resource.Filters}"
-                Margin="5,0,0,0"
-                HorizontalAlignment="Stretch">
+          <Button HorizontalAlignment="Right" Classes="closeFiltersButton"
+                  Margin="5"
+                  Content="X" VerticalContentAlignment="Center"
+                  Command="{Binding OpenFilterPaneCommand}"
+                  CommandParameter="{x:False}"/>
 
-        <Grid  Margin="0,5,0,0"
-               RowDefinitions="auto auto">
-          <StackPanel Margin="5" Orientation="Horizontal" >
-            <RadioButton GroupName="Order"
-                         IsChecked="{Binding IsAscendingChecked}">
-              <TextBlock Text="{x:Static loc:Resource.Ascending}"/>
-            </RadioButton >
-            <RadioButton GroupName="Order" Margin="5,0,0,0">
-              <TextBlock Text="{x:Static loc:Resource.Descending}"/>
-            </RadioButton>
-          </StackPanel>
+          <Grid  Margin="5" Grid.Row="1"
+                 RowDefinitions="auto auto * auto">
 
-          <ListBox Grid.Row="1"
-                   Classes="filters" ItemsSource="{Binding FilterItems}"
-                   SelectionMode="Multiple"
-                   SelectedItems="{Binding SelectedFilterItems}"
-                   Name="FilterListing"
-                   ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <StackPanel Margin="5" Orientation="Horizontal" >
+              <RadioButton GroupName="Order"
+                           IsChecked="{Binding IsAscendingChecked}">
+                <TextBlock Text="{x:Static loc:Resource.Ascending}"/>
+              </RadioButton >
+              <RadioButton GroupName="Order" Margin="5,0,0,0">
+                <TextBlock Text="{x:Static loc:Resource.Descending}"/>
+              </RadioButton>
+            </StackPanel>
 
-            <ListBox.ItemsPanel>
-              <ItemsPanelTemplate>
-                <VirtualizingStackPanel Orientation="Horizontal"/>
-              </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+            <Grid Grid.Row="1" RowDefinitions="auto auto">
+              <TextBlock Text="{x:Static loc:Resource.BirthDeathDateInterval}"
+                         Margin="0,0,0,5" FontSize="12"/>
 
-            <ListBox.ItemTemplate>
-              <DataTemplate>
-                <Border Classes="filterStyle" >
-                  <TextBlock Text="{Binding .}"/>
-                </Border>
-              </DataTemplate>
-            </ListBox.ItemTemplate>
+              <StackPanel Grid.Row="1" Orientation="Horizontal">
 
-          </ListBox>
+                <CalendarDatePicker />
+                <TextBlock Text="----" VerticalAlignment="Center"/>
+                <CalendarDatePicker />
+              </StackPanel>
+            </Grid>
+            <ListBox Grid.Row="2"
+                     Classes="filters" 
+                     ItemsSource="{Binding FilterItems}"
+                     Name="FilterListing">
 
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <CheckBox IsChecked="{Binding IsSelected}">
+                    <TextBlock Text="{Binding .}"/>
+                  </CheckBox>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+
+            </ListBox>
+            <Grid Grid.Row="3" RowDefinitions="auto auto" 
+                  ColumnDefinitions="* *">
+              <TextBlock Text="{x:Static loc:Resource.Nationality}"
+                         FontSize="14"/>
+              <ComboBox Grid.Row="1" ItemsSource="{Binding NationalityItems}"
+                        SelectedItem="{Binding SelectedNationalityItem}"/>
+              <TextBlock Grid.Column="1" 
+                         Text="{x:Static loc:Resource.Gender}"
+                         FontSize="14"/>
+              <ComboBox Grid.Column="1" Grid.Row="1"
+                        ItemsSource="{Binding Genders}"
+                        SelectedItem="{Binding SelectedGender}"
+                        DisplayMemberBinding="{Binding Name}"/>
+            </Grid>
+
+          </Grid>
         </Grid>
-      </Expander>
+      </Border>
+
+    </SplitView.Pane>
+
+    <Grid RowDefinitions="auto auto auto *" >
+      <TextBox Classes="marginControl"
+               Name="SearchTextBox"
+               Watermark="{x:Static loc:Resource.SearchTheName}" >
+        <i:Interaction.Behaviors>
+          <ia:EventTriggerBehavior EventName="TextChanged">
+            <ia:InvokeCommandAction
+              Command="{Binding TextFilterCommand}"
+              CommandParameter="{Binding #SearchTextBox.Text}"/>
+          </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+
+      </TextBox>
+      <Grid Classes="marginControl" Grid.Row="1"
+            ColumnDefinitions="auto auto *">
+        <StackPanel Orientation="Horizontal" Margin="12,5,0,0" >
+          <CheckBox IsChecked="{Binding IsAllChecked}"
+                    Name="CheckAll">
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="Click">
+                <ia:InvokeCommandAction
+                  Command="{Binding CheckAllCommand}"
+                  CommandParameter="{Binding #CheckAll.IsChecked}"/>
+              </ia:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </CheckBox>
+          <Rectangle Fill="LightGray" Width="3"/>
+        </StackPanel>
+        <Button Grid.Column="1" Margin="5"
+                Command="{Binding OpenFilterPaneCommand}"
+                CommandParameter="{x:True}">
+          <TextBlock Text="{x:Static loc:Resource.Filters}"
+                     FontSize="16"/>
+        </Button>
+        <Button Grid.Column="2"
+              IsEnabled="{Binding CanDelete}"
+              Margin="5" HorizontalAlignment="Right"
+              Command="{Binding DeleteSelectedPeopleCommand}">
+          <TextBlock Text="{x:Static loc:Resource.DeleteSelected}"
+                     FontSize="16"/>
+        </Button>
+
+      </Grid>
+
+      <Rectangle Grid.Row="2" Fill="LightGray" Height="5" />
+      <ListBox Grid.Row="3" Classes="marginControl"
+               ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"
+               ItemsSource="{Binding People}"
+               SelectionMode="Single"
+               Name="PeopleListing"
+               SelectedItem="{Binding SelectedPersonItem}">
+      </ListBox>
 
     </Grid>
-
-    <Rectangle Grid.Row="2" Fill="LightGray" Height="5" />
-    <ListBox Grid.Row="3" Classes="marginControl"
-             ItemTemplate="{StaticResource ListTemplatePersonItemViewModel}"
-             ItemsSource="{Binding People}"
-             SelectionMode="Single"
-             Name="PeopleListing"
-             SelectedItem="{Binding SelectedPersonItem}">
-    </ListBox>
-    <Button Grid.Row="4"
-            IsEnabled="{Binding CanDelete}"
-            Margin="5" HorizontalAlignment="Right"
-            Command="{Binding DeleteSelectedPeopleCommand}">
-      <TextBlock Text="{x:Static loc:Resource.DeleteSelected}"
-                 FontSize="16"/>
-    </Button>
-  </Grid>
+  </SplitView>
 </UserControl>

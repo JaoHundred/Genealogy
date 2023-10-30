@@ -8,6 +8,6 @@ namespace GeneA.Interfaces
 {
     public interface ISelectable
     {
-        bool IsSelected { get; set; }
+        bool? IsSelected { get; set; }
     }
 }

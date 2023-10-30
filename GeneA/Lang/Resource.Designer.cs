@@ -97,6 +97,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Birth and death.
+        /// </summary>
+        public static string BirthDeathDateInterval {
+            get {
+                return ResourceManager.GetString("BirthDeathDateInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {

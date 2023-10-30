@@ -12,9 +12,10 @@ namespace GeneA.ViewModelItems
     public partial class FilterItemViewModel : ObservableObject, ISelectable
     {
         public FilterType FilterType { get; set; }
+        public FilterOrderType FilterOrderType { get; set; }
 
         [ObservableProperty]
-        private bool _isSelected;
+        private bool? _isSelected = false;
 
         public override string ToString()
         {
@@ -25,17 +26,16 @@ namespace GeneA.ViewModelItems
         }
     }
 
+    public enum FilterOrderType
+    {
+        Ascending,
+        Descending,
+    }
+
     public enum FilterType
     {
-        Baptism,
-        Wedding,
         HasParents,
-        HasNotParents,
         HasChildren,
-        HasNotChildren,
         HasSpouse,
-        HasNotSpouse,
-        Nationality,
-        Gender,
     }
 }

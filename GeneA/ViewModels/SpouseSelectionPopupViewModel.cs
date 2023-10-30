@@ -87,7 +87,7 @@ namespace GeneA.ViewModels
         {
             await Task.Run(async () =>
             {
-                _person!.Spouses = _originalSpouses!.Where(p => p.IsSelected).ToPeople().ToList();
+                _person!.Spouses = _originalSpouses!.Where(p => p.IsSelected!.Value).ToPeople().ToList();
 
                 _repository.Upsert(_person);
 

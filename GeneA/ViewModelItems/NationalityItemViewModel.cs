@@ -13,6 +13,6 @@ namespace GeneA.ViewModelItems
     public partial class NationalityItemViewModel : Nationality, ISelectable
     {
         [ObservableProperty]
-        private bool _isSelected;
+        private bool? _isSelected;
     }
 }

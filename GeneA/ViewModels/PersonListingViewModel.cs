@@ -21,9 +21,11 @@ namespace GeneA.ViewModels
 {
     public partial class PersonListingViewModel : ViewModelBase, IDisposable
     {
-        public PersonListingViewModel(IRepository<Person> repository, NavigationService navigationService)
+        public PersonListingViewModel(IRepository<Person> personRepository, IRepository<Nationality> nationalityRepository, 
+            NavigationService navigationService)
         {
-            _repository = repository;
+            _personRepository = personRepository;
+            _nationalityRepository = nationalityRepository;
             _navigationService = navigationService;
 
             People = new ObservableRangeCollection<PersonItemViewModel>();
@@ -33,7 +35,8 @@ namespace GeneA.ViewModels
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
 
-        private readonly IRepository<Person> _repository;
+        private readonly IRepository<Person> _personRepository;
+        private readonly IRepository<Nationality> _nationalityRepository;
         private readonly NavigationService _navigationService;
         private IDisposable? disposable;
 
@@ -59,17 +62,38 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private ObservableRangeCollection<FilterItemViewModel> _selectedFilterItems;
 
+        [ObservableProperty]
+        private bool _isFilterPaneOpen;
+
+        [ObservableProperty]
+        private List<NationalityItemViewModel>? _nationalityItems;
+
+        [ObservableProperty]
+        private NationalityItemViewModel? _selectedNationalityItem;
+
+        [ObservableProperty]
+        private List<Gender> _genders;
+
+        [ObservableProperty]
+        private Gender? _selectedGender;
+
         public async Task Load()
         {
             await Task.Run(async () =>
             {
                 var filters = FilterHelper.FillFilters();
-                _originalPeople = _repository.FindAll().ToPersonItemViewModels(isSelected: false).ToList();
+                
+                var nationalityItems = _nationalityRepository.FindAll().ToNationalityItemViewModels().ToList();
+                var genders = StaticList.FillGenders().ToList();
+
+                _originalPeople = _personRepository.FindAll().ToPersonItemViewModels(isSelected: false).ToList();
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     People.ReplaceRange(_originalPeople);
                     FilterItems = filters;
+                    Genders = genders;
+                    NationalityItems = nationalityItems;
                 });
 
                 disposable = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>
@@ -113,9 +137,15 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
+        private void OpenFilterPane(bool isOpen)
+        {
+            IsFilterPaneOpen = isOpen;
+        }
+
+        [RelayCommand]
         private void Checked()
         {
-            CanDelete = People.Any(p => p.IsSelected);
+            CanDelete = People.Any(p => p.IsSelected!.Value);
         }
 
         [RelayCommand]
@@ -127,7 +157,7 @@ namespace GeneA.ViewModels
                 .ToLower().Contains(searchText.ToLower())));
             });
 
-            CanDelete = People.Count > 0 && People.Any(p => p.IsSelected);
+            CanDelete = People.Count > 0 && People.Any(p => p.IsSelected!.Value);
         }
 
         private List<PersonItemViewModel> _filteredList = new List<PersonItemViewModel>();
@@ -166,14 +196,14 @@ namespace GeneA.ViewModels
                     //TODO: in the date cases, work with intervals(slider control, left side is the smallest date and right side
                     //highest date, 
 
-                    case FilterType.Wedding: break;
+                    //case FilterType.Wedding: break;
 
-                    case FilterType.Baptism:
+                    //case FilterType.Baptism:
 
-                        _filteredList = IsAscendingChecked
-                            ? _filteredList.OrderBy(p => p.BaptismDate).ToList()
-                            : _filteredList.OrderByDescending(p => p.BaptismDate).ToList();
-                        break;
+                    //    _filteredList = IsAscendingChecked
+                    //        ? _filteredList.OrderBy(p => p.BaptismDate).ToList()
+                    //        : _filteredList.OrderByDescending(p => p.BaptismDate).ToList();
+                    //    break;
                     
                     case FilterType.HasChildren: 
 
@@ -188,15 +218,15 @@ namespace GeneA.ViewModels
                         _filteredList = _filteredList
                             .Where(p => p.Spouses.Count > 0).ToList();
                         break;
-                    case FilterType.Nationality: 
-                        //TODO: maybe it will be better to use a combobox for this case
-                        //the user picks the nationality and it will be grouped by that
-                        break;
+                    //case FilterType.Nationality: 
+                    //    //TODO: maybe it will be better to use a combobox for this case
+                    //    //the user picks the nationality and it will be grouped by that
+                    //    break;
                     
 
-                    case FilterType.Gender:
-                        groupOperationSelected = true;
-                        break;
+                    //case FilterType.Gender:
+                    //    groupOperationSelected = true;
+                    //    break;
                 }
             }
 
@@ -215,11 +245,11 @@ namespace GeneA.ViewModels
                 (
                  confirmAction: async () =>
                  {
-                     var entitiesToDelete = _originalPeople!.Where(x => x.IsSelected).ToList();
+                     var entitiesToDelete = _originalPeople!.Where(x => x.IsSelected!.Value).ToList();
 
-                     Task databaseDeleteTask = _repository.DeleteBatchAsync(entitiesToDelete);
+                     Task databaseDeleteTask = _personRepository.DeleteBatchAsync(entitiesToDelete);
 
-                     _originalPeople!.RemoveAll(p => p.IsSelected);
+                     _originalPeople!.RemoveAll(p => p.IsSelected!.Value);
 
                      await Dispatcher.UIThread.InvokeAsync(() =>
                      {

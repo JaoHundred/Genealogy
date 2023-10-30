@@ -177,7 +177,7 @@ namespace GeneA.ViewModels
         {
             await Task.Run(async () =>
             {
-                _person!.Nationality = _originalNationalities!.FirstOrDefault(p => p.IsSelected)?.ToNationality();
+                _person!.Nationality = _originalNationalities!.FirstOrDefault(p => p.IsSelected!.Value)?.ToNationality();
 
                 _personRepo.Upsert(_person);
 
