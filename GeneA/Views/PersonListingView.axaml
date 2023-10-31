@@ -32,7 +32,7 @@
     </Style>
 
     <Style Selector="RadioButton TextBlock">
-      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontSize" Value="16"/>
     </Style>
 
 
@@ -70,7 +70,8 @@
       <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
         <Grid RowDefinitions="auto *">
           <TextBlock Text="{x:Static loc:Resource.Filters}" Margin="5"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     FontSize="24"/>
 
           <Button HorizontalAlignment="Right" Classes="closeFiltersButton"
                   Margin="5"
@@ -78,64 +79,93 @@
                   Command="{Binding OpenFilterPaneCommand}"
                   CommandParameter="{x:False}"/>
 
-          <Grid  Margin="5" Grid.Row="1"
-                 RowDefinitions="auto auto * auto">
+          <ScrollViewer Grid.Row="1">
 
-            <StackPanel Margin="5" Orientation="Horizontal" >
-              <RadioButton GroupName="Order"
-                           IsChecked="{Binding IsAscendingChecked}">
-                <TextBlock Text="{x:Static loc:Resource.Ascending}"/>
-              </RadioButton >
-              <RadioButton GroupName="Order" Margin="5,0,0,0">
-                <TextBlock Text="{x:Static loc:Resource.Descending}"/>
-              </RadioButton>
-            </StackPanel>
+            <Grid  Margin="5"
+                   RowDefinitions="auto auto auto auto auto auto *">
 
-            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
-              <TextBlock Text="{x:Static loc:Resource.BirthDate}"
-                         FontSize="14"/>
+              <TextBlock Text="{x:Static loc:Resource.SortBy}"
+                         FontSize="18"/>
+              <StackPanel Grid.Row="1" Margin="5" Orientation="Horizontal">
+                <RadioButton GroupName="Order"
+                             IsChecked="{Binding IsAscendingChecked}">
+                  <TextBlock Text="{x:Static loc:Resource.Ascending}"
+                           />
+                </RadioButton >
+                <RadioButton GroupName="Order" Margin="5,0,0,0" HorizontalAlignment="Right">
+                  <TextBlock Text="{x:Static loc:Resource.Descending}"/>
+                </RadioButton>
+              </StackPanel>
 
-              <CalendarDatePicker DisplayDateStart="{Binding BirthDateStart}"
-                                  DisplayDateEnd="{Binding BirthDateEnd}"
-                                  CalendarClosed="CalendarDatePicker_CalendarClosed"/>
-              <TextBlock Text="{x:Static loc:Resource.DeathDate}"
-                         FontSize="14"/>
-              <CalendarDatePicker DisplayDateStart="{Binding DeathDateStart}"
-                                  DisplayDateEnd="{Binding DeathDateEnd}"
-                                  CalendarClosed="CalendarDatePicker_CalendarClosed"/>
-            </StackPanel>
-            <ListBox Grid.Row="2"
-                     Classes="filters"
-                     ItemsSource="{Binding FilterItems}"
-                     Name="FilterListing">
+              <TextBlock Grid.Row="2" Text="Procurar por intervalo" FontSize="18"
+                         Margin="0,5,0,0"/>
+              <StackPanel Grid.Row="3" Orientation="Vertical" Margin="5" >
+                <TextBlock Text="{x:Static loc:Resource.BirthDate}"
+                           FontSize="16"/>
 
-              <ListBox.ItemTemplate>
-                <DataTemplate>
-                  <CheckBox IsChecked="{Binding IsSelected}">
-                    <TextBlock Text="{Binding .}"/>
-                  </CheckBox>
-                </DataTemplate>
-              </ListBox.ItemTemplate>
+                <CalendarDatePicker DisplayDateStart="{Binding BirthDateStart}"
+                                    DisplayDateEnd="{Binding BirthDateEnd}"
+                                    CalendarClosed="CalendarDatePicker_CalendarClosed"
+                                  />
+                <TextBlock Text="{x:Static loc:Resource.DeathDate}"
+                           FontSize="16" Margin="0,5,0,0"/>
+                <CalendarDatePicker DisplayDateStart="{Binding DeathDateStart}"
+                                    DisplayDateEnd="{Binding DeathDateEnd}"
+                                    CalendarClosed="CalendarDatePicker_CalendarClosed"/>
+              </StackPanel>
+              <ListBox Grid.Row="4" Margin="0,5,0,0"
+                       Classes="filters"
+                       ItemsSource="{Binding FilterItems}"
+                       Name="FilterListing">
 
-            </ListBox>
-            <Grid Grid.Row="3" RowDefinitions="auto auto"
-                  ColumnDefinitions="* *">
-              <TextBlock Text="{x:Static loc:Resource.Nationality}"
-                         FontSize="14"/>
-              <ComboBox Grid.Row="1" ItemsSource="{Binding NationalityItems}"
-                        SelectedItem="{Binding SelectedNationalityItem}"
-                        DropDownClosed="ComboBox_DropDownClosed"/>
-              <TextBlock Grid.Column="1"
-                         Text="{x:Static loc:Resource.Gender}"
-                         FontSize="14"/>
-              <ComboBox Grid.Column="1" Grid.Row="1"
-                        ItemsSource="{Binding Genders}"
-                        SelectedItem="{Binding SelectedGender}"
-                        DisplayMemberBinding="{Binding Name}"
-                        DropDownClosed="ComboBox_DropDownClosed"/>
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsSelected}">
+                      <TextBlock Text="{Binding .}" FontSize="16"/>
+                    </CheckBox>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+
+              </ListBox>
+
+
+              <Grid Grid.Row="5" RowDefinitions="auto auto"
+                    ColumnDefinitions="* *" Margin="5">
+                <TextBlock Text="{x:Static loc:Resource.Nationality}"
+                           FontSize="16"/>
+                <ComboBox Grid.Row="1" ItemsSource="{Binding NationalityItems}"
+                          SelectedItem="{Binding SelectedNationalityItem}"
+                          DropDownClosed="ComboBox_DropDownClosed"
+                          Margin="0,0,5,0"/>
+                <TextBlock Grid.Column="1" Margin="5,0,0,0"
+                           Text="{x:Static loc:Resource.Gender}"
+                           FontSize="16"/>
+                <ComboBox Grid.Column="1" Grid.Row="1"
+                          ItemsSource="{Binding Genders}"
+                          SelectedItem="{Binding SelectedGender}"
+                          DisplayMemberBinding="{Binding Name}"
+                          DropDownClosed="ComboBox_DropDownClosed"
+                          Margin="5,0,0,0"/>
+              </Grid>
+              <Grid Grid.Row="6" ColumnDefinitions="* *" Margin="5"
+                    VerticalAlignment="Bottom">
+                <Button HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Margin="0,0,5,0">
+                  <TextBlock Text="{x:Static loc:Resource.ResetFilters}"
+                             FontSize="16"/>
+                </Button>
+                <Button Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Margin="5,0,0,0">
+                  <TextBlock Text="{x:Static loc:Resource.ApplyFilters}"
+                             FontSize="16"/>
+                </Button>
+              </Grid>
+
             </Grid>
-
-          </Grid>
+          </ScrollViewer>
         </Grid>
       </Border>
 

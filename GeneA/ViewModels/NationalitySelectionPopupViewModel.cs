@@ -90,6 +90,8 @@ namespace GeneA.ViewModels
             });
         }
 
+        //TODO: when a new person click in confirm, the previous data is erased, look in the method bellow what is
+        //happening
         [RelayCommand]
         private async Task NewNationality()
         {

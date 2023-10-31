@@ -70,6 +70,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply filters.
+        /// </summary>
+        public static string ApplyFilters {
+            get {
+                return ResourceManager.GetString("ApplyFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ascending.
         /// </summary>
         public static string Ascending {
@@ -349,6 +358,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset filters.
+        /// </summary>
+        public static string ResetFilters {
+            get {
+                return ResourceManager.GetString("ResetFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -390,6 +408,15 @@ namespace GeneA.Lang {
         public static string SelectSpouses {
             get {
                 return ResourceManager.GetString("SelectSpouses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort by.
+        /// </summary>
+        public static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
             }
         }
         

@@ -120,6 +120,9 @@
   <data name="AddNewNationality" xml:space="preserve">
     <value>Nova nacionalidade</value>
   </data>
+  <data name="ApplyFilters" xml:space="preserve">
+    <value>Aplicar filtros</value>
+  </data>
   <data name="Ascending" xml:space="preserve">
     <value>Crescente</value>
   </data>
@@ -213,6 +216,9 @@
   <data name="Offsprings" xml:space="preserve">
     <value>Descendentes</value>
   </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>Resetar filtros</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Salvar</value>
   </data>
@@ -227,6 +233,9 @@
   </data>
   <data name="SelectSpouses" xml:space="preserve">
     <value>Selecione cônjuges</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Ordenar por</value>
   </data>
   <data name="Spouse" xml:space="preserve">
     <value>Cônjuge</value>

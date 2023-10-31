@@ -125,7 +125,7 @@ public partial class PersonViewModel : ViewModelBase
             {
                 _repository.Delete(Person!);
 
-                await _navigation.GoBackAsync();//close popup
+                await _navigation.GoBackAsync(needToReload: false);//close popup and dont reload PersonViewModel
                 await _navigation.GoBackAsync();//back to HomeView
             };
             Action cancel = async () =>
