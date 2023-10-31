@@ -63,7 +63,8 @@
   </UserControl.Styles>
 
   <!--{Binding IsFilterPaneOpen, Mode=TwoWay}-->
-  <SplitView DisplayMode="Overlay"
+  <SplitView DisplayMode="Overlay" Name="splitPane"
+             PaneClosed="SplitView_PaneClosed"
              IsPaneOpen="{Binding IsFilterPaneOpen, Mode=TwoWay}">
     <SplitView.Pane>
       <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
@@ -96,11 +97,12 @@
 
               <CalendarDatePicker DisplayDateStart="{Binding BirthDateStart}"
                                   DisplayDateEnd="{Binding BirthDateEnd}"
-                                    />
+                                  CalendarClosed="CalendarDatePicker_CalendarClosed"/>
               <TextBlock Text="{x:Static loc:Resource.DeathDate}"
                          FontSize="14"/>
               <CalendarDatePicker DisplayDateStart="{Binding DeathDateStart}"
-                                  DisplayDateEnd="{Binding DeathDateEnd}"/>
+                                  DisplayDateEnd="{Binding DeathDateEnd}"
+                                  CalendarClosed="CalendarDatePicker_CalendarClosed"/>
             </StackPanel>
             <ListBox Grid.Row="2"
                      Classes="filters"
@@ -121,14 +123,16 @@
               <TextBlock Text="{x:Static loc:Resource.Nationality}"
                          FontSize="14"/>
               <ComboBox Grid.Row="1" ItemsSource="{Binding NationalityItems}"
-                        SelectedItem="{Binding SelectedNationalityItem}"/>
+                        SelectedItem="{Binding SelectedNationalityItem}"
+                        DropDownClosed="ComboBox_DropDownClosed"/>
               <TextBlock Grid.Column="1"
                          Text="{x:Static loc:Resource.Gender}"
                          FontSize="14"/>
               <ComboBox Grid.Column="1" Grid.Row="1"
                         ItemsSource="{Binding Genders}"
                         SelectedItem="{Binding SelectedGender}"
-                        DisplayMemberBinding="{Binding Name}"/>
+                        DisplayMemberBinding="{Binding Name}"
+                        DropDownClosed="ComboBox_DropDownClosed"/>
             </Grid>
 
           </Grid>

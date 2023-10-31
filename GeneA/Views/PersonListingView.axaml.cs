@@ -19,9 +19,28 @@ namespace GeneA.Views
             InitializeComponent();
         }
 
-        //TODO:splitview does not work well with any control which has a popup (combobox, calendardatepicker, etc)
-        //it closes as soon you dont pick any value in those controls and closes the splitview afterwards, find a way to
-        //stop this
+        //bellow events make splitview dont close when its not supposed to in controls which have
+        //some sort of dialog part(Combobox and CalendarDatePicker in this case)
+
+        private void ComboBox_DropDownClosed(object? sender, System.EventArgs e)
+        {
+            _lostFocusByControlClosed = true;
+        }
+
+        private void SplitView_PaneClosed(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (_lostFocusByControlClosed)
+            {
+                splitPane.IsPaneOpen = true;
+                _lostFocusByControlClosed = false;
+            }
+        }
+
+        private bool _lostFocusByControlClosed;
+        private void CalendarDatePicker_CalendarClosed(object? sender, System.EventArgs e)
+        {
+            _lostFocusByControlClosed = true;
+        }
 
     }
 }
