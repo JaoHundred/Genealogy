@@ -90,8 +90,6 @@ namespace GeneA.ViewModels
             });
         }
 
-        //TODO: when a new person click in confirm, the previous data is erased, look in the method bellow what is
-        //happening
         [RelayCommand]
         private async Task NewNationality()
         {
@@ -174,6 +172,8 @@ namespace GeneA.ViewModels
             });
         }
 
+        //TODO: confirming is not saving correctly the selected nationality in the person object, investigate what is happening
+        //
         [RelayCommand]
         public async Task Confirm()
         {
@@ -183,7 +183,7 @@ namespace GeneA.ViewModels
 
                 _personRepo.Upsert(_person);
 
-                await _navigationService.GoBackAsync();
+                await _navigationService.GoBackAsync(needToReload: false);
 
                 ConfirmAction?.Invoke();
             });
@@ -192,7 +192,7 @@ namespace GeneA.ViewModels
         [RelayCommand]
         public async Task Cancel()
         {
-            await _navigationService.GoBackAsync();
+            await _navigationService.GoBackAsync(needToReload: false);
 
             CancelAction?.Invoke();
         }
