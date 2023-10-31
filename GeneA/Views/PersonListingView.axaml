@@ -7,8 +7,13 @@
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
+             xmlns:conv="using:GeneA.Converters"
              x:DataType="vm:PersonListingViewModel"
              x:Class="GeneA.Views.PersonListingView">
+
+  <UserControl.Resources>
+    <conv:ValidDatetimeConverter x:Key="ValidDatetimeConverter"/>
+  </UserControl.Resources>
 
   <UserControl.Styles>
     <Style Selector=":is(Control).marginControl">
@@ -37,7 +42,7 @@
     <Style Selector="ListBox.filters ListBoxItem:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
-    
+
 
     <Style Selector="Button.closeFiltersButton">
       <Setter Property="Background" Value="DarkRed"/>
@@ -58,15 +63,8 @@
   </UserControl.Styles>
 
   <!--{Binding IsFilterPaneOpen, Mode=TwoWay}-->
-  <SplitView DisplayMode="Inline"
-             IsPaneOpen="True" >
-    <i:Interaction.Behaviors>
-      <ia:EventTriggerBehavior EventName="LostFocus">
-        <ia:InvokeCommandAction
-          Command="{Binding OpenFilterPaneCommand}"
-          CommandParameter="{x:False}"/>
-      </ia:EventTriggerBehavior>
-    </i:Interaction.Behaviors>
+  <SplitView DisplayMode="Overlay"
+             IsPaneOpen="{Binding IsFilterPaneOpen, Mode=TwoWay}">
     <SplitView.Pane>
       <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
         <Grid RowDefinitions="auto *">
@@ -92,19 +90,20 @@
               </RadioButton>
             </StackPanel>
 
-            <Grid Grid.Row="1" RowDefinitions="auto auto">
-              <TextBlock Text="{x:Static loc:Resource.BirthDeathDateInterval}"
-                         Margin="0,0,0,5" FontSize="12"/>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
+              <TextBlock Text="{x:Static loc:Resource.BirthDate}"
+                         FontSize="14"/>
 
-              <StackPanel Grid.Row="1" Orientation="Horizontal">
-
-                <CalendarDatePicker />
-                <TextBlock Text="----" VerticalAlignment="Center"/>
-                <CalendarDatePicker />
-              </StackPanel>
-            </Grid>
+              <CalendarDatePicker DisplayDateStart="{Binding BirthDateStart}"
+                                  DisplayDateEnd="{Binding BirthDateEnd}"
+                                    />
+              <TextBlock Text="{x:Static loc:Resource.DeathDate}"
+                         FontSize="14"/>
+              <CalendarDatePicker DisplayDateStart="{Binding DeathDateStart}"
+                                  DisplayDateEnd="{Binding DeathDateEnd}"/>
+            </StackPanel>
             <ListBox Grid.Row="2"
-                     Classes="filters" 
+                     Classes="filters"
                      ItemsSource="{Binding FilterItems}"
                      Name="FilterListing">
 
@@ -117,13 +116,13 @@
               </ListBox.ItemTemplate>
 
             </ListBox>
-            <Grid Grid.Row="3" RowDefinitions="auto auto" 
+            <Grid Grid.Row="3" RowDefinitions="auto auto"
                   ColumnDefinitions="* *">
               <TextBlock Text="{x:Static loc:Resource.Nationality}"
                          FontSize="14"/>
               <ComboBox Grid.Row="1" ItemsSource="{Binding NationalityItems}"
                         SelectedItem="{Binding SelectedNationalityItem}"/>
-              <TextBlock Grid.Column="1" 
+              <TextBlock Grid.Column="1"
                          Text="{x:Static loc:Resource.Gender}"
                          FontSize="14"/>
               <ComboBox Grid.Column="1" Grid.Row="1"

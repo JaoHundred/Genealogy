@@ -77,6 +77,18 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private Gender? _selectedGender;
 
+        [ObservableProperty]
+        private DateTime? _birthDateStart;
+
+        [ObservableProperty]
+        private DateTime? _deathDateStart;
+
+        [ObservableProperty]
+        private DateTime? _birthDateEnd;
+
+        [ObservableProperty]
+        private DateTime? _deathDateEnd;
+
         public async Task Load()
         {
             await Task.Run(async () =>
@@ -94,6 +106,12 @@ namespace GeneA.ViewModels
                     FilterItems = filters;
                     Genders = genders;
                     NationalityItems = nationalityItems;
+                    
+                    BirthDateStart = _originalPeople.Select(p => p.BirthDate).Min();
+                    BirthDateEnd = _originalPeople.Select(p => p.BirthDate).Max();
+
+                    DeathDateStart = _originalPeople.Select(p => p.DeathDate).Min();
+                    DeathDateEnd = _originalPeople.Select(p => p.DeathDate).Max();
                 });
 
                 disposable = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>
