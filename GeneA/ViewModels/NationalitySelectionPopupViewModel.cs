@@ -21,12 +21,9 @@ namespace GeneA.ViewModels
 {
     public partial class NationalitySelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
-        public NationalitySelectionPopupViewModel(
-            IRepository<Person> personRepo, IRepository<Nationality> nationalityRepo, NavigationService navigationService)
+        public NationalitySelectionPopupViewModel(IRepository<Nationality> nationalityRepo)
         {
-            _personRepo = personRepo;
             _nationalityRepo = nationalityRepo;
-            _navigationService = navigationService;
 
             Nationalities = new ObservableRangeCollection<NationalityItemViewModel>();
             SearchedNationality = string.Empty;
@@ -35,9 +32,7 @@ namespace GeneA.ViewModels
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
 
-        private readonly IRepository<Person> _personRepo;
         private readonly IRepository<Nationality> _nationalityRepo;
-        private readonly NavigationService _navigationService;
 
         private Person? _person;
         private Match? _canAddNationalityMatch;
@@ -66,7 +61,7 @@ namespace GeneA.ViewModels
             {
                 if (Param != null)
                 {
-                    _person = _personRepo.FindById((long)Param);
+                    _person = (Person)Param;
 
                     if (_person.Nationality?.Id > 0)
                         _person.Nationality = _nationalityRepo.FindById(_person.Nationality.Id);
@@ -172,28 +167,17 @@ namespace GeneA.ViewModels
             });
         }
 
-        //TODO: confirming is not saving correctly the selected nationality in the person object, investigate what is happening
-        //
         [RelayCommand]
-        public async Task Confirm()
+        public void Confirm()
         {
-            await Task.Run(async () =>
-            {
-                _person!.Nationality = _originalNationalities!.FirstOrDefault(p => p.IsSelected!.Value)?.ToNationality();
+            _person!.Nationality = _originalNationalities!.FirstOrDefault(p => p.IsSelected!.Value)?.ToNationality();
 
-                _personRepo.Upsert(_person);
-
-                await _navigationService.GoBackAsync(needToReload: false);
-
-                ConfirmAction?.Invoke();
-            });
+            ConfirmAction?.Invoke();// save in not popup side
         }
 
         [RelayCommand]
-        public async Task Cancel()
+        public void Cancel()
         {
-            await _navigationService.GoBackAsync(needToReload: false);
-
             CancelAction?.Invoke();
         }
     }

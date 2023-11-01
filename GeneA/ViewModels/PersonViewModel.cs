@@ -141,25 +141,50 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenOffSprings()
     {
-        SaveToDB();//partial save before openning new view
-
-        await _navigation.PopUpAsync<OffspringsSelectionPopupViewModel>(Person!.Id);
+        await _navigation.PopUpAsync<OffspringsSelectionPopupViewModel>(Person).ConfigurePopUpProperties
+            (
+             confirmAction: async () =>
+             {
+                 await _navigation.GoBackAsync(needToReload: false);
+             },
+             cancelAction: async () =>
+             {
+                 await _navigation.GoBackAsync(needToReload: false);
+             }
+            );
     }
 
     [RelayCommand]
     private async Task OpenSpouses()
     {
-        SaveToDB();//partial save before openning new view
-
-        await _navigation.PopUpAsync<SpouseSelectionPopupViewModel>(Person!.Id);
+        await _navigation.PopUpAsync<SpouseSelectionPopupViewModel>(Person).ConfigurePopUpProperties
+            (
+             confirmAction: async () =>
+             {
+                 await _navigation.GoBackAsync(needToReload: false);
+             },
+             cancelAction: async () =>
+             {
+                 await _navigation.GoBackAsync(needToReload: false);
+             }
+            );
     }
 
     [RelayCommand]
     private async Task OpenNationality()
     {
-        SaveToDB();//partial save before openning new view
+        await _navigation.PopUpAsync<NationalitySelectionPopupViewModel>(Person).ConfigurePopUpProperties
+            (
+             confirmAction: async() => 
+             {
+                 await _navigation.GoBackAsync(needToReload: false);
+             },
+             cancelAction: async() => 
+             {
+                 await _navigation.GoBackAsync(needToReload: false);
+             }
 
-        await _navigation.PopUpAsync<NationalitySelectionPopupViewModel>(Person!.Id);
+            );
     }
 
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)

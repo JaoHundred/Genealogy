@@ -19,10 +19,9 @@ namespace GeneA.ViewModels
     public partial class SpouseSelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
 
-        public SpouseSelectionPopupViewModel(IRepository<Person> repository, NavigationService navigationService)
+        public SpouseSelectionPopupViewModel(IRepository<Person> repository)
         {
             _repository = repository;
-            _navigationService = navigationService;
             _spouses = new ObservableRangeCollection<PersonItemViewModel>();
 
             LoadAction = () => { Load().SafeFireAndForget(); };
@@ -31,7 +30,6 @@ namespace GeneA.ViewModels
         private Person? _person;
 
         private readonly IRepository<Person> _repository;
-        private readonly NavigationService _navigationService;
         private List<PersonItemViewModel>? _originalSpouses;
 
         [ObservableProperty]
@@ -48,7 +46,7 @@ namespace GeneA.ViewModels
             {
                 if (Param != null)
                 {
-                    _person = _repository.FindById((long)Param);
+                    _person = (Person)Param;
 
                     if (_person.Gender == ModelA.Enums.GenderEnum.Gender.Male)
                     {
@@ -83,25 +81,16 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
-        public async Task Confirm()
+        public void Confirm()
         {
-            await Task.Run(async () =>
-            {
-                _person!.Spouses = _originalSpouses!.Where(p => p.IsSelected!.Value).ToPeople().ToList();
+            _person!.Spouses = _originalSpouses!.Where(p => p.IsSelected!.Value).ToPeople().ToList();
 
-                _repository.Upsert(_person);
-
-                await _navigationService.GoBackAsync();
-
-                ConfirmAction?.Invoke();
-            });
+            ConfirmAction?.Invoke();
         }
 
         [RelayCommand]
-        public async Task Cancel()
+        public void Cancel()
         {
-            await _navigationService.GoBackAsync();
-
             CancelAction?.Invoke();
         }
     }

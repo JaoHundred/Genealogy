@@ -23,10 +23,9 @@ namespace GeneA.ViewModels
 
     public partial class OffspringsSelectionPopupViewModel : ViewModelBase, IpopupViewModel
     {
-        public OffspringsSelectionPopupViewModel(IRepository<Person> repository, NavigationService navigationService)
+        public OffspringsSelectionPopupViewModel(IRepository<Person> repository)
         {
             _repository = repository;
-            _navigationService = navigationService;
             OffSprings = new ObservableRangeCollection<PersonItemViewModel>();
 
             LoadAction = () => { Load().SafeFireAndForget(); };
@@ -34,7 +33,6 @@ namespace GeneA.ViewModels
 
         private Person? _person;
         private IRepository<Person> _repository;
-        private NavigationService _navigationService;
 
         [ObservableProperty]
         private ObservableRangeCollection<PersonItemViewModel> _offSprings;
@@ -47,12 +45,12 @@ namespace GeneA.ViewModels
 
         private async Task Load()
         {
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 if (Param != null)
                 {
-                    _person = _repository.FindById((long)Param);
-                        
+                    _person = (Person)Param;
+
                     var people = _repository.FindAll().ToPersonItemViewModels().ToList();
                     people.RemoveAll(p => p.Id == _person.Id);//remove self
 
@@ -72,32 +70,23 @@ namespace GeneA.ViewModels
         [RelayCommand]
         public async Task TextFilter(string searchText)
         {
-            await Dispatcher.UIThread.InvokeAsync(() => 
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                OffSprings.ReplaceRange(_offSpringsOriginal!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower()))); 
+                OffSprings.ReplaceRange(_offSpringsOriginal!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower())));
             });
         }
 
         [RelayCommand]
-        public async Task Confirm()
+        public void Confirm()
         {
-            await Task.Run(async() =>
-            {
-                _person!.Offsprings = _offSpringsOriginal!.Where(p => p.IsSelected!.Value).ToPeople().ToList();
+            _person!.Offsprings = _offSpringsOriginal!.Where(p => p.IsSelected!.Value).ToPeople().ToList();
 
-                _repository.Upsert(_person);
-
-                await _navigationService.GoBackAsync();
-
-                ConfirmAction?.Invoke();
-            });
+            ConfirmAction?.Invoke();
         }
 
         [RelayCommand]
-        public async Task Cancel()
+        public void Cancel()
         {
-            await _navigationService.GoBackAsync();
-
             CancelAction?.Invoke();
         }
     }

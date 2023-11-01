@@ -27,7 +27,7 @@ public class NavigationService
 
     private List<Control> _stack;
 
-    public async Task GoBackAsync(bool needToReload = true)
+    public async Task GoBackAsync(bool needToReload = true, object? param = null)
     {
         if (_stack.LastOrDefault() is IPopupView)
         {
@@ -73,7 +73,9 @@ public class NavigationService
         {
             await RunInUIThread(() =>
             {
-                (_stack.LastOrDefault()?.DataContext as ViewModelBase)!.LoadAction?.Invoke();//reload the previous view
+                var vm = (_stack.LastOrDefault()?.DataContext as ViewModelBase);
+                vm!.Param = param;
+                vm!.LoadAction?.Invoke();//reload the previous view
             });
         }
     }
