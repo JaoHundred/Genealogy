@@ -89,6 +89,16 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private DateTime? _deathDateEnd;
 
+        [ObservableProperty]
+        private DateTime? _bapTismStart;
+        [ObservableProperty]
+        private DateTime? _bapTismEnd;
+
+        [ObservableProperty]
+        private DateTime? _weddingStart;
+        [ObservableProperty]
+        private DateTime? _weddingEnd;
+
         public async Task Load()
         {
             await Task.Run(async () =>
@@ -112,6 +122,12 @@ namespace GeneA.ViewModels
 
                     DeathDateStart = _originalPeople.Select(p => p.DeathDate).Min();
                     DeathDateEnd = _originalPeople.Select(p => p.DeathDate).Max();
+
+                    BapTismStart = _originalPeople.Select(p => p.BaptismDate).Min();
+                    BapTismEnd = _originalPeople.Select(p => p.BaptismDate).Max();
+
+                    WeddingStart = _originalPeople.Select(p => p.WeddingDate).Min();
+                    WeddingEnd = _originalPeople.Select(p => p.WeddingDate).Max();
                 });
 
                 disposable = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>
@@ -192,9 +208,7 @@ namespace GeneA.ViewModels
 
             bool groupOperationSelected = false;
 
-            //TODO: dont let opposite filters came into play, everyone which have the prefixe "has"
-            //need to be removed here, or create another set of listbox for those filters with only "single"
-            //selection enabled, maybe it is the better way
+            //TODO: implement the filtering
 
             foreach (var filter in SelectedFilterItems)
             {
@@ -210,9 +224,6 @@ namespace GeneA.ViewModels
                     //        ? _filteredList.OrderBy(p => p.DeathDate).ToList()
                     //        : _filteredList.OrderByDescending(p => p.DeathDate).ToList();
                     //    break;
-
-                    //TODO: in the date cases, work with intervals(slider control, left side is the smallest date and right side
-                    //highest date, 
 
                     //case FilterType.Wedding: break;
 

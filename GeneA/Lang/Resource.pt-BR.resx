@@ -213,6 +213,9 @@
   <data name="Nationality" xml:space="preserve">
     <value>Nacionalidade</value>
   </data>
+  <data name="Observations" xml:space="preserve">
+    <value>Observações</value>
+  </data>
   <data name="Offsprings" xml:space="preserve">
     <value>Descendentes</value>
   </data>

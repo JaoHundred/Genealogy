@@ -132,7 +132,7 @@
 
           </Grid>
 
-          <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Description}"/>
+          <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Observations}"/>
           <TextBox Grid.Row="9" Grid.ColumnSpan="2" 
                    Height="200"
                    Text="{Binding Person.Description}" 

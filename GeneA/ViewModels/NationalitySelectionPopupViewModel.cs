@@ -134,9 +134,12 @@ namespace GeneA.ViewModels
         [RelayCommand]
         private async Task TextFilter(string searchText)
         {
+            if(_originalNationalities == null) 
+                return;
+
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Nationalities.ReplaceRange(_originalNationalities!.Where(p => p.ToString()
+                Nationalities.ReplaceRange(_originalNationalities.Where(p => p.ToString()
                 .ToLower().Contains(searchText.ToLower())));
 
                 if (Nationalities.Count == 0)

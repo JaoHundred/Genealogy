@@ -65,7 +65,7 @@
   <!--{Binding IsFilterPaneOpen, Mode=TwoWay}-->
   <SplitView DisplayMode="Overlay" Name="splitPane"
              PaneClosed="SplitView_PaneClosed"
-             IsPaneOpen="{Binding IsFilterPaneOpen, Mode=TwoWay}">
+             IsPaneOpen="True">
     <SplitView.Pane>
       <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
         <Grid RowDefinitions="auto *">
@@ -111,6 +111,25 @@
                            FontSize="16" Margin="0,5,0,0"/>
                 <CalendarDatePicker DisplayDateStart="{Binding DeathDateStart}"
                                     DisplayDateEnd="{Binding DeathDateEnd}"
+                                    CalendarClosed="CalendarDatePicker_CalendarClosed"/>
+
+
+                <TextBlock Text="{x:Static loc:Resource.Baptism}"
+                           FontSize="16" Margin="0,5,0,0"/>
+                <CalendarDatePicker DisplayDateStart="{Binding BapTismStart}"
+                                    DisplayDateEnd="{Binding BapTismEnd}"
+                                    CalendarClosed="CalendarDatePicker_CalendarClosed"/>
+                <CalendarDatePicker DisplayDateStart="{Binding BapTismStart}"
+                                    DisplayDateEnd="{Binding BapTismEnd}"
+                                    CalendarClosed="CalendarDatePicker_CalendarClosed"/>
+                
+                <TextBlock Text="{x:Static loc:Resource.Wedding}"
+                           FontSize="16" Margin="0,5,0,0"/>
+                <CalendarDatePicker DisplayDateStart="{Binding WeddingStart}"
+                                    DisplayDateEnd="{Binding WeddingEnd}"
+                                    CalendarClosed="CalendarDatePicker_CalendarClosed"/>
+                <CalendarDatePicker DisplayDateStart="{Binding WeddingStart}"
+                                    DisplayDateEnd="{Binding WeddingEnd}"
                                     CalendarClosed="CalendarDatePicker_CalendarClosed"/>
               </StackPanel>
               <ListBox Grid.Row="4" Margin="0,5,0,0"

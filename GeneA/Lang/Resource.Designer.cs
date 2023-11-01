@@ -349,6 +349,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Observations.
+        /// </summary>
+        public static string Observations {
+            get {
+                return ResourceManager.GetString("Observations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Offsprings.
         /// </summary>
         public static string Offsprings {

@@ -74,9 +74,12 @@ namespace GeneA.ViewModels
         [RelayCommand]
         public async Task TextFilter(string searchText)
         {
+            if(_originalSpouses == null) 
+                return;
+
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Spouses.ReplaceRange(_originalSpouses!.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower())));
+                Spouses.ReplaceRange(_originalSpouses.Where(p => p.Name.ToLower().StartsWith(searchText.ToLower())));
             });
         }
 
