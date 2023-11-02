@@ -12,7 +12,6 @@ namespace GeneA.ViewModelItems
     public partial class FilterItemViewModel : ObservableObject, ISelectable
     {
         public FilterType FilterType { get; set; }
-        public FilterOrderType FilterOrderType { get; set; }
 
         [ObservableProperty]
         private bool? _isSelected = false;
@@ -24,12 +23,6 @@ namespace GeneA.ViewModelItems
             
             return DynamicTranslate.Translate(name);
         }
-    }
-
-    public enum FilterOrderType
-    {
-        Ascending,
-        Descending,
     }
 
     public enum FilterType

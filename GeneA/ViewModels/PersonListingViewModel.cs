@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace GeneA.ViewModels
 {
-    public partial class PersonListingViewModel : ViewModelBase, IDisposable
+    public partial class PersonListingViewModel : ViewModelBase
     {
         public PersonListingViewModel(IRepository<Person> personRepository, IRepository<Nationality> nationalityRepository, 
             NavigationService navigationService)
@@ -29,7 +29,6 @@ namespace GeneA.ViewModels
             _navigationService = navigationService;
 
             People = new ObservableRangeCollection<PersonItemViewModel>();
-            SelectedFilterItems = new ObservableRangeCollection<FilterItemViewModel>();
             IsAscendingChecked = true;
 
             LoadAction = () => { Load().SafeFireAndForget(); };
@@ -38,7 +37,6 @@ namespace GeneA.ViewModels
         private readonly IRepository<Person> _personRepository;
         private readonly IRepository<Nationality> _nationalityRepository;
         private readonly NavigationService _navigationService;
-        private IDisposable? disposable;
 
         private List<PersonItemViewModel>? _originalPeople;
         [ObservableProperty]
@@ -60,9 +58,6 @@ namespace GeneA.ViewModels
         private List<FilterItemViewModel>? _filterItems;
 
         [ObservableProperty]
-        private ObservableRangeCollection<FilterItemViewModel> _selectedFilterItems;
-
-        [ObservableProperty]
         private bool _isFilterPaneOpen;
 
         [ObservableProperty]
@@ -72,7 +67,7 @@ namespace GeneA.ViewModels
         private NationalityItemViewModel? _selectedNationalityItem;
 
         [ObservableProperty]
-        private List<Gender> _genders;
+        private List<Gender>? _genders;
 
         [ObservableProperty]
         private Gender? _selectedGender;
@@ -110,6 +105,15 @@ namespace GeneA.ViewModels
 
                 _originalPeople = _personRepository.FindAll().ToPersonItemViewModels(isSelected: false).ToList();
 
+
+                foreach (var item in nationalityItems)
+                {
+                    var person = _originalPeople.FirstOrDefault(p => p.Nationality?.Id == item.Id);
+
+                    if(person != null)
+                        person.Nationality = item;
+                }
+
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     People.ReplaceRange(_originalPeople);
@@ -129,17 +133,6 @@ namespace GeneA.ViewModels
                     WeddingStart = _originalPeople.Select(p => p.WeddingDate).Min();
                     WeddingEnd = _originalPeople.Select(p => p.WeddingDate).Max();
                 });
-
-                disposable = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>
-                 (
-                   handler => SelectedFilterItems.CollectionChanged += handler,
-                   handler => SelectedFilterItems.CollectionChanged -= handler
-                 )
-                 .Throttle(TimeSpan.FromSeconds(1))
-                 .Subscribe(_ =>
-                 {
-                     SelectFilters();
-                 });
             });
         }
 
@@ -196,44 +189,22 @@ namespace GeneA.ViewModels
 
         private List<PersonItemViewModel> _filteredList = new List<PersonItemViewModel>();
 
-        private void SelectFilters()
+        [RelayCommand]
+        private void ApplyFilters()
         {
             _filteredList = _originalPeople!.ToList();
 
-            if (SelectedFilterItems.Count  == 0) 
+            //TODO: create and bind selectedDates ad implement data filtering interval here
+
+
+
+            foreach (var filter in FilterItems!)
             {
-                People.ReplaceRange(_originalPeople!);
-                return;
-            }
+                if (filter.IsSelected.HasValue && !filter.IsSelected.Value)
+                    continue;
 
-            bool groupOperationSelected = false;
-
-            //TODO: implement the filtering
-
-            foreach (var filter in SelectedFilterItems)
-            {
                 switch (filter.FilterType)
                 {
-                    //case FilterType.BirthDate:
-                    //    _filteredList = IsAscendingChecked
-                    //        ? _filteredList.OrderBy(p => p.BirthDate).ToList()
-                    //        : _filteredList.OrderByDescending(p => p.BirthDate).ToList();
-                    //    break;
-                    //case FilterType.DeathDate:
-                    //    _filteredList = IsAscendingChecked
-                    //        ? _filteredList.OrderBy(p => p.DeathDate).ToList()
-                    //        : _filteredList.OrderByDescending(p => p.DeathDate).ToList();
-                    //    break;
-
-                    //case FilterType.Wedding: break;
-
-                    //case FilterType.Baptism:
-
-                    //    _filteredList = IsAscendingChecked
-                    //        ? _filteredList.OrderBy(p => p.BaptismDate).ToList()
-                    //        : _filteredList.OrderByDescending(p => p.BaptismDate).ToList();
-                    //    break;
-                    
                     case FilterType.HasChildren: 
 
                         _filteredList = _filteredList.Where(p => p.Offsprings.Count > 0).ToList();
@@ -247,25 +218,43 @@ namespace GeneA.ViewModels
                         _filteredList = _filteredList
                             .Where(p => p.Spouses.Count > 0).ToList();
                         break;
-                    //case FilterType.Nationality: 
-                    //    //TODO: maybe it will be better to use a combobox for this case
-                    //    //the user picks the nationality and it will be grouped by that
-                    //    break;
-                    
-
-                    //case FilterType.Gender:
-                    //    groupOperationSelected = true;
-                    //    break;
                 }
             }
 
-            if(groupOperationSelected)
-                _filteredList = _filteredList.GroupBy(p => p.Gender).SelectMany(p => p).ToList();
+            if(SelectedNationalityItem != null)
+                _filteredList = _filteredList.Where(p => p.Nationality == SelectedNationalityItem).ToList();
+
+            switch (SelectedGender?.GenderEnum)
+            {
+                case ModelA.Enums.GenderEnum.Gender.Male:
+                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList(); 
+                    break;
+                case ModelA.Enums.GenderEnum.Gender.Female:
+                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            _filteredList = IsAscendingChecked ?
+                _filteredList.OrderBy(p => p.Name).ToList() :
+                _filteredList.OrderByDescending(p => p.Name).ToList();
 
             People.ReplaceRange(_filteredList);
         }
 
-        //TODO: implement other filtering here, use birth date and death date with slider
+        [RelayCommand]
+        private void ResetFilters()
+        {
+            //TODO: clear selected dates here too
+
+            SelectedGender = null;
+            SelectedNationalityItem = null;
+            FilterItems?.ForEach(p => p.IsSelected = false);
+
+            ApplyFilters();
+        }
+        
 
         [RelayCommand]
         private async Task DeleteSelectedPeople()
@@ -298,11 +287,6 @@ namespace GeneA.ViewModels
                  title: DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle),
                  message: DynamicTranslate.Translate(MessageConsts.Confirmation)
                 );
-        }
-
-        public void Dispose()
-        {
-            disposable?.Dispose();
         }
     }
 }
