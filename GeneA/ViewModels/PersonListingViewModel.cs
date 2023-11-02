@@ -72,6 +72,8 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private Gender? _selectedGender;
 
+        
+
         [ObservableProperty]
         private DateTime? _birthDateStart;
 
@@ -93,6 +95,28 @@ namespace GeneA.ViewModels
         private DateTime? _weddingStart;
         [ObservableProperty]
         private DateTime? _weddingEnd;
+
+        [ObservableProperty]
+        private DateTime? _selectedBirthDate;
+        partial void OnSelectedBirthDateChanged(DateTime? value)
+        {
+            if (value > SelectedDeathDate)
+                SelectedBirthDate = SelectedDeathDate;
+        }
+
+        [ObservableProperty]
+        private DateTime? _selectedDeathDate;
+        partial void OnSelectedDeathDateChanged(DateTime? value)
+        {
+            if(value < SelectedBirthDate) 
+                SelectedDeathDate = SelectedBirthDate;
+        }
+
+        [ObservableProperty]
+        private DateTime? _selectedBaptismDate;
+
+        [ObservableProperty]
+        private DateTime? _selectedWeddingDate;
 
         public async Task Load()
         {
@@ -135,8 +159,6 @@ namespace GeneA.ViewModels
                 });
             });
         }
-
-
 
         [RelayCommand]
         private async Task EditPerson()
@@ -187,15 +209,23 @@ namespace GeneA.ViewModels
             CanDelete = People.Count > 0 && People.Any(p => p.IsSelected!.Value);
         }
 
-        private List<PersonItemViewModel> _filteredList = new List<PersonItemViewModel>();
+        private IEnumerable<PersonItemViewModel> _filteredList;
 
         [RelayCommand]
         private void ApplyFilters()
         {
-            _filteredList = _originalPeople!.ToList();
+            _filteredList = _originalPeople!;
 
-            //TODO: create and bind selectedDates ad implement data filtering interval here
+            
+            if(SelectedBirthDate != null && SelectedDeathDate != null)
+            {
+               _filteredList = _filteredList
+                    .Where(p => p.BirthDate >= SelectedBirthDate && p.DeathDate <= SelectedDeathDate);
+            }
 
+
+            //TODO: create and bind selectedDates and implement data filtering interval next to the properties
+            //see selectedBirth and selectedDeath as examples
 
 
             foreach (var filter in FilterItems!)
@@ -207,38 +237,38 @@ namespace GeneA.ViewModels
                 {
                     case FilterType.HasChildren: 
 
-                        _filteredList = _filteredList.Where(p => p.Offsprings.Count > 0).ToList();
+                        _filteredList = _filteredList.Where(p => p.Offsprings.Count > 0);
                         break;
                     case FilterType.HasParents:
 
                         _filteredList = _filteredList
-                            .Where(p => p.Father != null && p.Mother != null).ToList();
+                            .Where(p => p.Father != null && p.Mother != null);
                         break;
                     case FilterType.HasSpouse:
                         _filteredList = _filteredList
-                            .Where(p => p.Spouses.Count > 0).ToList();
+                            .Where(p => p.Spouses.Count > 0);
                         break;
                 }
             }
 
             if(SelectedNationalityItem != null)
-                _filteredList = _filteredList.Where(p => p.Nationality == SelectedNationalityItem).ToList();
+                _filteredList = _filteredList.Where(p => p.Nationality == SelectedNationalityItem);
 
             switch (SelectedGender?.GenderEnum)
             {
                 case ModelA.Enums.GenderEnum.Gender.Male:
-                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList(); 
+                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male); 
                     break;
                 case ModelA.Enums.GenderEnum.Gender.Female:
-                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
+                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female);
                     break;
                 default:
                     break;
             }
 
             _filteredList = IsAscendingChecked ?
-                _filteredList.OrderBy(p => p.Name).ToList() :
-                _filteredList.OrderByDescending(p => p.Name).ToList();
+                _filteredList.OrderBy(p => p.Name) :
+                _filteredList.OrderByDescending(p => p.Name);
 
             People.ReplaceRange(_filteredList);
         }
@@ -247,12 +277,13 @@ namespace GeneA.ViewModels
         private void ResetFilters()
         {
             //TODO: clear selected dates here too
-
+            SelectedBirthDate = null;
+            SelectedDeathDate = null;
             SelectedGender = null;
             SelectedNationalityItem = null;
             FilterItems?.ForEach(p => p.IsSelected = false);
 
-            ApplyFilters();
+            People.ReplaceRange(_originalPeople!);
         }
         
 
