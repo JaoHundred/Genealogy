@@ -21,7 +21,7 @@ namespace GeneA.ViewModels
 {
     public partial class PersonListingViewModel : ViewModelBase
     {
-        public PersonListingViewModel(IRepository<Person> personRepository, IRepository<Nationality> nationalityRepository, 
+        public PersonListingViewModel(IRepository<Person> personRepository, IRepository<Nationality> nationalityRepository,
             NavigationService navigationService)
         {
             _personRepository = personRepository;
@@ -49,7 +49,7 @@ namespace GeneA.ViewModels
         private bool _isAllChecked;
 
         [ObservableProperty]
-        private bool _isAscendingChecked;
+        private bool? _isAscendingChecked;
 
         [ObservableProperty]
         private PersonItemViewModel? _selectedPersonItem;
@@ -72,7 +72,7 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private Gender? _selectedGender;
 
-        
+
 
         [ObservableProperty]
         private DateTime? _birthDateStart;
@@ -108,22 +108,51 @@ namespace GeneA.ViewModels
         private DateTime? _selectedDeathDate;
         partial void OnSelectedDeathDateChanged(DateTime? value)
         {
-            if(value < SelectedBirthDate) 
+            if (value < SelectedBirthDate)
                 SelectedDeathDate = SelectedBirthDate;
         }
 
         [ObservableProperty]
-        private DateTime? _selectedBaptismDate;
+        private DateTime? _selectedBaptismDateLeft;
+        partial void OnSelectedBaptismDateLeftChanged(DateTime? value)
+        {
+            if (value > SelectedBaptismDateRight)
+                SelectedBaptismDateLeft = SelectedBaptismDateRight;
+        }
 
         [ObservableProperty]
-        private DateTime? _selectedWeddingDate;
+        private DateTime? _selectedBaptismDateRight;
+        partial void OnSelectedBaptismDateRightChanged(DateTime? value)
+        {
+            if (value < SelectedBaptismDateLeft)
+                SelectedBaptismDateRight = SelectedBaptismDateLeft;
+        }
+
+        [ObservableProperty]
+        private DateTime? _selectedWeddingDateLeft;
+        partial void OnSelectedWeddingDateLeftChanged(DateTime? value)
+        {
+            if (value > SelectedWeddingDateRight)
+                SelectedWeddingDateLeft = SelectedWeddingDateRight;
+        }
+
+        [ObservableProperty]
+        private DateTime? _selectedWeddingDateRight;
+        partial void OnSelectedWeddingDateRightChanged(DateTime? value)
+        {
+            if (value < SelectedWeddingDateLeft)
+                SelectedWeddingDateRight = SelectedWeddingDateLeft;
+        }
+
+        [ObservableProperty]
+        private string _searchText = string.Empty;
 
         public async Task Load()
         {
             await Task.Run(async () =>
             {
                 var filters = FilterHelper.FillFilters();
-                
+
                 var nationalityItems = _nationalityRepository.FindAll().ToNationalityItemViewModels().ToList();
                 var genders = StaticList.FillGenders().ToList();
 
@@ -134,7 +163,7 @@ namespace GeneA.ViewModels
                 {
                     var person = _originalPeople.FirstOrDefault(p => p.Nationality?.Id == item.Id);
 
-                    if(person != null)
+                    if (person != null)
                         person.Nationality = item;
                 }
 
@@ -144,7 +173,7 @@ namespace GeneA.ViewModels
                     FilterItems = filters;
                     Genders = genders;
                     NationalityItems = nationalityItems;
-                    
+
                     BirthDateStart = _originalPeople.Select(p => p.BirthDate).Min();
                     BirthDateEnd = _originalPeople.Select(p => p.BirthDate).Max();
 
@@ -198,35 +227,45 @@ namespace GeneA.ViewModels
         }
 
         [RelayCommand]
-        private async Task TextFilter(string searchText)
+        private void TextFilter()
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                People.ReplaceRange(_originalPeople!.Where(p => p.Name
-                .ToLower().Contains(searchText.ToLower())));
-            });
-
-            CanDelete = People.Count > 0 && People.Any(p => p.IsSelected!.Value);
+            if (!string.IsNullOrEmpty(SearchText))
+                Filter();
         }
 
-        private IEnumerable<PersonItemViewModel> _filteredList;
+        private IEnumerable<PersonItemViewModel>? _filteredList;
 
         [RelayCommand]
         private void ApplyFilters()
         {
+            Filter();
+        }
+
+        private void Filter()
+        {
             _filteredList = _originalPeople!;
 
-            
-            if(SelectedBirthDate != null && SelectedDeathDate != null)
+            if (!string.IsNullOrEmpty(SearchText))
+                _filteredList = _originalPeople!.Where(p => p.Name
+                    .ToLower().Contains(SearchText.ToLower()));
+
+            if (SelectedBirthDate != null && SelectedDeathDate != null)
             {
-               _filteredList = _filteredList
-                    .Where(p => p.BirthDate >= SelectedBirthDate && p.DeathDate <= SelectedDeathDate);
+                _filteredList = _filteredList
+                     .Where(p => p.BirthDate >= SelectedBirthDate && p.DeathDate <= SelectedDeathDate);
             }
 
+            if (SelectedBaptismDateLeft != null && SelectedBaptismDateRight != null)
+            {
+                _filteredList = _filteredList
+                     .Where(p => p.BaptismDate >= SelectedBaptismDateLeft && p.BaptismDate <= SelectedBaptismDateRight);
+            }
 
-            //TODO: create and bind selectedDates and implement data filtering interval next to the properties
-            //see selectedBirth and selectedDeath as examples
-
+            if (SelectedWeddingDateLeft != null && SelectedWeddingDateRight != null)
+            {
+                _filteredList = _filteredList
+                     .Where(p => p.WeddingDate >= SelectedWeddingDateLeft && p.WeddingDate <= SelectedWeddingDateRight);
+            }
 
             foreach (var filter in FilterItems!)
             {
@@ -235,7 +274,7 @@ namespace GeneA.ViewModels
 
                 switch (filter.FilterType)
                 {
-                    case FilterType.HasChildren: 
+                    case FilterType.HasChildren:
 
                         _filteredList = _filteredList.Where(p => p.Offsprings.Count > 0);
                         break;
@@ -251,13 +290,13 @@ namespace GeneA.ViewModels
                 }
             }
 
-            if(SelectedNationalityItem != null)
+            if (SelectedNationalityItem != null)
                 _filteredList = _filteredList.Where(p => p.Nationality == SelectedNationalityItem);
 
             switch (SelectedGender?.GenderEnum)
             {
                 case ModelA.Enums.GenderEnum.Gender.Male:
-                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male); 
+                    _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male);
                     break;
                 case ModelA.Enums.GenderEnum.Gender.Female:
                     _filteredList = _filteredList.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female);
@@ -266,26 +305,32 @@ namespace GeneA.ViewModels
                     break;
             }
 
-            _filteredList = IsAscendingChecked ?
-                _filteredList.OrderBy(p => p.Name) :
-                _filteredList.OrderByDescending(p => p.Name);
+            if (IsAscendingChecked != null)
+                _filteredList = IsAscendingChecked.Value ?
+                    _filteredList.OrderBy(p => p.Name) :
+                    _filteredList.OrderByDescending(p => p.Name);
 
             People.ReplaceRange(_filteredList);
+            CanDelete = People.Count > 0 && People.Any(p => p.IsSelected!.Value);
         }
 
         [RelayCommand]
         private void ResetFilters()
         {
-            //TODO: clear selected dates here too
+            IsAscendingChecked = true;
             SelectedBirthDate = null;
             SelectedDeathDate = null;
+            SelectedBaptismDateLeft = null;
+            SelectedBaptismDateRight = null;
+            SelectedWeddingDateLeft = null;
+            SelectedWeddingDateRight = null;
             SelectedGender = null;
             SelectedNationalityItem = null;
             FilterItems?.ForEach(p => p.IsSelected = false);
 
             People.ReplaceRange(_originalPeople!);
         }
-        
+
 
         [RelayCommand]
         private async Task DeleteSelectedPeople()

@@ -65,7 +65,7 @@
   <!--{Binding IsFilterPaneOpen, Mode=TwoWay}-->
   <SplitView DisplayMode="Overlay" Name="splitPane"
              PaneClosed="SplitView_PaneClosed"
-             IsPaneOpen="True">
+             IsPaneOpen="{Binding IsFilterPaneOpen, Mode=TwoWay}">
     <SplitView.Pane>
       <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
         <Grid RowDefinitions="auto *">
@@ -87,12 +87,13 @@
               <TextBlock Text="{x:Static loc:Resource.SortBy}"
                          FontSize="18"/>
               <StackPanel Grid.Row="1" Margin="5" Orientation="Horizontal">
-                <RadioButton GroupName="Order"
+                <RadioButton GroupName="Order" 
                              IsChecked="{Binding IsAscendingChecked}">
                   <TextBlock Text="{x:Static loc:Resource.Ascending}"
                            />
                 </RadioButton >
-                <RadioButton GroupName="Order" Margin="5,0,0,0" HorizontalAlignment="Right">
+                <RadioButton GroupName="Order" Margin="5,0,0,0" 
+                             HorizontalAlignment="Right">
                   <TextBlock Text="{x:Static loc:Resource.Descending}"/>
                 </RadioButton>
               </StackPanel>
@@ -122,18 +123,26 @@
                            FontSize="16" Margin="0,5,0,0"/>
                 <CalendarDatePicker DisplayDateStart="{Binding BapTismStart}"
                                     DisplayDateEnd="{Binding BapTismEnd}"
+                                    SelectedDate="{Binding SelectedBaptismDateLeft
+                                    , Converter={StaticResource ValidDatetimeConverter}}"
                                     CalendarClosed="CalendarDatePicker_CalendarClosed"/>
                 <CalendarDatePicker DisplayDateStart="{Binding BapTismStart}"
                                     DisplayDateEnd="{Binding BapTismEnd}"
+                                    SelectedDate="{Binding SelectedBaptismDateRight
+                                    , Converter={StaticResource ValidDatetimeConverter}}"
                                     CalendarClosed="CalendarDatePicker_CalendarClosed"/>
                 
                 <TextBlock Text="{x:Static loc:Resource.Wedding}"
                            FontSize="16" Margin="0,5,0,0"/>
                 <CalendarDatePicker DisplayDateStart="{Binding WeddingStart}"
                                     DisplayDateEnd="{Binding WeddingEnd}"
+                                    SelectedDate="{Binding SelectedWeddingDateLeft
+                                    , Converter={StaticResource ValidDatetimeConverter}}"
                                     CalendarClosed="CalendarDatePicker_CalendarClosed"/>
                 <CalendarDatePicker DisplayDateStart="{Binding WeddingStart}"
                                     DisplayDateEnd="{Binding WeddingEnd}"
+                                    SelectedDate="{Binding SelectedWeddingDateRight
+                                    , Converter={StaticResource ValidDatetimeConverter}}"
                                     CalendarClosed="CalendarDatePicker_CalendarClosed"/>
               </StackPanel>
               <ListBox Grid.Row="4" Margin="0,5,0,0"
@@ -199,12 +208,12 @@
     <Grid RowDefinitions="auto auto auto *" >
       <TextBox Classes="marginControl"
                Name="SearchTextBox"
+               Text="{Binding SearchText, Mode=TwoWay}"
                Watermark="{x:Static loc:Resource.SearchTheName}" >
         <i:Interaction.Behaviors>
           <ia:EventTriggerBehavior EventName="TextChanged">
             <ia:InvokeCommandAction
-              Command="{Binding TextFilterCommand}"
-              CommandParameter="{Binding #SearchTextBox.Text}"/>
+              Command="{Binding TextFilterCommand}"/>
           </ia:EventTriggerBehavior>
         </i:Interaction.Behaviors>
 
