@@ -28,7 +28,10 @@ namespace GeneA.ViewModelItems
     public enum FilterType
     {
         HasParents,
+        HasNotParents,
         HasChildren,
+        HasNotChildren,
         HasSpouse,
+        HasNotSpouse,
     }
 }

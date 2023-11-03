@@ -158,18 +158,25 @@ namespace GeneA.ViewModels
 
                 _originalPeople = _personRepository.FindAll().ToPersonItemViewModels(isSelected: false).ToList();
 
-
-                foreach (var item in nationalityItems)
+                foreach (var person in _originalPeople)
                 {
-                    var person = _originalPeople.FirstOrDefault(p => p.Nationality?.Id == item.Id);
+                    if (person.Father != null)
+                        person.Father = _personRepository.FindById(person.Father.Id);
+
+                    if (person.Mother != null)
+                        person.Mother = _personRepository.FindById(person.Mother.Id);
+                }
+
+                foreach (var nationality in nationalityItems)
+                {
+                    var person = _originalPeople.FirstOrDefault(p => p.Nationality?.Id == nationality.Id);
 
                     if (person != null)
-                        person.Nationality = item;
+                        person.Nationality = nationality;
                 }
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    People.ReplaceRange(_originalPeople);
                     FilterItems = filters;
                     Genders = genders;
                     NationalityItems = nationalityItems;
@@ -185,6 +192,8 @@ namespace GeneA.ViewModels
 
                     WeddingStart = _originalPeople.Select(p => p.WeddingDate).Min();
                     WeddingEnd = _originalPeople.Select(p => p.WeddingDate).Max();
+
+                    People.ReplaceRange(_originalPeople);
                 });
             });
         }
@@ -229,8 +238,7 @@ namespace GeneA.ViewModels
         [RelayCommand]
         private void TextFilter()
         {
-            if (!string.IsNullOrEmpty(SearchText))
-                Filter();
+            Filter();
         }
 
         private IEnumerable<PersonItemViewModel>? _filteredList;
@@ -243,11 +251,13 @@ namespace GeneA.ViewModels
 
         private void Filter()
         {
+            if (SearchText == null || FilterItems == null)
+                return;
+
             _filteredList = _originalPeople!;
 
-            if (!string.IsNullOrEmpty(SearchText))
-                _filteredList = _originalPeople!.Where(p => p.Name
-                    .ToLower().Contains(SearchText.ToLower()));
+            _filteredList = _originalPeople!.Where(p => p.Name
+                .ToLower().Contains(SearchText.ToLower()));
 
             if (SelectedBirthDate != null && SelectedDeathDate != null)
             {
@@ -277,15 +287,40 @@ namespace GeneA.ViewModels
                     case FilterType.HasChildren:
 
                         _filteredList = _filteredList.Where(p => p.Offsprings.Count > 0);
+
                         break;
+
+                    case FilterType.HasNotChildren:
+
+                        _filteredList = _filteredList.Where(p => p.Offsprings.Count == 0);
+
+                        break;
+
                     case FilterType.HasParents:
 
                         _filteredList = _filteredList
-                            .Where(p => p.Father != null && p.Mother != null);
+                            .Where(p => !string.IsNullOrEmpty(p.Father?.Name) && !string.IsNullOrEmpty(p.Mother?.Name));
                         break;
+
+                    case FilterType.HasNotParents:
+
+                        _filteredList = _filteredList
+                            .Where(p => string.IsNullOrEmpty(p.Father?.Name) || string.IsNullOrEmpty(p.Mother?.Name));
+
+                        break;
+
                     case FilterType.HasSpouse:
+
                         _filteredList = _filteredList
                             .Where(p => p.Spouses.Count > 0);
+
+                        break;
+
+                    case FilterType.HasNotSpouse:
+
+                        _filteredList = _filteredList
+                            .Where(p => p.Spouses.Count == 0);
+
                         break;
                 }
             }
@@ -348,17 +383,18 @@ namespace GeneA.ViewModels
                      await Dispatcher.UIThread.InvokeAsync(() =>
                      {
                          People.ReplaceRange(_originalPeople);
+                         IsAllChecked = false;
                      });
 
                      await databaseDeleteTask;
-                     await _navigationService.GoBackAsync();
+                     await _navigationService.GoBackAsync(needToReload: false);
                  },
                  cancelAction: async () =>
                  {
                      _originalPeople!.ForEach((personVM) => { personVM.IsSelected = false; });
                      IsAllChecked = false;
 
-                     await _navigationService.GoBackAsync();
+                     await _navigationService.GoBackAsync(needToReload: false);
                  },
                  title: DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle),
                  message: DynamicTranslate.Translate(MessageConsts.Confirmation)
