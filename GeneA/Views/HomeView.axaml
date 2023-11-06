@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="GeneA.Views.HomeView"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              x:DataType="vm:HomeViewModel">
@@ -21,8 +22,9 @@
       </i:Interaction.Behaviors>
     </ListBox>
     <Button Classes="round" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10"
+            VerticalContentAlignment="Center"
             Command="{Binding AddNewPersonCommand}">
-      <TextBlock Text="+"/>
+      <icon:Icon Value="mdi-plus" FontSize="25"/>
     </Button>
   </Grid>
 </UserControl>

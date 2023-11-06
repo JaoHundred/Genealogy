@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
+             xmlns:loc="using:GeneA.Lang"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              x:Class="GeneA.Views.MainView"
              xmlns:not="using:Avalonia.Notification.Controls"
@@ -14,14 +16,44 @@
       <Grid Name="ContentGrid"/>
 
       <Border Grid.Row="1" Name="BottomMenu">
-        <Grid ColumnDefinitions="*,*,*">
-          <Button Grid.Column="0" Content="Home" Command="{Binding HomeCommand}"/>
-          <Button Grid.Column="1" Content="People list" Command="{Binding PeopleCommand}"/>
-          <Button Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"/>
+        <Grid ColumnDefinitions="*,*,*" Margin="0,0,30,0">
+          <RadioButton  Classes="iconButton" GroupName="menu"
+                        HorizontalAlignment="Center"
+                        IsChecked="True"
+                        Grid.Column="0" Command="{Binding HomeCommand}" >
+            <StackPanel >
+              <Border Classes="radioBorder" >
+                <icon:Icon Value="mdi-home" />
+              </Border>
+              <TextBlock Text="{x:Static loc:Resource.Home}"/>
+            </StackPanel>
+          </RadioButton>
+          <RadioButton  Grid.Column="1" Command="{Binding PeopleCommand}"
+                        Classes="iconButton" GroupName="menu"
+                        HorizontalAlignment="Center">
+
+            <StackPanel>
+              <Border Classes="radioBorder">
+                <icon:Icon Value="mdi-format-list-bulleted" />
+              </Border>
+              <TextBlock Text="{x:Static loc:Resource.PeopleList}"/>
+            </StackPanel>
+          </RadioButton>
+          <RadioButton  Grid.Column="2" Content="Settings" Command="{Binding SettingsCommand}"
+                        Classes="iconButton" GroupName="menu"
+                        HorizontalAlignment="Center">
+
+            <StackPanel>
+              <Border Classes="radioBorder">
+                <icon:Icon Value="mdi-cog" />
+              </Border>
+              <TextBlock Text="{x:Static loc:Resource.Settings}"/>
+            </StackPanel>
+          </RadioButton>
         </Grid>
       </Border>
       <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="40">
-        <not:NotificationMessageContainer Manager="{Binding NotificationManager}"  
+        <not:NotificationMessageContainer Manager="{Binding NotificationManager}"
                             Background="RoyalBlue" />
       </Border>
     </Grid>

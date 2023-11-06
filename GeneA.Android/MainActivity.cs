@@ -3,6 +3,8 @@ using Android.Content.PM;
 
 using Avalonia;
 using Avalonia.Android;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.MaterialDesign;
 
 namespace GeneA.Android;
 
@@ -16,6 +18,8 @@ public class MainActivity : AvaloniaMainActivity<App>
 {
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
     {
+        IconProvider.Current.Register<MaterialDesignIconProvider>();
+
         return base.CustomizeAppBuilder(builder)
             .WithInterFont();
     }

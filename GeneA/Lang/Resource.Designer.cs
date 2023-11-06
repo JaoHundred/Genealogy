@@ -286,6 +286,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Male.
         /// </summary>
         public static string Male {
@@ -367,6 +376,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to People list.
+        /// </summary>
+        public static string PeopleList {
+            get {
+                return ResourceManager.GetString("PeopleList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset filters.
         /// </summary>
         public static string ResetFilters {
@@ -417,6 +435,15 @@ namespace GeneA.Lang {
         public static string SelectSpouses {
             get {
                 return ResourceManager.GetString("SelectSpouses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         

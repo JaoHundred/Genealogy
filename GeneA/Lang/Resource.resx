@@ -192,6 +192,9 @@
   <data name="HasSpouse" xml:space="preserve">
     <value>Has spouse</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="Male" xml:space="preserve">
     <value>Male</value>
   </data>
@@ -219,6 +222,9 @@
   <data name="Offsprings" xml:space="preserve">
     <value>Offsprings</value>
   </data>
+  <data name="PeopleList" xml:space="preserve">
+    <value>People list</value>
+  </data>
   <data name="ResetFilters" xml:space="preserve">
     <value>Reset filters</value>
   </data>
@@ -236,6 +242,9 @@
   </data>
   <data name="SelectSpouses" xml:space="preserve">
     <value>Select spouses</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
