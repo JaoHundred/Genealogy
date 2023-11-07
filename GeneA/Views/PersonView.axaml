@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
              xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
              xmlns:enum="clr-namespace:ModelA.Enums;assembly=ModelA"
@@ -17,18 +18,18 @@
   </UserControl.Resources>
 
   <UserControl.Styles>
-    
+
     <Style Selector="Button.PopupButton">
       <Setter Property="CornerRadius" Value="0,0,10,10"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Center"/>
       <Setter Property="Height" Value="30"/>
     </Style>
-    
+
     <Style Selector="Button>TextBlock">
       <Setter Property="FontSize" Value="14"/>
     </Style>
-    
+
   </UserControl.Styles>
 
   <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
@@ -110,7 +111,7 @@
 
             <TextBlock Grid.Row="2" Text="{x:Static loc:Resource.Spouse}"
                        Margin="0,10,0,0"/>
-            <Button Grid.Row="3" Command="{Binding OpenSpousesCommand}" 
+            <Button Grid.Row="3" Command="{Binding OpenSpousesCommand}"
                     Classes="PopupButton"
                      Margin="0,0,5,0">
               <TextBlock Text="{x:Static loc:Resource.SelectSpouses}"/>
@@ -133,9 +134,9 @@
           </Grid>
 
           <TextBlock Grid.Row="8" Text="{x:Static loc:Resource.Observations}"/>
-          <TextBox Grid.Row="9" Grid.ColumnSpan="2" 
+          <TextBox Grid.Row="9" Grid.ColumnSpan="2"
                    Height="200"
-                   Text="{Binding Person.Description}" 
+                   Text="{Binding Person.Description}"
                    TextWrapping="Wrap"/>
         </Grid>
       </ScrollViewer>
@@ -143,13 +144,21 @@
       <Grid Classes="Default" Grid.Row="1" ColumnDefinitions="auto,*"
             Margin="10">
 
-        <Button Command="{Binding DeleteCommand}" IsEnabled="{Binding Person.Id > 0}">
-          <TextBlock Text="{x:Static loc:Resource.Delete}" />
+        <Button Classes="cancelButton" 
+                Command="{Binding DeleteCommand}" IsEnabled="{Binding Person.Id > 0}">
+          <StackPanel>
+            <icon:Icon Value="mdi-trash-can"/>
+            <TextBlock Text="{x:Static loc:Resource.Delete}" />
+          </StackPanel>
         </Button>
-        <Button Grid.Column="1"  HorizontalAlignment="Stretch"
+        <Button Classes="confirmButton" 
+                Grid.Column="1"  HorizontalAlignment="Stretch"
                 Command="{Binding SaveCommand}"
                 IsEnabled="{Binding #nameTextBox.Text.Length > 0}">
-          <TextBlock Text="{x:Static loc:Resource.Save}" />
+          <StackPanel>
+            <icon:Icon Value="mdi-content-save"/>
+            <TextBlock Text="{x:Static loc:Resource.Save}" />
+          </StackPanel>
         </Button>
 
       </Grid>

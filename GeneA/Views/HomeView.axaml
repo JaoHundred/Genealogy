@@ -21,7 +21,9 @@
         </ia:EventTriggerBehavior>
       </i:Interaction.Behaviors>
     </ListBox>
-    <Button Classes="round" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10"
+    <Button Classes="round newButton" 
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Right" Margin="10"
             VerticalContentAlignment="Center"
             Command="{Binding AddNewPersonCommand}">
       <icon:Icon Value="mdi-plus" FontSize="25"/>

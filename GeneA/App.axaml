@@ -108,6 +108,21 @@
       <Setter Property="Height" Value="50"/>
     </Style>
 
+    <Style Selector="Button.round.newButton">
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#5380B5"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="#5380B5"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+    </Style>
+
     <Style Selector="Border.popup">
       <Setter Property="BorderThickness" Value="10"/>
       <Setter Property="CornerRadius" Value="5"/>
@@ -153,10 +168,15 @@
         <Setter Property="Foreground" Value="White"/>
       </Style>
 
+      <Style Selector="^:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="DarkGray"/>
+        <Setter Property="Foreground" Value="Gray"/>
+      </Style>
+
     </Style>
 
     <Style Selector="Button.confirmButton">
-      
+
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="DarkGreen"/>
         <Setter Property="Foreground" Value="White"/>
