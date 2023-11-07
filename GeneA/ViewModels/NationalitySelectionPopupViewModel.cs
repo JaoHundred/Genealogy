@@ -142,11 +142,13 @@ namespace GeneA.ViewModels
                 Nationalities.ReplaceRange(_originalNationalities.Where(p => p.ToString()
                 .ToLower().Contains(searchText.ToLower())));
 
-                if (Nationalities.Count == 0)
+                if (!Nationalities.Any(p => p.ToString() == searchText))
                 {
                     _canAddNationalityMatch = RegexHelper.CanAddNationality(searchText);
                     CanAdd = _canAddNationalityMatch.Success;
                 }
+                else
+                    CanAdd = false;
             });
         }
 

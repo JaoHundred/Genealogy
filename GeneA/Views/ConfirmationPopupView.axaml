@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              x:Class="GeneA.Views.ConfirmationPopupView"
              xmlns:loc="using:GeneA.Lang"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              x:DataType="vm:ConfirmationPopupViewModel"
              xmlns:controls="using:GeneA.CustomControls"
@@ -26,14 +27,20 @@
 
         <Grid Grid.Row="2" ColumnDefinitions="* *"
               Margin="5">
-          <Button Name="CancelButton" Classes="PopButton"
+          <Button Name="CancelButton" Classes="dialogButton cancelButton"
                   Command="{Binding CancelCommand}">
-            <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
+            <StackPanel>
+              <icon:Icon Value="mdi-close" />
+              <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
+            </StackPanel>
           </Button>
 
-          <Button Name="ConfirmButton" Classes="PopButton" Grid.Column="1"
+          <Button Name="ConfirmButton" Classes="dialogButton confirmButton" Grid.Column="1"
                   Command="{Binding ConfirmCommand}">
-            <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
+            <StackPanel>
+              <icon:Icon Value="mdi-check-bold" />
+              <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
+            </StackPanel>
           </Button>
         </Grid>
       </Grid>

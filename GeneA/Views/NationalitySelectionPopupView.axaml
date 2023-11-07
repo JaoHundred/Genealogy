@@ -7,6 +7,7 @@
              xmlns:loc="using:GeneA.Lang"
              xmlns:vm="using:GeneA.ViewModels"
              xmlns:conv="using:GeneA.Converters"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              x:DataType="vm:NationalitySelectionPopupViewModel"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -29,7 +30,7 @@
                            Converter={StaticResource LineBreakConverter}}"/>
             </Flyout>
           </Button.Flyout>
-          <TextBlock Text="?" FontSize="20"/>
+          <icon:Icon Value="mdi-help" FontSize="20"/>
         </Button>
 
         <TextBlock Classes="popupHeader" Text="{x:Static loc:Resource.Nationality}"
@@ -47,14 +48,17 @@
               </ia:EventTriggerBehavior>
             </i:Interaction.Behaviors>
           </TextBox>
-          <Button Grid.Column="1"
+          <Button Grid.Column="1" Classes="confirmButton"
                   IsEnabled="{Binding CanAdd}"
                   VerticalContentAlignment="Center"
                   Command="{Binding NewNationalityCommand}"
                   Height="{Binding #searchTextBox.Bounds.Height}"
                   CornerRadius="0,3,3,0">
-            <TextBlock FontSize="14"
-                       Text="{x:Static loc:Resource.AddNewNationality}"/>
+            <StackPanel Orientation="Horizontal">
+              <icon:Icon Value="mdi-plus"/>
+              <TextBlock FontSize="14" VerticalAlignment="Center"
+                         Text="{x:Static loc:Resource.AddNewNationality}"/>
+            </StackPanel>
           </Button>
         </Grid>
 
@@ -79,10 +83,13 @@
                   </ScrollViewer>
                 </RadioButton>
 
-                <Button Grid.Column="1"
+                <Button Grid.Column="1" Classes="cancelButton"
                         Command="{Binding #UC.((vm:NationalitySelectionPopupViewModel)DataContext).DeleteNationalityCommand}"
                         CommandParameter="{Binding .}">
-                  <TextBlock Text="{x:Static loc:Resource.Delete}" FontSize="12"/>
+                  <StackPanel>
+                    <icon:Icon Value="mdi-trash-can"/>
+                    <TextBlock Text="{x:Static loc:Resource.Delete}" FontSize="12"/>
+                  </StackPanel>
                 </Button>
               </Grid>
             </DataTemplate>
@@ -91,15 +98,21 @@
         </ListBox>
         <Grid Grid.Row="3" ColumnDefinitions="* *"
               Margin="5">
-          <Button Classes="PopButton" Name="CancelButton"
+          <Button Classes="dialogButton cancelButton" Name="CancelButton"
                   Command="{Binding CancelCommand}">
-            <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
+            <StackPanel>
+              <icon:Icon Value="mdi-close"/>
+              <TextBlock Text="{x:Static loc:Resource.Cancel}"/>
+            </StackPanel>
           </Button>
 
-          <Button Classes="PopButton" Grid.Column="1"
+          <Button Classes="dialogButton confirmButton" Grid.Column="1"
                   Command="{Binding ConfirmCommand}"
                   Name="ConfirmButton" >
-            <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
+            <StackPanel>
+              <icon:Icon Value="mdi-check-bold"/>
+              <TextBlock Text="{x:Static loc:Resource.Confirm}"/>
+            </StackPanel>
           </Button>
         </Grid>
       </Grid>

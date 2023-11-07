@@ -130,7 +130,7 @@ public partial class PersonViewModel : ViewModelBase
             };
             Action cancel = async () =>
             {
-                await _navigation.GoBackAsync();
+                await _navigation.GoBackAsync(needToReload: false);
             };
 
             await _navigation.PopUpAsync<ConfirmationPopupViewModel>()

@@ -52,18 +52,21 @@
     </Style>
 
 
+    <Style Selector="icon|Icon">
+      <Setter Property="FontSize" Value="22"/>
+    </Style>
     <Style Selector="RadioButton.iconButton">
 
       <Style Selector="^ /template/ Ellipse">
         <Setter Property="IsVisible" Value="False"/>
       </Style>
-      
+
       <Style Selector="^ TextBlock">
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Foreground" Value="#e3ffff"/>
       </Style>
       <Style Selector="^ icon|Icon">
-        <Setter Property="FontSize" Value="22"/>
+
         <Setter Property="Foreground" Value="#e3ffff"/>
       </Style>
 
@@ -76,11 +79,10 @@
         <Setter Property="Foreground" Value="White"/>
       </Style>
       <Style Selector="^:checked icon|Icon">
-        <Setter Property="FontSize" Value="22"/>
         <Setter Property="Foreground" Value="White"/>
       </Style>
     </Style>
-    
+
     <Style Selector="Button.round">
       <Setter Property="CornerRadius" Value="50"/>
       <Setter Property="Height" Value="60"/>
@@ -115,23 +117,64 @@
       <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
 
-    <Style Selector="Button.PopButton">
-      <Setter Property="HorizontalAlignment" Value="Stretch"/>
-      <Setter Property="HorizontalContentAlignment" Value="Center"/>
-      <Setter Property="FontSize" Value="10"/>
-      <Setter Property="Margin" Value="4,3"/>
-    </Style>
-
-    <Style Selector="Button.PopButton>TextBlock">
-      <Setter Property="FontSize" Value="20"/>
-      <Setter Property="FontWeight" Value="SemiBold"/>
-    </Style>
-
     <Style Selector="TextBlock.popupHeader">
       <Setter Property="Margin" Value="5"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Setter Property="FontSize" Value="20"/>
       <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style Selector="Button.dialogButton">
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="4,3"/>
+
+      <Style Selector="^ TextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+      </Style>
+
+    </Style>
+
+    <Style Selector="Button.cancelButton">
+
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="DarkRed"/>
+      </Style>
+
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+
+    </Style>
+
+    <Style Selector="Button.confirmButton">
+      
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="DarkGreen"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="LimeGreen"/>
+      </Style>
+
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="LimeGreen"/>
+      </Style>
+
+      <Style Selector="^:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="DarkGray"/>
+        <Setter Property="Foreground" Value="Gray"/>
+      </Style>
+
     </Style>
 
   </Application.Styles>
@@ -172,7 +215,7 @@
                 VerticalAlignment="Center" HorizontalAlignment="Left"
                 BorderBrush="Gray" BorderThickness="2">
 
-          <icon:Icon HorizontalAlignment="Center" Value="mdi-exclamation-thick" 
+          <icon:Icon HorizontalAlignment="Center" Value="mdi-exclamation-thick"
                      Foreground="Red"
                      FontSize="35" FontWeight="ExtraBlack"/>
         </Border>
@@ -190,7 +233,7 @@
             </ia:EventTriggerBehavior>
           </i:Interaction.Behaviors>
         </CheckBox>
-        <Rectangle Grid.Column="1" Width="3" Height="{Binding $parent[Grid].Bounds.Height}" 
+        <Rectangle Grid.Column="1" Width="3" Height="{Binding $parent[Grid].Bounds.Height}"
                    Fill="LightGray" />
 
         <Grid Grid.Column="2" RowDefinitions="auto auto, auto"
