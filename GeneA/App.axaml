@@ -175,6 +175,14 @@
 
     </Style>
 
+    <Style Selector="Button.cancelButton.disabledTransparentBackground">
+
+      <Style Selector="^:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+
+    </Style>
+
     <Style Selector="Button.confirmButton">
 
       <Style Selector="^ /template/ ContentPresenter">
@@ -195,6 +203,16 @@
         <Setter Property="Foreground" Value="Gray"/>
       </Style>
 
+    </Style>
+
+    <Style Selector="Button.filter">
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+      <Style Selector="^:pointerover  /template/ ContentPresenter">
+        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
     </Style>
 
   </Application.Styles>
