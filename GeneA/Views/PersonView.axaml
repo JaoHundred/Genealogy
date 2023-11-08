@@ -20,10 +20,25 @@
   <UserControl.Styles>
 
     <Style Selector="Button.PopupButton">
-      <Setter Property="CornerRadius" Value="0,0,10,10"/>
+      <Setter Property="CornerRadius" Value="10,0,10,0"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Center"/>
       <Setter Property="Height" Value="30"/>
+
+
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="Gray"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Gray"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      
     </Style>
 
     <Style Selector="Button>TextBlock">
