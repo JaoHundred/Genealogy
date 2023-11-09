@@ -5,15 +5,34 @@
              xmlns:vm="clr-namespace:GeneA.ViewModels"
              xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:loc="using:GeneA.Lang"
+             xmlns:conv="using:GeneA.Converters"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
              x:Class="GeneA.Views.MainView"
              xmlns:not="using:Avalonia.Notification.Controls"
              x:DataType="vm:MainViewModel"
              xmlns:views="clr-namespace:GeneA.Views">
 
-  <Grid Name="FullViewGrid" >
-    <Grid RowDefinitions="*,auto" >
-      <Grid Name="ContentGrid"/>
+  <UserControl.Resources>
+    <conv:BoolToOpacity x:Key="BoolToOpacity"/>
+  </UserControl.Resources>
+
+  <Grid Name="FullViewGrid" Margin="0">
+    <Grid RowDefinitions="* auto">
+
+      <Grid RowDefinitions="auto *"
+            ColumnDefinitions="auto *">
+        <Button Name="BackButtom" Classes="backButton"
+                Margin="5" CornerRadius="10"
+                Opacity="{Binding CanGoback, Converter={StaticResource BoolToOpacity}}"
+                Command="{Binding GoBackCommand}">
+          <icon:Icon Value="mdi-arrow-left"/>
+        </Button>
+        
+        <TextBlock Grid.Column="1" Text="Title" VerticalAlignment="Center" 
+                   FontSize="22" FontWeight="SemiBold"/>
+        
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Name="ContentGrid" />
+      </Grid>
 
       <Border Grid.Row="1" Name="BottomMenu">
         <Grid ColumnDefinitions="*,*,*" Margin="0,0,30,0">

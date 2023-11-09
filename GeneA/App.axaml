@@ -115,11 +115,9 @@
       </Style>
       <Style Selector="^:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="#5380B5"/>
-        <Setter Property="Foreground" Value="White"/>
       </Style>
       <Style Selector="^:pressed /template/ ContentPresenter">
         <Setter Property="Background" Value="#5380B5"/>
-        <Setter Property="Foreground" Value="White"/>
       </Style>
     </Style>
 
@@ -213,6 +211,23 @@
         <Setter Property="Background" Value="#0053B2"/>
         <Setter Property="Foreground" Value="White"/>
       </Style>
+      <Style Selector="^:pressed  /template/ ContentPresenter">
+        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+    </Style>
+
+    <Style Selector="Button.backButton">
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#5380B5"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="#5380B5"/>
+      </Style>
     </Style>
 
   </Application.Styles>
@@ -277,7 +292,7 @@
         <Grid Grid.Column="2" RowDefinitions="auto auto, auto"
               ColumnDefinitions="* auto *" Background="Transparent">
           <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="Tapped">
+            <ia:EventTriggerBehavior EventName="PointerReleased">
               <ia:InvokeCommandAction
                 Command="{Binding $parent[UserControl].((vm:PersonListingViewModel)DataContext).EditPersonCommand}"/>
             </ia:EventTriggerBehavior>

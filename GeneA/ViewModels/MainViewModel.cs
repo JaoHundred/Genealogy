@@ -26,6 +26,15 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private INotificationMessageManager _notificationManager;
 
+    [ObservableProperty]
+    private bool _canGoback;
+
+    [RelayCommand]
+    private async Task GoBack()
+    {
+        await _navigationService.GoBackAsync(needToReload: false);
+    }
+
     [RelayCommand]
     private async Task Home()
     {

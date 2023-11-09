@@ -78,6 +78,12 @@ public class NavigationService
                 vm!.LoadAction?.Invoke();//reload the previous view
             });
         }
+
+        await RunInUIThread(() =>
+        {
+            if (_mainView.DataContext is MainViewModel vm)
+                vm.CanGoback = _stack.Count > 1;
+        });
     }
 
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
@@ -121,6 +127,12 @@ public class NavigationService
                 _mainView.ContentGrid.Children.Add(view);
             });
         }
+
+        await RunInUIThread(() =>
+        {
+            if (_mainView.DataContext is MainViewModel vm)
+                vm.CanGoback = _stack.Count > 1;
+        });
     }
 
     public async Task<T> PopUpAsync<T>(object? param = null) where T : ViewModelBase

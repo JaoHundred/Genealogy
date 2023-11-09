@@ -14,7 +14,7 @@
              ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single"
              ItemTemplate="{StaticResource ListTemplate}">
       <i:Interaction.Behaviors>
-        <ia:EventTriggerBehavior EventName="Tapped">
+        <ia:EventTriggerBehavior EventName="PointerReleased">
           <ia:InvokeCommandAction 
             Command="{Binding EditPersonCommand}" 
             CommandParameter="{Binding #RecentList.SelectedItem}"/>
