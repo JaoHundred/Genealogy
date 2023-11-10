@@ -12,7 +12,7 @@ namespace GeneA._Helper
     {
         public static string Translate(string word)
         {
-            Lazy<ResourceManager> ResMgr = new Lazy<ResourceManager>(
+            Lazy<ResourceManager> ResMgr = new(
                   () => new ResourceManager(typeof(Lang.Resource)));
 
             string translated = ResMgr.Value.GetString(word)!;

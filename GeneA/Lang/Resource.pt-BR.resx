@@ -141,6 +141,9 @@
   <data name="Confirm" xml:space="preserve">
     <value>Confirmar</value>
   </data>
+  <data name="CreateOrEdit" xml:space="preserve">
+    <value>Crie ou edite</value>
+  </data>
   <data name="CreateOrSearchNationality" xml:space="preserve">
     <value>Pesquise ou crie</value>
   </data>

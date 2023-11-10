@@ -125,12 +125,13 @@ public partial class PersonViewModel : ViewModelBase
             {
                 _repository.Delete(Person!);
 
-                await _navigation.GoBackAsync(needToReload: false);//close popup and dont reload PersonViewModel
+                //close popup and dont reload PersonViewModel
+                await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
                 await _navigation.GoBackAsync();//back to HomeView
             };
             Action cancel = async () =>
             {
-                await _navigation.GoBackAsync(needToReload: false);
+                await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
             };
 
             await _navigation.PopUpAsync<ConfirmationPopupViewModel>()
@@ -145,11 +146,11 @@ public partial class PersonViewModel : ViewModelBase
             (
              confirmAction: async () =>
              {
-                 await _navigation.GoBackAsync(needToReload: false);
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              },
              cancelAction: async () =>
              {
-                 await _navigation.GoBackAsync(needToReload: false);
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              }
             );
     }
@@ -161,11 +162,11 @@ public partial class PersonViewModel : ViewModelBase
             (
              confirmAction: async () =>
              {
-                 await _navigation.GoBackAsync(needToReload: false);
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              },
              cancelAction: async () =>
              {
-                 await _navigation.GoBackAsync(needToReload: false);
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              }
             );
     }
@@ -177,11 +178,11 @@ public partial class PersonViewModel : ViewModelBase
             (
              confirmAction: async() => 
              {
-                 await _navigation.GoBackAsync(needToReload: false);
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              },
              cancelAction: async() => 
              {
-                 await _navigation.GoBackAsync(needToReload: false);
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              }
 
             );

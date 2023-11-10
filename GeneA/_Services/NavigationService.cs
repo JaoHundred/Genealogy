@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using GeneA._Helper;
 using GeneA.Interfaces;
 using GeneA.ViewModels;
 using GeneA.Views;
@@ -27,7 +28,7 @@ public class NavigationService
 
     private List<Control> _stack;
 
-    public async Task GoBackAsync(bool needToReload = true, object? param = null)
+    public async Task GoBackAsync(bool needToReload = true, bool needToReloadTitle = true, object? param = null)
     {
         if (_stack.LastOrDefault() is IPopupView)
         {
@@ -79,12 +80,19 @@ public class NavigationService
             });
         }
 
+        if (needToReloadTitle)
+        {
+           await LoadTitle();
+        }
+
         await RunInUIThread(() =>
         {
             if (_mainView.DataContext is MainViewModel vm)
                 vm.CanGoback = _stack.Count > 1;
         });
     }
+
+
 
     public async Task GoToAsync<T>(object? param = null) where T : ViewModelBase
     {
@@ -127,6 +135,8 @@ public class NavigationService
                 _mainView.ContentGrid.Children.Add(view);
             });
         }
+
+        await LoadTitle();
 
         await RunInUIThread(() =>
         {
@@ -185,6 +195,43 @@ public class NavigationService
             if (item.DataContext is IDisposable disposable)
                 disposable.Dispose();
         }
+    }
+
+    private async Task LoadTitle()
+    {
+        await RunInUIThread(() =>
+        {
+            if (_mainView.DataContext is MainViewModel mainVM)
+            {
+                if (_stack.LastOrDefault()?.DataContext is ViewModelBase navigatedVM)
+                {
+                    string title = string.Empty;
+                    switch (navigatedVM)
+                    {
+                        case HomeViewModel:
+                            title = DynamicTranslate.Translate(MessageConsts.Home);
+                            break;
+
+                        case PersonListingViewModel:
+                            title = DynamicTranslate.Translate(MessageConsts.PeopleList);
+                            break;
+
+                        case PersonViewModel:
+                            title = DynamicTranslate.Translate(MessageConsts.CreateOrEdit);
+                            break;
+
+                        case SettingsViewModel:
+                            title = DynamicTranslate.Translate(MessageConsts.Settings);
+                            break;
+
+                        default: break;
+                    }
+
+                    mainVM.Title = title;
+                }
+            }
+        });
+
     }
 
     private async Task<ViewModelBase> RunInUIThread(Func<ViewModelBase> action)

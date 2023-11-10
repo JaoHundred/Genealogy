@@ -22,6 +22,8 @@ public partial class MainViewModel : ViewModelBase
 
     private readonly NavigationService _navigationService;
 
+    [ObservableProperty]
+    private string? _title;
 
     [ObservableProperty]
     private INotificationMessageManager _notificationManager;

@@ -16,19 +16,21 @@
     <conv:BoolToOpacity x:Key="BoolToOpacity"/>
   </UserControl.Resources>
 
-  <Grid Name="FullViewGrid" Margin="0">
+  <Grid Name="FullViewGrid">
     <Grid RowDefinitions="* auto">
 
       <Grid RowDefinitions="auto *"
             ColumnDefinitions="auto *">
         <Button Name="BackButtom" Classes="backButton"
-                Margin="5" CornerRadius="10"
+                Margin="5"  CornerRadius="10"
                 Opacity="{Binding CanGoback, Converter={StaticResource BoolToOpacity}}"
+                IsEnabled="{Binding CanGoback}"
                 Command="{Binding GoBackCommand}">
           <icon:Icon Value="mdi-arrow-left"/>
         </Button>
         
-        <TextBlock Grid.Column="1" Text="Title" VerticalAlignment="Center" 
+        <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="0,0,40,0"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
                    FontSize="22" FontWeight="SemiBold"/>
         
         <Grid Grid.Row="1" Grid.ColumnSpan="2" Name="ContentGrid" />

@@ -133,6 +133,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create or edit.
+        /// </summary>
+        public static string CreateOrEdit {
+            get {
+                return ResourceManager.GetString("CreateOrEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search or create.
         /// </summary>
         public static string CreateOrSearchNationality {
