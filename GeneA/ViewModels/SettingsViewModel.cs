@@ -38,7 +38,7 @@ public partial class SettingsViewModel : ViewModelBase
     public List<AppThemeItemViewModel> AppThemes { get; set; }
 
     [ObservableProperty]
-    private AppThemeItemViewModel _selectedAppTheme;
+    private AppThemeItemViewModel? _selectedAppTheme;
 
     private async Task Load()
     {
@@ -55,11 +55,18 @@ public partial class SettingsViewModel : ViewModelBase
     [RelayCommand]
     private void OpenLicenses()
     {
+        //TODO:open popup with all the used libs licenses if you click in one item it will open the browser with its respective
+        //page
+    }
+
+    [RelayCommand]
+    private void Import()
+    {
 
     }
 
     [RelayCommand]
-    private void ImportExport()
+    private void Export()
     {
 
     }

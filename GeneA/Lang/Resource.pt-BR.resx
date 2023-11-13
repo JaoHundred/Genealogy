@@ -168,6 +168,9 @@
   <data name="Description" xml:space="preserve">
     <value>Descrição</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
   <data name="Father" xml:space="preserve">
     <value>Pai</value>
   </data>
@@ -203,6 +206,12 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Principal</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importar</value>
+  </data>
+  <data name="ImportExport" xml:space="preserve">
+    <value>Importar ou exportar dados</value>
   </data>
   <data name="Licenses" xml:space="preserve">
     <value>Licenças</value>
