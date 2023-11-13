@@ -120,6 +120,9 @@
   <data name="AddNewNationality" xml:space="preserve">
     <value>Nova nacionalidade</value>
   </data>
+  <data name="AppColorTheme" xml:space="preserve">
+    <value>Tema do aplicativo</value>
+  </data>
   <data name="ApplyFilters" xml:space="preserve">
     <value>Aplicar filtros</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="CreateOrSearchNationality" xml:space="preserve">
     <value>Pesquise ou crie</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Escuro</value>
   </data>
   <data name="DeathDate" xml:space="preserve">
     <value>Falecimento</value>
@@ -197,6 +203,12 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Principal</value>
+  </data>
+  <data name="Licenses" xml:space="preserve">
+    <value>Licenças</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Claro</value>
   </data>
   <data name="Male" xml:space="preserve">
     <value>Masculino</value>

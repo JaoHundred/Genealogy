@@ -16,5 +16,9 @@ namespace GeneA._Helper
         public const string PeopleList = "PeopleList";
         public const string CreateOrEdit = "CreateOrEdit";
         public const string Settings = "Settings";
+
+        public const string Light = "Light";
+        public const string Dark = "Dark";
+
     }
 }

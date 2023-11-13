@@ -14,10 +14,6 @@ public partial class MainView : UserControl
         InitializeComponent();
     }
 
-
-    //TODO: make a title property in MainViewModel, it will be used as a header to show the page friendly name
-    //ex: PersonView will be called as Create or edit
-
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);

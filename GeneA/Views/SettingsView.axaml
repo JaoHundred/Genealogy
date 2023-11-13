@@ -2,7 +2,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:enums="using:GeneA._Helper"
+             xmlns:loc="using:GeneA.Lang"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
+             xmlns:vm="using:GeneA.ViewModels"
+             x:DataType="vm:SettingsViewModel"
              x:Class="GeneA.Views.SettingsView">
-  Welcome to Settings
+  
+  <UserControl.Styles>
+    <Style Selector="Button.buttonLabel">
+      <Setter Property="Background" Value="Transparent"/>
+
+      <Style Selector="^ TextBlock">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="20"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+      <Style Selector="^:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Black"/>
+      </Style>
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="auto auto auto" Margin="5">
+    <Image Source="/Assets/avalonia-logo.ico"
+           Height="150"/>
+    <StackPanel Grid.Row="1">
+      <TextBlock Text="{x:Static loc:Resource.AppColorTheme}" Margin="0,0,0,5"/>
+      <ComboBox Margin="10,0,0,0" 
+                ItemsSource="{Binding AppThemes}"
+                SelectedItem="{Binding SelectedAppTheme}"
+                DisplayMemberBinding="{Binding Name}"/>
+    </StackPanel>
+    <Button Classes="buttonLabel" Grid.Row="2"
+            Command="{Binding OpenLicensesCommand}">
+      <TextBlock Text="{x:Static loc:Resource.Licenses}" />
+    </Button>
+  </Grid>
 </UserControl>
