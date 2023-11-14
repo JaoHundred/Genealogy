@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:enums="using:GeneA._Helper"
              xmlns:loc="using:GeneA.Lang"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:vm="using:GeneA.ViewModels"
              x:DataType="vm:SettingsViewModel"
              x:Class="GeneA.Views.SettingsView">
@@ -32,6 +35,7 @@
     <Style Selector="Border.menuFrame">
       <Setter Property="Margin" Value="0,10,0,0"/>
       <Setter Property="BorderBrush" Value="LightGray"/>
+      <Setter Property="Background" Value="WhiteSmoke"/>
       <Setter Property="BorderThickness" Value="3"/>
       <Setter Property="CornerRadius" Value="25"/>
     </Style>
@@ -53,7 +57,8 @@
                       HorizontalAlignment="Left"
                       ItemsSource="{Binding AppThemes}"
                       SelectedItem="{Binding SelectedAppTheme}"
-                      DisplayMemberBinding="{Binding Name}"/>
+                      DisplayMemberBinding="{Binding Name}">
+            </ComboBox>
           </StackPanel>
         </Border>
         <Border Classes="menuFrame" Grid.Row="1">
@@ -64,10 +69,16 @@
                         Orientation="Horizontal" HorizontalAlignment="Center">
 
               <Button Margin="5">
-                <TextBlock Text="{x:Static loc:Resource.Import}"/>
+                <StackPanel>
+                  <icon:Icon Value="mdi-import"/>
+                  <TextBlock Text="{x:Static loc:Resource.Import}"/>
+                </StackPanel>
               </Button>
               <Button  Margin="5">
-                <TextBlock Text="{x:Static loc:Resource.Export}"/>
+                <StackPanel>
+                  <icon:Icon Value="mdi-export"/>
+                  <TextBlock Text="{x:Static loc:Resource.Export}"/>
+                </StackPanel>
               </Button>
             </StackPanel>
           </Grid>

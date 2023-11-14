@@ -68,6 +68,7 @@ public partial class App : Application
         services.AddTransient<IGetFolderService, GetFolderService>();
         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         services.AddTransient<INotificationMessageManager, NotificationMessageManager>();
+        services.AddTransient<ThemeService>();
         
 
         ViewsViewModels(services);

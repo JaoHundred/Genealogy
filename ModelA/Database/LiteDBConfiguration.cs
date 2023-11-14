@@ -2,6 +2,7 @@
 using Model.Core;
 using Model.Interfaces;
 using Model.Log;
+using ModelA.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,7 @@ namespace Model.Database
                 .DbRef(p => p.Nationality);
 
             bsonMapper.Entity<Nationality>().Id(p => p.Id);
+            bsonMapper.Entity<Settings>().Id(p => p.Id);
 
             string completePath = $"Filename={GetLiteDBPath(LiteDataName)}";
             LiteDB = new LiteDatabase(completePath, bsonMapper);

@@ -7,15 +7,25 @@ using System.Threading.Tasks;
 using MvvmHelpers;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Notification;
+using ModelA.Core;
+using System.Runtime;
 
 namespace GeneA.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    public MainViewModel(NavigationService navigationService, INotificationMessageManager notificationManager)
+    public MainViewModel(NavigationService navigationService, INotificationMessageManager notificationManager
+        , IRepository<Settings> settingsRepo, ThemeService themeService)
     {
         _navigationService = navigationService;
         NotificationManager = notificationManager;
+
+        var settings = settingsRepo.FindById(1);
+
+        if (settings == null)
+            settingsRepo.Upsert(new Settings { ColorTheme = 0 });
+        else
+            themeService.ChangeTheme(settings.ColorTheme);
 
         HomeCommand.Execute(null);
     }
