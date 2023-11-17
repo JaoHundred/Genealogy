@@ -29,7 +29,7 @@
     <StyleInclude Source="avares://Notification.Avalonia/Themes/Generic.xaml" />
 
 
-    <Style Selector="Window">
+    <Style Selector="Grid#FullViewGrid">
       <Setter Property="Background"
               Value="{DynamicResource AppBackgroundColor}"/>
     </Style>
@@ -72,6 +72,7 @@
     <Style Selector="icon|Icon">
       <Setter Property="FontSize" Value="22"/>
     </Style>
+    
     <Style Selector="RadioButton.iconButton">
 
       <Style Selector="^ /template/ Ellipse">
@@ -174,27 +175,43 @@
 
     </Style>
 
-    <!--start from here and downwards-->
+    
     <Style Selector="Button.cancelButton">
 
+      <Style Selector="^ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonForeground}"/>
+      </Style>
+
+      <Style Selector="^:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonPressedForeground}"/>
+      </Style>
+      
+      <Style Selector="^:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonPressedForeground}"/>
+      </Style>
+
+      <Style Selector="^:disabled TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonDisabledForeground}"/>
+      </Style>
+      
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="DarkRed"/>
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonForeground}"/>
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="Red"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource CancelButtonPressedBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonPressedForeground}"/>
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="Red"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource CancelButtonPressedBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonPressedForeground}"/>
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="DarkGray"/>
-        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="Background" Value="{DynamicResource CancelButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CancelButtonDisabledForeground}"/>
       </Style>
 
     </Style>
@@ -209,26 +226,35 @@
 
     <Style Selector="Button.confirmButton">
 
+      <Style Selector="^ TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+
+      <Style Selector="^:disabled TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource ConfirmButtonDisabledForeground}"/>
+      </Style>
+      
       <Style Selector="^ /template/ ContentPresenter">
-        <Setter Property="Background" Value="DarkGreen"/>
+        <Setter Property="Background" Value="{DynamicResource ConfirmButtonBackground}"/>
         <Setter Property="Foreground" Value="White"/>
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="LimeGreen"/>
+        <Setter Property="Background" Value="{DynamicResource ConfirmButtonPressedBackground}"/>
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="LimeGreen"/>
+        <Setter Property="Background" Value="{DynamicResource ConfirmButtonPressedBackground}"/>
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="DarkGray"/>
-        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="Background" Value="{DynamicResource ConfirmButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ConfirmButtonDisabledForeground}"/>
       </Style>
 
     </Style>
-
+    
+    <!--start from here and downwards-->
     <Style Selector="Button.filter">
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
