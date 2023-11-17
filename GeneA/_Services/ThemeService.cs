@@ -29,7 +29,7 @@ public class ThemeService
 
         switch (appTheme)
         {
-            case AppTheme.Light:
+            case AppTheme.Default:
                 Avalonia.Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
                 settings.ColorTheme = 0;
                 break;
@@ -54,7 +54,7 @@ public class ThemeService
         switch (appTheme)
         {
             case 0:
-                Avalonia.Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+                Avalonia.Application.Current!.RequestedThemeVariant = ThemeVariant.Default;
                 settings.ColorTheme = 0;
                 break;
             case 1:

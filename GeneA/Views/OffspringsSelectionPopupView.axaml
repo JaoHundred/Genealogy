@@ -14,7 +14,7 @@
 
   <controls:PopupBase PopupHeight="400" PopupWidth="350">
     <controls:PopupBase.PopupContent>
-      <Grid Background="WhiteSmoke" RowDefinitions="auto auto * auto">
+      <Grid Classes="popupBackground" RowDefinitions="auto auto * auto">
         <TextBlock Classes="popupHeader" Text="{x:Static loc:Resource.Offsprings}"
                    HorizontalAlignment="Center" Margin="5"/>
         <TextBox Grid.Row="1" Name="searchTextBox" Margin="10"

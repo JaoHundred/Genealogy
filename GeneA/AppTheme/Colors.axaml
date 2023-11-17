@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Add Resources Here -->
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key='Default'>
+      <Color x:Key='AppBackgroundColor'>#f3f3f3</Color>
+      <Color x:Key='ForegroundColor'>#303030</Color>
+      
+      <Color x:Key='BorderColor'>WhiteSmoke</Color>
+      
+      <Color x:Key='AddButtonColor'>#0053B2</Color>
+      <Color x:Key='AddButtonPressedColor'>#5380B5</Color>
+
+      <Color x:Key='PopupOuterColor'>rgb(211, 211, 211, 0.6)</Color>
+      <Color x:Key='PopupBorderColor'>Gray</Color>
+      <Color x:Key='PopupBackground'>#f3f3f3</Color>
+      
+    </ResourceDictionary>
+    <ResourceDictionary x:Key='Dark'>
+      <Color x:Key='AppBackgroundColor'>#3a3a42</Color>
+      <Color x:Key='ForegroundColor'>#dadada</Color>
+      
+      <Color x:Key='BorderColor'>#7a7a7a</Color>
+      
+      <Color x:Key='AddButtonColor'>#3275c1</Color>
+      <Color x:Key='AddButtonPressedColor'>#7599c3</Color>
+
+      <Color x:Key='PopupOuterColor'>rgb(58, 58, 56, 0.6)</Color>
+      <Color x:Key='PopupBorderColor'>DarkGray</Color>
+      <Color x:Key='PopupBackground'>#3a3a42</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

@@ -10,7 +10,8 @@
     <!-- Set Defaults -->
     <Setter Property="Template">
       <ControlTemplate>
-        <UserControl Background="rgb(211, 211, 211, 0.6)"
+        <UserControl Classes="popupOuter" 
+                     
                      >
           <!--light gray 60% opacity-->
           <Border Classes="popup"

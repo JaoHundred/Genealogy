@@ -10,7 +10,7 @@ public static class AppStateEnums
 {
     public enum AppTheme
     {
-        Light,
+        Default,
         Dark,
     }
 }

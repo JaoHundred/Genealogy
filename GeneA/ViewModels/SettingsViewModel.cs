@@ -32,7 +32,7 @@ public partial class SettingsViewModel : ViewModelBase
         {
             new AppThemeItemViewModel()
             {
-                AppTheme = AppTheme.Light,
+                AppTheme = AppTheme.Default,
                 Name = DynamicTranslate.Translate(MessageConsts.Light),
             },
             new AppThemeItemViewModel()
@@ -71,12 +71,12 @@ public partial class SettingsViewModel : ViewModelBase
         {
             _settings = _settingsRepository.FindById(1);
 
-            AppTheme theme = AppTheme.Light;
+            AppTheme theme = AppTheme.Default;
 
             switch (_settings.ColorTheme)
             {
                 case 0:
-                    theme = AppTheme.Light;
+                    theme = AppTheme.Default;
                     break;
                 case 1:
                     theme = AppTheme.Dark;
