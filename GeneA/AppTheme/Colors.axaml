@@ -25,6 +25,12 @@
       <Color x:Key='ConfirmButtonPressedBackground'>LimeGreen</Color>
       <Color x:Key='ConfirmButtonDisabledBackground'>DarkGray</Color>
       <Color x:Key='ConfirmButtonDisabledForeground'>Gray</Color>
+
+      <Color x:Key='FilterButtonForeground'>Black</Color>
+      <Color x:Key='FilterButtonPressedBackground'>#0053B2</Color>
+
+      <Color x:Key='BackButtonBackground'>#0053B2</Color>
+      <Color x:Key='BackButtonPressedBackground'>#5380B5</Color>
     </ResourceDictionary>
     <ResourceDictionary x:Key='Dark'>
       <Color x:Key='AppBackgroundColor'>#3a3a42</Color>
@@ -47,8 +53,14 @@
 
       <Color x:Key='ConfirmButtonBackground'>DarkGreen</Color>
       <Color x:Key='ConfirmButtonPressedBackground'>LimeGreen</Color>
-      <Color x:Key='ConfirmButtonDisabledBackground'>DarkGray</Color>
-      <Color x:Key='ConfirmButtonDisabledForeground'>Gray</Color>
+      <Color x:Key='ConfirmButtonDisabledBackground'>#878787</Color>
+      <Color x:Key='ConfirmButtonDisabledForeground'>#bfbfbf</Color>
+
+      <Color x:Key='FilterButtonForeground'>White</Color>
+      <Color x:Key='FilterButtonPressedBackground'>#3275c1</Color>
+
+      <Color x:Key='BackButtonBackground'>#5380B5</Color>
+      <Color x:Key='BackButtonPressedBackground'>#0053B2</Color>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

@@ -254,31 +254,43 @@
 
     </Style>
     
-    <!--start from here and downwards-->
     <Style Selector="Button.filter">
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
       </Style>
+
+      <Style Selector="^ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource FilterButtonForeground}"/>
+      </Style>
+
+      <Style Selector="^:pointerover TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      
+      <Style Selector="^:pressed TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      
       <Style Selector="^:pointerover  /template/ ContentPresenter">
-        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Background" Value="{DynamicResource FilterButtonPressedBackground}"/>
         <Setter Property="Foreground" Value="White"/>
       </Style>
       <Style Selector="^:pressed  /template/ ContentPresenter">
-        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Background" Value="{DynamicResource FilterButtonPressedBackground}"/>
         <Setter Property="Foreground" Value="White"/>
       </Style>
     </Style>
 
     <Style Selector="Button.backButton">
       <Style Selector="^ /template/ ContentPresenter">
-        <Setter Property="Background" Value="#0053B2"/>
+        <Setter Property="Background" Value="{DynamicResource BackButtonBackground}"/>
         <Setter Property="Foreground" Value="White"/>
       </Style>
       <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="#5380B5"/>
+        <Setter Property="Background" Value="{DynamicResource BackButtonPressedBackground}"/>
       </Style>
       <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="#5380B5"/>
+        <Setter Property="Background" Value="{DynamicResource BackButtonPressedBackground}"/>
       </Style>
     </Style>
 
