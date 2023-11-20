@@ -293,7 +293,74 @@
         <Setter Property="Background" Value="{DynamicResource BackButtonPressedBackground}"/>
       </Style>
     </Style>
+    
+    <Style Selector="Button.PopupButton">
+      <Setter Property="CornerRadius" Value="10,0,10,0"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="Height" Value="30"/>
 
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource PopupButtonBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PopupButtonBorder}"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource PopupButtonPressedBackground}"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource PopupButtonPressedBackground}"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^ TextBlock">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{DynamicResource PopupButtonForeground}"/>
+      </Style>
+      <Style Selector="^:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PopupButtonPressedForeground}"/>
+      </Style>
+      <Style Selector="^:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PopupButtonPressedForeground}"/>
+      </Style>
+
+    </Style>
+
+    <Style Selector="SplitView">
+      <Setter Property="PaneBackground" Value="{DynamicResource AppBackgroundColor}"/>
+
+      <Style Selector="^ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource SplitViewBorder}"/>
+      </Style>
+    </Style>
+
+    <!--SettingsView style here-->
+    <Style Selector="Button.buttonLabel">
+      <Setter Property="Background" Value="Transparent"/>
+
+      <Style Selector="^ TextBlock">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="20"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+      <Style Selector="^:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Black"/>
+      </Style>
+    </Style>
+
+    <Style Selector="Border.menuFrame">
+      <Setter Property="Margin" Value="0,10,0,0"/>
+      <Setter Property="BorderBrush" Value="LightGray"/>
+      <Setter Property="Background" Value="WhiteSmoke"/>
+      <Setter Property="BorderThickness" Value="3"/>
+      <Setter Property="CornerRadius" Value="25"/>
+    </Style>
+    
   </Application.Styles>
 
   <Application.Resources>

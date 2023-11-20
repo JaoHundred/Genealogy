@@ -59,7 +59,7 @@
              PaneClosed="SplitView_PaneClosed"
              IsPaneOpen="{Binding IsFilterPaneOpen, Mode=TwoWay}">
     <SplitView.Pane>
-      <Border BorderBrush="Gray" BorderThickness="0,3,3,3" >
+      <Border BorderThickness="0,5,5,5" >
         <Grid RowDefinitions="auto *">
           <TextBlock Text="{x:Static loc:Resource.Filters}" Margin="5"
                      HorizontalAlignment="Center" VerticalAlignment="Center"

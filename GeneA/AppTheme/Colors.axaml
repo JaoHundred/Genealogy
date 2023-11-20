@@ -31,6 +31,14 @@
 
       <Color x:Key='BackButtonBackground'>#0053B2</Color>
       <Color x:Key='BackButtonPressedBackground'>#5380B5</Color>
+
+      <Color x:Key='PopupButtonBackground'>LightGray</Color>
+      <Color x:Key='PopupButtonForeground'>Black</Color>
+      <Color x:Key='PopupButtonPressedForeground'>White</Color>
+      <Color x:Key='PopupButtonBorder'>Gray</Color>
+      <Color x:Key='PopupButtonPressedBackground'>Gray</Color>
+
+      <Color x:Key='SplitViewBorder'>Gray</Color>
     </ResourceDictionary>
     <ResourceDictionary x:Key='Dark'>
       <Color x:Key='AppBackgroundColor'>#3a3a42</Color>
@@ -61,6 +69,14 @@
 
       <Color x:Key='BackButtonBackground'>#5380B5</Color>
       <Color x:Key='BackButtonPressedBackground'>#0053B2</Color>
+
+      <Color x:Key='PopupButtonBackground'>#8c8c8c</Color>
+      <Color x:Key='PopupButtonForeground'>#e5e5e5</Color>
+      <Color x:Key='PopupButtonPressedForeground'>#e5e5e5</Color>
+      <Color x:Key='PopupButtonBorder'>#8c8c8c</Color>
+      <Color x:Key='PopupButtonPressedBackground'>#a8a8a8</Color>
+      
+      <Color x:Key='SplitViewBorder'>LightGray</Color>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

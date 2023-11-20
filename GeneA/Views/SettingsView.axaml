@@ -12,35 +12,6 @@
              x:DataType="vm:SettingsViewModel"
              x:Class="GeneA.Views.SettingsView">
 
-  <UserControl.Styles>
-    <Style Selector="Button.buttonLabel">
-      <Setter Property="Background" Value="Transparent"/>
-
-      <Style Selector="^ TextBlock">
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="FontSize" Value="20"/>
-      </Style>
-      <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="Transparent"/>
-      </Style>
-      <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="Transparent"/>
-      </Style>
-      <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="Black"/>
-      </Style>
-    </Style>
-
-    <Style Selector="Border.menuFrame">
-      <Setter Property="Margin" Value="0,10,0,0"/>
-      <Setter Property="BorderBrush" Value="LightGray"/>
-      <Setter Property="Background" Value="WhiteSmoke"/>
-      <Setter Property="BorderThickness" Value="3"/>
-      <Setter Property="CornerRadius" Value="25"/>
-    </Style>
-  </UserControl.Styles>
-
   <StackPanel  Margin="5">
     <Image Source="/Assets/avalonia-logo.ico"
            Height="150"/>
