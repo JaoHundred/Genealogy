@@ -6,8 +6,8 @@
       <Color x:Key='AppBackgroundColor'>#f3f3f3</Color>
       <Color x:Key='ForegroundColor'>#303030</Color>
       
-      <Color x:Key='BorderColor'>WhiteSmoke</Color>
-      
+      <Color x:Key='BorderColor'>WhiteSmoke</Color>         
+     
       <Color x:Key='AddButtonColor'>#0053B2</Color>
       <Color x:Key='AddButtonPressedColor'>#5380B5</Color>
 
@@ -39,6 +39,9 @@
       <Color x:Key='PopupButtonPressedBackground'>Gray</Color>
 
       <Color x:Key='SplitViewBorder'>Gray</Color>
+
+      <Color x:Key='MenuFrameBorder'>LightGray</Color>
+      <Color x:Key='MenuFrameBackground'>#dadada</Color>
     </ResourceDictionary>
     <ResourceDictionary x:Key='Dark'>
       <Color x:Key='AppBackgroundColor'>#3a3a42</Color>
@@ -77,6 +80,9 @@
       <Color x:Key='PopupButtonPressedBackground'>#a8a8a8</Color>
       
       <Color x:Key='SplitViewBorder'>LightGray</Color>
+
+      <Color x:Key='MenuFrameBorder'>Gray</Color>
+      <Color x:Key='MenuFrameBackground'>#4d4d54</Color>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
