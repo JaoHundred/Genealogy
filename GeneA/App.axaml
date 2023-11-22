@@ -115,7 +115,7 @@
         <Setter Property="Foreground" Value="White"/>
       </Style>
       <Style Selector="^:disabled TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource CancelButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledBackground}"/>
       </Style>
       
       <Style Selector="^ /template/ ContentPresenter">
@@ -130,8 +130,8 @@
         <Setter Property="Background" Value="{DynamicResource AddButtonPressedColor}"/>
       </Style>
       <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource CancelButtonDisabledBackground}"/>
-        <Setter Property="Foreground" Value="{DynamicResource CancelButtonDisabledBackground}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledBackground}"/>
         
       </Style>
     </Style>
@@ -226,7 +226,7 @@
       </Style>
 
       <Style Selector="^:disabled TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource CancelButtonDisabledForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
 
       <Style Selector="^ /template/ ContentPresenter">
@@ -245,8 +245,8 @@
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource CancelButtonDisabledBackground}"/>
-        <Setter Property="Foreground" Value="{DynamicResource CancelButtonDisabledForeground}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
 
     </Style>
@@ -266,7 +266,7 @@
       </Style>
 
       <Style Selector="^:disabled TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ConfirmButtonDisabledForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
 
       <Style Selector="^ /template/ ContentPresenter">
@@ -283,8 +283,8 @@
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ConfirmButtonDisabledBackground}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ConfirmButtonDisabledForeground}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
 
     </Style>
