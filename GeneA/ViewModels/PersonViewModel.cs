@@ -23,7 +23,7 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    public PersonViewModel(IRepository<Person> personRepository, IRepository<DocumentFile> documentRepository, 
+    public PersonViewModel(IRepository<Person> personRepository, IRepository<DocumentFile> documentRepository,
         NavigationService navigation, MainViewModel mainViewModel)
     {
         _personRepository = personRepository;
@@ -102,7 +102,7 @@ public partial class PersonViewModel : ViewModelBase
 
                 foreach (var document in documents)
                 {
-                    if(Person.DocumentFiles.Any(p => p.Id == document.Id))
+                    if (Person.DocumentFiles.Any(p => p.Id == document.Id))
                     {
                         personDocuments.Add(document);
                     }
@@ -111,7 +111,7 @@ public partial class PersonViewModel : ViewModelBase
                 Person.DocumentFiles = personDocuments;
 
 
-                Dispatcher.UIThread.Invoke(() => 
+                Dispatcher.UIThread.Invoke(() =>
                 {
                     DocumentList.ReplaceRange(Person.DocumentFiles);
                 });
@@ -204,11 +204,11 @@ public partial class PersonViewModel : ViewModelBase
     {
         await _navigation.PopUpAsync<NationalitySelectionPopupViewModel>(Person).ConfigurePopUpProperties
             (
-             confirmAction: async() => 
+             confirmAction: async () =>
              {
                  await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              },
-             cancelAction: async() => 
+             cancelAction: async () =>
              {
                  await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              }
@@ -219,12 +219,24 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private void GetFile()
     {
-        //TODO: open file picker, save selected file in litedb, add to DocumentList
+        //TODO: open file picker(see how should I access this), save selected file in litedb, add to DocumentList
 
-        Dispatcher.UIThread.Invoke(() => 
+        Dispatcher.UIThread.Invoke(() =>
         {
-            DocumentList.Add(new DocumentFile { Id = 1, FileName = "Test grid", FileExtension = "ext" });
+            //mock data
+            DocumentList = new ObservableRangeCollection<DocumentFile>
+        {
+                new DocumentFile { Id = 1, FileName = "Foto 3", FileExtension = "png" },
+                new DocumentFile { Id = 2, FileName = "Foto 2", FileExtension = "jpg" },
+                new DocumentFile { Id = 3, FileName = "Foto 1", FileExtension = "pdf" }
+            };
         });
+    }
+
+    [RelayCommand]
+    private void DeleteFile(DocumentFile documentFile)
+    {
+        //TODO: open dialog confirmation before deleting
     }
 
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)

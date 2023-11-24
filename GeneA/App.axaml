@@ -116,7 +116,7 @@
         <Setter Property="Foreground" Value="White"/>
       </Style>
       <Style Selector="^:disabled TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
       
       <Style Selector="^ /template/ ContentPresenter">
@@ -132,7 +132,7 @@
       </Style>
       <Style Selector="^:disabled /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonDisabledBackground}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
         
       </Style>
     </Style>
@@ -383,8 +383,6 @@
         <Setter Property="Foreground" Value="Black"/>
       </Style>
     </Style>
-    
-    
 
     <Style Selector="Border.menuFrame">
       <Setter Property="Margin" Value="0,10,0,0"/>
@@ -392,6 +390,10 @@
       <Setter Property="Background" Value="{DynamicResource MenuFrameBackground}"/>
       <Setter Property="BorderThickness" Value="3"/>
       <Setter Property="CornerRadius" Value="10, 0, 10, 0"/>
+    </Style>
+
+    <Style Selector="DataGrid">
+      <Setter Property="Background" Value="{DynamicResource AppBackgroundColor}"/>
     </Style>
 
   </Application.Styles>
