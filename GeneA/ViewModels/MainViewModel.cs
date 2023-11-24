@@ -1,13 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using GeneA._Services;
-using Model.Core;
+using ModelA.Core;
 using Model.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmHelpers;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Notification;
-using ModelA.Core;
 using System.Runtime;
 
 namespace GeneA.ViewModels;

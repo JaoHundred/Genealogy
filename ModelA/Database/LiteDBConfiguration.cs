@@ -1,8 +1,8 @@
 ﻿using LiteDB;
-using Model.Core;
+using ModelA.Core;
 using Model.Interfaces;
 using Model.Log;
-using ModelA.Core;
+using ModelA;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,10 +48,12 @@ namespace Model.Database
                 .DbRef(p => p.Mother)
                 .DbRef(p => p.Offsprings)
                 .DbRef(p => p.Spouses)
-                .DbRef(p => p.Nationality);
+                .DbRef(p => p.Nationality)
+                .DbRef(p => p.DocumentFiles);
 
             bsonMapper.Entity<Nationality>().Id(p => p.Id);
             bsonMapper.Entity<Settings>().Id(p => p.Id);
+            bsonMapper.Entity<DocumentFile>().Id(p => p.Id);
 
             string completePath = $"Filename={GetLiteDBPath(LiteDataName)}";
             LiteDB = new LiteDatabase(completePath, bsonMapper);

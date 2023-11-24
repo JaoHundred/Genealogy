@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using GeneA.Interfaces;
-using Model.Core;
+using ModelA.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

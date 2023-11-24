@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
 using GeneA._Services;
 using Microsoft.CodeAnalysis.CSharp;
-using Model.Core;
+using ModelA.Core;
 using Model.Interfaces;
 using MvvmHelpers;
 using System;
@@ -23,15 +23,21 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    public PersonViewModel(IRepository<Person> repository, NavigationService navigation, MainViewModel mainViewModel)
+    public PersonViewModel(IRepository<Person> personRepository, IRepository<DocumentFile> documentRepository, 
+        NavigationService navigation, MainViewModel mainViewModel)
     {
-        _repository = repository;
+        _personRepository = personRepository;
+        _documentRepository = documentRepository;
         _navigation = navigation;
         _mainViewModel = mainViewModel;
+
+        _documentList = new ObservableRangeCollection<DocumentFile>();
+
         LoadAction = () => { Load().SafeFireAndForget(); };
     }
 
-    private readonly IRepository<Person> _repository;
+    private readonly IRepository<Person> _personRepository;
+    private readonly IRepository<DocumentFile> _documentRepository;
     private readonly NavigationService _navigation;
     private readonly MainViewModel _mainViewModel;
 
@@ -55,6 +61,9 @@ public partial class PersonViewModel : ViewModelBase
     [ObservableProperty]
     private List<Person>? _motherList;
 
+    [ObservableProperty]
+    private ObservableRangeCollection<DocumentFile> _documentList;
+
     private async Task Load()
     {
         await Task.Run(() =>
@@ -65,12 +74,12 @@ public partial class PersonViewModel : ViewModelBase
             }
             else
             {
-                var people = _repository.FindAll();
+                var people = _personRepository.FindAll();
 
                 var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList();
                 var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
 
-                Person = _repository.FindById((long)Param);
+                Person = _personRepository.FindById((long)Param);
 
                 //constraints to dont show offsprings in father/mother list of father/mother
                 fatherList = fatherList.ExceptBy(Person.Offsprings.Select(p => p.Id), q => q.Id).ToList();
@@ -87,6 +96,25 @@ public partial class PersonViewModel : ViewModelBase
 
                 FatherList = fatherList;
                 MotherList = motherList;
+
+                var documents = _documentRepository.FindAll();
+                var personDocuments = new List<DocumentFile>();
+
+                foreach (var document in documents)
+                {
+                    if(Person.DocumentFiles.Any(p => p.Id == document.Id))
+                    {
+                        personDocuments.Add(document);
+                    }
+                }
+
+                Person.DocumentFiles = personDocuments;
+
+
+                Dispatcher.UIThread.Invoke(() => 
+                {
+                    DocumentList.ReplaceRange(Person.DocumentFiles);
+                });
             }
         });
     }
@@ -123,7 +151,7 @@ public partial class PersonViewModel : ViewModelBase
 
             Action confirm = async () =>
             {
-                _repository.Delete(Person!);
+                _personRepository.Delete(Person!);
 
                 //close popup and dont reload PersonViewModel
                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
@@ -188,6 +216,17 @@ public partial class PersonViewModel : ViewModelBase
             );
     }
 
+    [RelayCommand]
+    private void GetFile()
+    {
+        //TODO: open file picker, save selected file in litedb, add to DocumentList
+
+        Dispatcher.UIThread.Invoke(() => 
+        {
+            DocumentList.Add(new DocumentFile { Id = 1, FileName = "Test grid", FileExtension = "ext" });
+        });
+    }
+
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)
     {
         return await Task.Run(() =>
@@ -217,6 +256,6 @@ public partial class PersonViewModel : ViewModelBase
         if (SelectedFather != null)
             Person!.Father = SelectedFather;
 
-        _repository.Upsert(Person!);
+        _personRepository.Upsert(Person!);
     }
 }

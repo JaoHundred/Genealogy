@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GeneA._Services;
-using Model.Core;
+using ModelA.Core;
 using Model.Interfaces;
 using   MvvmHelpers;
 using System;

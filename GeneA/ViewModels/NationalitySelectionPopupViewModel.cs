@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using GeneA._Services;
 using GeneA.Interfaces;
 using GeneA.ViewModelItems;
-using Model.Core;
+using ModelA.Core;
 using Model.Database;
 using Model.Interfaces;
 using MvvmHelpers;

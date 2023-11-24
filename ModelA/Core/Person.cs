@@ -1,4 +1,5 @@
 ﻿using Model.Interfaces;
+using ModelA.Core;
 using ModelA.Enums;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Core
+namespace ModelA.Core
 {
     public class Person : IDbEntity
     {
@@ -14,6 +15,7 @@ namespace Model.Core
         {
             Spouses = new List<Person>();
             Offsprings = new List<Person>();
+            DocumentFiles = new List<DocumentFile>();
         }
 
         public long Id { get; set; }
@@ -29,6 +31,7 @@ namespace Model.Core
         public DateTime? DeathDate { get; set; }
         public DateTime? BaptismDate { get; set; }
         public string Description { get; set; } = string.Empty;
+        public List<DocumentFile> DocumentFiles { get; set; }
 
 
         public override string ToString()

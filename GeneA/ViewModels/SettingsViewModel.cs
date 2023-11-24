@@ -10,12 +10,12 @@ using MvvmHelpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GeneA.ViewModelItems;
 using Model.Interfaces;
-using ModelA.Core;
 using Avalonia.Threading;
 using Avalonia.Controls;
 using Avalonia.Styling;
 using System.Reactive.Linq;
 using GeneA._Services;
+using ModelA.Core;
 
 namespace GeneA.ViewModels;
 

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="GeneA.App"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
-             xmlns:model="clr-namespace:Model.Core;assembly=ModelA"
+             xmlns:model="clr-namespace:ModelA.Core;assembly=ModelA"
              xmlns:IVM="clr-namespace:GeneA.ViewModelItems;assembly=GeneA"
              xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
@@ -27,6 +27,7 @@
     <FluentTheme/>
     <StyleInclude Source="/CustomControls/PopupBase.axaml"/>
     <StyleInclude Source="avares://Notification.Avalonia/Themes/Generic.xaml" />
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 
 
     <Style Selector="Grid#FullViewGrid">

@@ -6,7 +6,7 @@ using GeneA._Helper;
 using GeneA._Services;
 using GeneA.Interfaces;
 using GeneA.ViewModelItems;
-using Model.Core;
+using ModelA.Core;
 using Model.Interfaces;
 using MvvmHelpers;
 using System;

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddFile" xml:space="preserve">
+    <value>Adicione arquivo</value>
+  </data>
   <data name="AddNewNationality" xml:space="preserve">
     <value>Nova nacionalidade</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="Description" xml:space="preserve">
     <value>Descrição</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documentos</value>
   </data>
   <data name="Export" xml:space="preserve">
     <value>Exportar</value>

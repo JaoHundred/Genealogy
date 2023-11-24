@@ -1,5 +1,5 @@
 ﻿using Avalonia.Data.Converters;
-using Model.Core;
+using ModelA.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

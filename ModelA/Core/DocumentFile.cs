@@ -2,23 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ModelA.Core
 {
-    public class Nationality : IDbEntity
+    public class DocumentFile : IDbEntity
     {
-        public Nationality() { }
-
         public long Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Abbreviation { get; set; } = string.Empty;
-
+        public string FileName { get; set; } = string.Empty;
+        public string FileExtension { get; set; } = string.Empty;
 
         public override string ToString()
         {
-            return $"{Name} {Abbreviation}";
+            return $"{FileName}.{FileExtension}";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Avalonia.Styling;
-using Model.Interfaces;
 using ModelA.Core;
+using Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

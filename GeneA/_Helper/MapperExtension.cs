@@ -1,6 +1,6 @@
 ﻿using GeneA.ViewModelItems;
 using GeneA.ViewModels;
-using Model.Core;
+using ModelA.Core;
 using ModelA.Enums;
 using System;
 using System.Collections.Generic;
