@@ -14,5 +14,11 @@ namespace Model.Services
             string fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             return fullDirectory;
         }
+
+        public string GetAppStorage()
+        {
+            string fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return fullDirectory;
+        }
     }
 }

@@ -15,30 +15,30 @@ namespace Model.Database
             _configuration = configuration;
         }
 
-        private readonly LiteDBConfiguration _configuration;
+        protected readonly LiteDBConfiguration _configuration;
 
-        public IEnumerable<T> FindAll()
+        public virtual IEnumerable<T> FindAll()
         {
             return _configuration.LiteDB!.GetCollection<T>().FindAll();
         }
 
-        public T FindById(long id)
+        public virtual T FindById(long id)
         {
             return _configuration.LiteDB!.GetCollection<T>().FindById(id);
         }
 
-        public T Upsert(T entity)
+        public virtual T Upsert(T entity)
         {
             _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
             return FindById(entity.Id);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             _configuration.LiteDB!.GetCollection<T>().Delete(entity.Id);
         }
 
-        public async Task DeleteBatchAsync(IEnumerable<T> entities)
+        public virtual async Task DeleteBatchAsync(IEnumerable<T> entities)
         {
             await Task.Run(() =>
             {
@@ -47,12 +47,12 @@ namespace Model.Database
             });
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             _configuration.LiteDB!.GetCollection<T>().Update(entity.Id, entity);
         }
 
-        public IEnumerable<T> Take(int amount, bool takeLast = true)
+        public virtual IEnumerable<T> Take(int amount, bool takeLast = true)
         {
             var collection = _configuration.LiteDB!.GetCollection<T>().FindAll();
 

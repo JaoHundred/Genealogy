@@ -18,17 +18,20 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ModelA.Database;
+using System.Xml.XPath;
 
 namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    public PersonViewModel(IRepository<Person> personRepository, IRepository<DocumentFile> documentRepository,
-        NavigationService navigation, MainViewModel mainViewModel)
+    public PersonViewModel(IRepository<Person> personRepository, DocumentRepository documentRepository,
+        NavigationService navigation, FileService fileService, MainViewModel mainViewModel)
     {
         _personRepository = personRepository;
         _documentRepository = documentRepository;
         _navigation = navigation;
+        _fileService = fileService;
         _mainViewModel = mainViewModel;
 
         _documentList = new ObservableRangeCollection<DocumentFile>();
@@ -37,8 +40,9 @@ public partial class PersonViewModel : ViewModelBase
     }
 
     private readonly IRepository<Person> _personRepository;
-    private readonly IRepository<DocumentFile> _documentRepository;
+    private readonly DocumentRepository _documentRepository;
     private readonly NavigationService _navigation;
+    private readonly FileService _fileService;
     private readonly MainViewModel _mainViewModel;
 
     [ObservableProperty]
@@ -217,26 +221,65 @@ public partial class PersonViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void GetFile()
+    private async Task AddFile()
     {
-        //TODO: open file picker(see how should I access this), save selected file in litedb, add to DocumentList
+        var documents = await _fileService.OpenFilePickerAsync();
+
+        if (documents == null)
+            return;
+
+        if (Person!.DocumentFiles.Count > 0)
+        {
+            foreach (var document in documents)
+            {
+                var personDocument = Person.DocumentFiles.Find(p => p.FileName == document.FileName);
+
+                if(personDocument != null)
+                {
+                    personDocument.FileName = document.FileName;
+                    personDocument.FileExtension = document.FileExtension;
+                    personDocument.UpdateDate = DateTime.Now;
+                }
+                else
+                    Person.DocumentFiles.Add(document);
+            }
+        }
+        else
+            Person!.DocumentFiles = documents.ToList();
 
         Dispatcher.UIThread.Invoke(() =>
         {
-            //mock data
-            DocumentList = new ObservableRangeCollection<DocumentFile>
-        {
-                new DocumentFile { Id = 1, FileName = "Foto 3", FileExtension = "png" },
-                new DocumentFile { Id = 2, FileName = "Foto 2", FileExtension = "jpg" },
-                new DocumentFile { Id = 3, FileName = "Foto 1", FileExtension = "pdf" }
-            };
+            DocumentList.ReplaceRange(Person!.DocumentFiles);
         });
     }
 
     [RelayCommand]
-    private void DeleteFile(DocumentFile documentFile)
+    private void OpenFile()
     {
-        //TODO: open dialog confirmation before deleting
+        //TODO: open selected file in default app which can read this file extension
+    }
+
+    [RelayCommand]
+    private async Task DeleteFile(DocumentFile documentFile)
+    {
+        await _navigation.PopUpAsync<ConfirmationPopupViewModel>(documentFile).ConfigurePopUpProperties
+            (
+             confirmAction: async () =>
+             {
+                 Dispatcher.UIThread.Invoke(() =>
+                 {
+                     DocumentList.Remove(documentFile);
+                 });
+
+                 _documentRepository.Delete(documentFile);
+
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
+             },
+             cancelAction: async () =>
+             {
+                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
+             }
+            );
     }
 
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)
@@ -267,6 +310,13 @@ public partial class PersonViewModel : ViewModelBase
 
         if (SelectedFather != null)
             Person!.Father = SelectedFather;
+
+
+        foreach (var document in DocumentList)
+        {
+            _documentRepository.Upsert(document);
+        }
+        //TODO: save to filestorage
 
         _personRepository.Upsert(Person!);
     }

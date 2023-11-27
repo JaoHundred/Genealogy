@@ -10,9 +10,18 @@ namespace ModelA.Core
 {
     public class DocumentFile : IDbEntity
     {
+        public DocumentFile()
+        {
+            CreateDate = DateTime.Now;
+            UpdateDate = DateTime.Now;
+        }
+
         public long Id { get; set; }
         public string FileName { get; set; } = string.Empty;
         public string FileExtension { get; set; } = string.Empty;
+
+        public DateTime CreateDate { get; }
+        public DateTime UpdateDate { get; set; }
 
         public override string ToString()
         {

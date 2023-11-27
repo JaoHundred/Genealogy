@@ -154,7 +154,7 @@
               </DataGrid.Columns>
 
             </DataGrid>
-            <Button Command="{Binding GetFileCommand}"
+            <Button Command="{Binding AddFileCommand}"
                     Classes="default"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center">

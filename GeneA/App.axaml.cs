@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Model.Database;
 using Model.Interfaces;
 using Model.Services;
+using ModelA.Database;
 
 namespace GeneA;
 
@@ -67,9 +68,11 @@ public partial class App : Application
 
         services.AddTransient<IGetFolderService, GetFolderService>();
         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+        services.AddTransient<DocumentRepository>();
         services.AddTransient<INotificationMessageManager, NotificationMessageManager>();
         services.AddTransient<ThemeService>();
-        
+        services.AddTransient<FileService>();
+
 
         ViewsViewModels(services);
 
