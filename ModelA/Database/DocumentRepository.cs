@@ -4,6 +4,7 @@ using Model.Interfaces;
 using ModelA.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,18 +16,9 @@ namespace ModelA.Database
         public DocumentRepository(LiteDBConfiguration configuration, IGetFolderService getFolderService) : base(configuration)
         {
             _liteStorage = _configuration.LiteDB!.FileStorage;
-            _getFolderService = getFolderService;
-
-            _directoryPath = Path.Combine(_getFolderService.GetApplicationDirectory(), "GeneDocs");
-
-            if (!Directory.Exists(_directoryPath))
-                Directory.CreateDirectory(_directoryPath);
         }
 
         private ILiteStorage<string> _liteStorage;
-        private readonly IGetFolderService _getFolderService;
-
-        private string _directoryPath;
 
         public override void Delete(DocumentFile entity)
         {
@@ -36,22 +28,20 @@ namespace ModelA.Database
 
         public override DocumentFile Upsert(DocumentFile entity)
         {
-            if (_liteStorage.Exists(entity.Id.ToString()))
-                _liteStorage.Delete(entity.Id.ToString());
+            //if (_liteStorage.Exists(entity.Id.ToString()))
+            //    _liteStorage.Delete(entity.Id.ToString());
 
-            string fullPath = Path.Combine(_directoryPath, entity.FileName);
+            //TODO: update only selected files
 
-
-            //TODO: this only send broken files to the directory, search for examples in litedb on how
-            //to work with files
-
-            _liteStorage.Upload(entity.Id.ToString(), fullPath);
-
-
+            using (var stream = new FileStream(Uri.UnescapeDataString(entity.OriginalPath), FileMode.Open, FileAccess.Read))
+            {
+                var bla = _liteStorage.Upload(entity.Id.ToString(), entity.FileName, stream);
+            }
 
             return base.Upsert(entity);
         }
 
-        //TODO:upload and download methods here
+        //TODO: download method here, see for a temporary folder and open the downloaded file in an default app
+
     }
 }

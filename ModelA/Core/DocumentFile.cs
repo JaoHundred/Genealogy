@@ -1,4 +1,5 @@
-﻿using Model.Interfaces;
+﻿using LiteDB;
+using Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,6 @@ namespace ModelA.Core
         public DocumentFile()
         {
             CreateDate = DateTime.Now;
-            UpdateDate = DateTime.Now;
         }
 
         public long Id { get; set; }
@@ -21,11 +21,9 @@ namespace ModelA.Core
         public string FileExtension { get; set; } = string.Empty;
 
         public DateTime CreateDate { get; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
-        public override string ToString()
-        {
-            return $"{FileName}.{FileExtension}";
-        }
+        [BsonIgnore]
+        public string OriginalPath { get; set; } = string.Empty;
     }
 }

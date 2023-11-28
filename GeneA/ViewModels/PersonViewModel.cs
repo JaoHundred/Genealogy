@@ -223,29 +223,39 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task AddFile()
     {
-        var documents = await _fileService.OpenFilePickerAsync();
+        var fullPaths = await _fileService.OpenFilePickerAsync();
 
-        if (documents == null)
+        if (fullPaths == null)
             return;
 
         if (Person!.DocumentFiles.Count > 0)
         {
-            foreach (var document in documents)
+            foreach (var path in fullPaths)
             {
-                var personDocument = Person.DocumentFiles.Find(p => p.FileName == document.FileName);
+                var personDocument = Person.DocumentFiles.Find(p => p.FileName == _fileService.GetFileName(path));
 
-                if(personDocument != null)
+                if (personDocument != null)
                 {
-                    personDocument.FileName = document.FileName;
-                    personDocument.FileExtension = document.FileExtension;
+                    personDocument.FileName = _fileService.GetFileName(path);
+                    personDocument.FileExtension = _fileService.GetFileExtension(path);
+                    personDocument.OriginalPath = path;
                     personDocument.UpdateDate = DateTime.Now;
                 }
                 else
-                    Person.DocumentFiles.Add(document);
+                {
+                    var doc = new DocumentFile
+                    {
+                        FileName = _fileService.GetFileName(path),
+                        FileExtension = _fileService.GetFileExtension(path),
+                        OriginalPath = path,
+                    };
+
+                    Person.DocumentFiles.Add(doc);
+                }
             }
         }
         else
-            Person!.DocumentFiles = documents.ToList();
+            Person!.DocumentFiles = _fileService.GetDocuments(fullPaths).ToList();
 
         Dispatcher.UIThread.Invoke(() =>
         {
@@ -262,6 +272,8 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task DeleteFile(DocumentFile documentFile)
     {
+        //TODO:
+
         await _navigation.PopUpAsync<ConfirmationPopupViewModel>(documentFile).ConfigurePopUpProperties
             (
              confirmAction: async () =>
@@ -316,7 +328,6 @@ public partial class PersonViewModel : ViewModelBase
         {
             _documentRepository.Upsert(document);
         }
-        //TODO: save to filestorage
 
         _personRepository.Upsert(Person!);
     }

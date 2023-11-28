@@ -5,6 +5,7 @@ using GeneA.Views;
 using ModelA.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -21,7 +22,7 @@ namespace GeneA._Services
 
         private TopLevel _topLevel;
 
-        public async Task<IList<DocumentFile>?> OpenFilePickerAsync()
+        public async Task<IList<string>?> OpenFilePickerAsync()
         {
             var files = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
@@ -37,18 +38,34 @@ namespace GeneA._Services
             if (files.Count == 0)
                 return null;
 
-            var documentList = new List<DocumentFile>();
+            var pathList = new List<string>();
 
             foreach (var file in files)
             {
-                documentList.Add(new DocumentFile()
-                {
-                    FileName = file.Name,
-                    FileExtension = file.Name.Split('.')[1],
-                });
+                pathList.Add(file.Path.AbsolutePath);
             }
 
-            return documentList;
+            return pathList;
+        }
+
+        public string GetFileName(string path)
+        {
+            return Path.GetFileName(path);
+        }
+
+        public string GetFileExtension(string path)
+        {
+            return Path.GetExtension(path);
+        }
+
+        public IEnumerable<DocumentFile> GetDocuments(IEnumerable<string> paths)
+        {
+            return paths.Select(p => new DocumentFile 
+            {
+                FileExtension = GetFileExtension(p),
+                FileName = GetFileName(p),
+                OriginalPath = p,
+            });
         }
     }
 }
