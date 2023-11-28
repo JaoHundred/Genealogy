@@ -26,22 +26,28 @@ namespace ModelA.Database
             base.Delete(entity);
         }
 
+        public override async Task DeleteBatchAsync(IEnumerable<DocumentFile> entities)
+        {
+            await Task.Run(() =>
+            {
+                foreach (var entity in entities)
+                    Delete(entity);
+            });
+        }
+
         public override DocumentFile Upsert(DocumentFile entity)
         {
-            //if (_liteStorage.Exists(entity.Id.ToString()))
-            //    _liteStorage.Delete(entity.Id.ToString());
-
-            //TODO: update only selected files
+            DocumentFile document = base.Upsert(entity);
 
             using (var stream = new FileStream(Uri.UnescapeDataString(entity.OriginalPath), FileMode.Open, FileAccess.Read))
             {
-                var bla = _liteStorage.Upload(entity.Id.ToString(), entity.FileName, stream);
+                _liteStorage.Upload(document.Id.ToString(), document.FileName, stream);
             }
 
-            return base.Upsert(entity);
+            return document;
         }
 
-        //TODO: download method here, see for a temporary folder and open the downloaded file in an default app
+        //TODO: download method here, see for a temporary folder
 
     }
 }

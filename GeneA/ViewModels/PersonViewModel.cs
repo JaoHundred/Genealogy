@@ -155,8 +155,9 @@ public partial class PersonViewModel : ViewModelBase
 
             Action confirm = async () =>
             {
-                _personRepository.Delete(Person!);
+                await _documentRepository.DeleteBatchAsync(Person!.DocumentFiles);
 
+                _personRepository.Delete(Person!);
                 //close popup and dont reload PersonViewModel
                 await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
                 await _navigation.GoBackAsync();//back to HomeView
@@ -267,13 +268,13 @@ public partial class PersonViewModel : ViewModelBase
     private void OpenFile()
     {
         //TODO: open selected file in default app which can read this file extension
+        //search how this is done in avalonia
+
     }
 
     [RelayCommand]
     private async Task DeleteFile(DocumentFile documentFile)
     {
-        //TODO:
-
         await _navigation.PopUpAsync<ConfirmationPopupViewModel>(documentFile).ConfigurePopUpProperties
             (
              confirmAction: async () =>
@@ -283,14 +284,20 @@ public partial class PersonViewModel : ViewModelBase
                      DocumentList.Remove(documentFile);
                  });
 
-                 _documentRepository.Delete(documentFile);
+                 if (documentFile.Id > 0)// its not a temporary documentFile(user didnt save it yet)
+                 {
+                     _documentRepository.Delete(documentFile);
+                     Person!.DocumentFiles.Remove(documentFile);
+                 }
 
                  await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
              },
              cancelAction: async () =>
              {
                  await _navigation.GoBackAsync(needToReload: false, needToReloadTitle: false);
-             }
+             },
+             title: DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle),
+             message: DynamicTranslate.Translate(MessageConsts.Confirmation)
             );
     }
 
@@ -326,6 +333,9 @@ public partial class PersonViewModel : ViewModelBase
 
         foreach (var document in DocumentList)
         {
+            if (string.IsNullOrEmpty(document.OriginalPath))
+                continue;
+
             _documentRepository.Upsert(document);
         }
 
