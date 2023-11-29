@@ -14,5 +14,11 @@ namespace Model.Services
             string fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             return fullDirectory;
         }
+
+        public string GetFolderTemporaryFolderDirectory()
+        {
+            string fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            return fullDirectory;
+        }
     }
 }

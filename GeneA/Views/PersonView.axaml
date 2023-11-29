@@ -127,7 +127,8 @@
                        CanUserResizeColumns="True"
                        IsReadOnly="True"
                        GridLinesVisibility="All"
-                       ItemsSource="{Binding DocumentList}">
+                       ItemsSource="{Binding DocumentList}"
+                       >
               <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static loc:Resource.Name}" 
                                     Width="*"

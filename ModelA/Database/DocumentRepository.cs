@@ -16,9 +16,11 @@ namespace ModelA.Database
         public DocumentRepository(LiteDBConfiguration configuration, IGetFolderService getFolderService) : base(configuration)
         {
             _liteStorage = _configuration.LiteDB!.FileStorage;
+            _getFolderService = getFolderService;
         }
 
         private ILiteStorage<string> _liteStorage;
+        private readonly IGetFolderService _getFolderService;
 
         public override void Delete(DocumentFile entity)
         {
@@ -45,6 +47,25 @@ namespace ModelA.Database
             }
 
             return document;
+        }
+
+        public string DownloadToTemporaryFolder(DocumentFile entity)
+        {
+            string tempFolder = _getFolderService.GetFolderTemporaryFolderDirectory();
+            string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "GeneTemp", entity.FileName);
+
+            try
+            {
+                using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                {
+                     _liteStorage.Download(entity.Id.ToString(), stream);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return fullPath;
         }
 
         //TODO: download method here, see for a temporary folder

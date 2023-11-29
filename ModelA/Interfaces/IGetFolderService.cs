@@ -9,5 +9,6 @@ namespace Model.Interfaces
     public interface IGetFolderService
     {
         string GetApplicationDirectory();
+        string GetFolderTemporaryFolderDirectory();
     }
 }

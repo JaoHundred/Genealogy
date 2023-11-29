@@ -20,6 +20,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ModelA.Database;
 using System.Xml.XPath;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace GeneA.ViewModels;
 
@@ -265,10 +267,25 @@ public partial class PersonViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void OpenFile()
+    private void OpenFile(DocumentFile file)
     {
-        //TODO: open selected file in default app which can read this file extension
-        //search how this is done in avalonia
+        string path = _documentRepository.DownloadToTemporaryFolder(file);
+
+        //TODO: see what is the equivalent of launcher of xamarin forms
+        if (!string.IsNullOrEmpty(path))
+        {
+            //TODO: process start will work only in windows for android it maybe should be in android project itself
+            //for now test click event on cell to call this method(if its not possible use selectedItem)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = path,
+                    UseShellExecute = true
+                });
+            }
+        }
 
     }
 
