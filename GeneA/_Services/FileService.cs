@@ -5,11 +5,14 @@ using GeneA.Views;
 using ModelA.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace GeneA._Services
 {
@@ -46,6 +49,20 @@ namespace GeneA._Services
             }
 
             return pathList;
+        }
+
+        public void OpenFileInDefaultApp(string path)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = path,
+                    UseShellExecute = true
+                });
+            }
+            //TODO: process start will work only in windows for android it maybe should be in android project itself?
         }
 
         public string GetFileName(string path)

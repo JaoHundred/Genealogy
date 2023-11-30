@@ -49,10 +49,15 @@ namespace ModelA.Database
             return document;
         }
 
-        public string DownloadToTemporaryFolder(DocumentFile entity)
+        public string DownloadToTemporaryFolder(DocumentFile entity, long personId)
         {
             string tempFolder = _getFolderService.GetFolderTemporaryFolderDirectory();
-            string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "GeneTemp", entity.FileName);
+            string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "Temp", "GeneDoc", personId.ToString());
+
+            if(!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            fullPath = Path.Combine(fullPath, entity.FileName);
 
             try
             {
@@ -67,8 +72,5 @@ namespace ModelA.Database
 
             return fullPath;
         }
-
-        //TODO: download method here, see for a temporary folder
-
     }
 }

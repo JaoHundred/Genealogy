@@ -22,6 +22,7 @@ using ModelA.Database;
 using System.Xml.XPath;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace GeneA.ViewModels;
 
@@ -264,29 +265,19 @@ public partial class PersonViewModel : ViewModelBase
         {
             DocumentList.ReplaceRange(Person!.DocumentFiles);
         });
+
+        SaveToDB();
     }
 
     [RelayCommand]
     private void OpenFile(DocumentFile file)
     {
-        string path = _documentRepository.DownloadToTemporaryFolder(file);
-
-        //TODO: see what is the equivalent of launcher of xamarin forms
+        string path = _documentRepository.DownloadToTemporaryFolder(file, Person!.Id);
+        
         if (!string.IsNullOrEmpty(path))
-        {
-            //TODO: process start will work only in windows for android it maybe should be in android project itself
-            //for now test click event on cell to call this method(if its not possible use selectedItem)
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "explorer.exe",
-                    Arguments = path,
-                    UseShellExecute = true
-                });
-            }
+        {    
+            _fileService.OpenFileInDefaultApp(path);
         }
-
     }
 
     [RelayCommand]
