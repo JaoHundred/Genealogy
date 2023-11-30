@@ -27,6 +27,8 @@ namespace GeneA._Services
 
         public async Task<IList<string>?> OpenFilePickerAsync()
         {
+            //TODO: see how to manage that in android and its quirks
+
             var files = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = true,
