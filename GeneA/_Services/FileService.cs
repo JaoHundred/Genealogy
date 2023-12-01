@@ -43,12 +43,7 @@ namespace GeneA._Services
             if (files.Count == 0)
                 return null;
 
-            var pathList = new List<string>();
-
-            foreach (var file in files)
-            {
-                pathList.Add(file.Path.AbsolutePath);
-            }
+            var pathList = new List<string>(files.Select(p => p.Path.AbsolutePath).ToList());
 
             return pathList;
         }
@@ -63,6 +58,10 @@ namespace GeneA._Services
                     Arguments = path,
                     UseShellExecute = true
                 });
+            }
+            else
+            {
+
             }
             //TODO: process start will work only in windows for android it maybe should be in android project itself?
         }
