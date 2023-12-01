@@ -28,6 +28,8 @@ namespace GeneA._Services
         public async Task<IList<string>?> OpenFilePickerAsync()
         {
             //TODO: see how to manage that in android and its quirks
+            //https://docs.avaloniaui.net/docs/concepts/services/storage-provider/storage-item
+            //https://docs.avaloniaui.net/docs/concepts/services/storage-provider/bookmarks
 
             var files = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
