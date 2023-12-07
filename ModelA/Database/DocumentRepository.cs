@@ -41,7 +41,7 @@ namespace ModelA.Database
         {
             DocumentFile document = base.Upsert(entity);
 
-            using (var stream = new FileStream(Uri.UnescapeDataString(entity.OriginalPath), FileMode.Open, FileAccess.Read))
+            using (var stream = new MemoryStream(entity.DocumentBytes!))
             {
                 _liteStorage.Upload(document.Id.ToString(), document.FileName, stream);
             }

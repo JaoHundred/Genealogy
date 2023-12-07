@@ -25,12 +25,8 @@ namespace GeneA._Services
 
         private TopLevel _topLevel;
 
-        public async Task<IList<string>?> OpenFilePickerAsync()
+        public async Task<IList<DocumentFile>?> OpenFilePickerAsync()
         {
-            //TODO: see how to manage that in android and its quirks
-            //https://docs.avaloniaui.net/docs/concepts/services/storage-provider/storage-item
-            //https://docs.avaloniaui.net/docs/concepts/services/storage-provider/bookmarks
-
             var files = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = true,
@@ -45,9 +41,27 @@ namespace GeneA._Services
             if (files.Count == 0)
                 return null;
 
-            var pathList = new List<string>(files.Select(p => p.Path.AbsolutePath).ToList());
+            var docs = new List<DocumentFile>();
+            foreach (var file in files)
+            {
+                Stream stream = await file.OpenReadAsync();
 
-            return pathList;
+                using (var meStream = new MemoryStream())
+                {
+                    stream.CopyTo(meStream);
+
+                    docs.Add(new DocumentFile
+                    {
+                        FileExtension = Path.GetExtension(file.Name),
+                        FileName = file.Name,
+                        DocumentBytes = meStream.ToArray(),
+                    });
+                }
+
+                await stream.DisposeAsync();
+            }
+
+            return docs;
         }
 
         public void OpenFileInDefaultApp(string path)
@@ -63,29 +77,8 @@ namespace GeneA._Services
             }
             else
             {
-
+                //TODO: see how to open file in default app for android
             }
-            //TODO: process start will work only in windows for android it maybe should be in android project itself?
-        }
-
-        public string GetFileName(string path)
-        {
-            return Path.GetFileName(path);
-        }
-
-        public string GetFileExtension(string path)
-        {
-            return Path.GetExtension(path);
-        }
-
-        public IEnumerable<DocumentFile> GetDocuments(IEnumerable<string> paths)
-        {
-            return paths.Select(p => new DocumentFile 
-            {
-                FileExtension = GetFileExtension(p),
-                FileName = GetFileName(p),
-                OriginalPath = p,
-            });
         }
     }
 }

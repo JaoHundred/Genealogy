@@ -24,6 +24,6 @@ namespace ModelA.Core
         public DateTime? UpdateDate { get; set; }
 
         [BsonIgnore]
-        public string OriginalPath { get; set; } = string.Empty;
+        public byte[]? DocumentBytes { get; set; }
     }
 }

@@ -227,39 +227,28 @@ public partial class PersonViewModel : ViewModelBase
     [RelayCommand]
     private async Task AddFile()
     {
-        var fullPaths = await _fileService.OpenFilePickerAsync();
+        var docs = await _fileService.OpenFilePickerAsync();
 
-        if (fullPaths == null)
+        if (docs == null)
             return;
 
         if (Person!.DocumentFiles.Count > 0)
         {
-            foreach (var path in fullPaths)
+            foreach (var doc in docs)
             {
-                var personDocument = Person.DocumentFiles.Find(p => p.FileName == _fileService.GetFileName(path));
+                var personDoc = Person.DocumentFiles.FirstOrDefault(p => p.FileName == doc.FileName);
 
-                if (personDocument != null)
+                if (personDoc is not null)
                 {
-                    personDocument.FileName = _fileService.GetFileName(path);
-                    personDocument.FileExtension = _fileService.GetFileExtension(path);
-                    personDocument.OriginalPath = path;
-                    personDocument.UpdateDate = DateTime.Now;
+                    personDoc.UpdateDate = DateTime.Now;
+                    personDoc.DocumentBytes = doc.DocumentBytes;
                 }
                 else
-                {
-                    var doc = new DocumentFile
-                    {
-                        FileName = _fileService.GetFileName(path),
-                        FileExtension = _fileService.GetFileExtension(path),
-                        OriginalPath = path,
-                    };
-
                     Person.DocumentFiles.Add(doc);
-                }
             }
         }
         else
-            Person!.DocumentFiles = _fileService.GetDocuments(fullPaths).ToList();
+            Person!.DocumentFiles = docs.ToList();
 
         Dispatcher.UIThread.Invoke(() =>
         {
@@ -273,9 +262,9 @@ public partial class PersonViewModel : ViewModelBase
     private void OpenFile(DocumentFile file)
     {
         string path = _documentRepository.DownloadToTemporaryFolder(file, Person!.Id);
-        
+
         if (!string.IsNullOrEmpty(path))
-        {    
+        {
             _fileService.OpenFileInDefaultApp(path);
         }
     }
@@ -341,7 +330,7 @@ public partial class PersonViewModel : ViewModelBase
 
         foreach (var document in DocumentList)
         {
-            if (string.IsNullOrEmpty(document.OriginalPath))
+            if (document.DocumentBytes == null)
                 continue;
 
             _documentRepository.Upsert(document);
