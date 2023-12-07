@@ -259,13 +259,13 @@ public partial class PersonViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void OpenFile(DocumentFile file)
+    private async Task OpenFile(DocumentFile file)
     {
         string path = _documentRepository.DownloadToTemporaryFolder(file, Person!.Id);
 
         if (!string.IsNullOrEmpty(path))
         {
-            _fileService.OpenFileInDefaultApp(path);
+            await _fileService.OpenFileInDefaultAppAsync(path);
         }
     }
 

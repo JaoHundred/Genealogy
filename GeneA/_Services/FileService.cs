@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using GeneA.Views;
@@ -12,6 +13,8 @@ using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using FilePickerFileType = Avalonia.Platform.Storage.FilePickerFileType;
 
 
 namespace GeneA._Services
@@ -64,7 +67,7 @@ namespace GeneA._Services
             return docs;
         }
 
-        public void OpenFileInDefaultApp(string path)
+        public async Task OpenFileInDefaultAppAsync(string path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -75,9 +78,12 @@ namespace GeneA._Services
                     UseShellExecute = true
                 });
             }
-            else
+            else //android
             {
-                //TODO: see how to open file in default app for android
+                await Xamarin.Essentials.Launcher.OpenAsync(new OpenFileRequest 
+                {
+                    File = new ReadOnlyFile(path),
+                });
             }
         }
     }
