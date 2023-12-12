@@ -95,9 +95,23 @@
         <Setter Property="Foreground" Value="#e3ffff"/>
       </Style>
 
+      <Style Selector="^:unchecked Border.radioBorder">
+        <Setter Property="Background" Value="Transparent"/>
+      </Style>
+
       <Style Selector="^:checked Border.radioBorder">
-        <Setter Property="Background" Value="DarkBlue"/>
+        
         <Setter Property="CornerRadius" Value="40"/>
+        
+
+        <Setter Property="Transitions">
+          <Transitions>
+            <BrushTransition Property="Background" Duration="0:0:0.5" Easing="LinearEasing"/>
+          </Transitions>
+        </Setter>
+
+        <Setter Property="Background" Value="DarkBlue"/>
+        
       </Style>
       <Style Selector="^:checked TextBlock">
         <Setter Property="FontSize" Value="16"/>
@@ -118,11 +132,11 @@
       <Style Selector="^:disabled TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
-      
+
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AddButtonColor}"/>
         <Setter Property="Foreground" Value="White"/>
-        
+
       </Style>
       <Style Selector="^:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AddButtonPressedColor}"/>
@@ -133,10 +147,10 @@
       <Style Selector="^:disabled /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonDisabledBackground}"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
-        
+
       </Style>
     </Style>
-    
+
     <Style Selector="Button.round">
       <Setter Property="CornerRadius" Value="50"/>
       <Setter Property="Height" Value="60"/>
@@ -371,7 +385,7 @@
 
     <Style Selector="Button.buttonLabel">
       <Setter Property="Background" Value="Transparent"/>
-     
+
       <Style Selector="^:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
       </Style>
