@@ -109,5 +109,8 @@ public partial class App : Application
 
         services.AddTransient<NationalitySelectionPopupView>();
         services.AddTransient<NationalitySelectionPopupViewModel>();
+
+        services.AddTransient<FamilyTreeView>();
+        services.AddTransient<FamilyTreeViewModel>();
     }
 }
