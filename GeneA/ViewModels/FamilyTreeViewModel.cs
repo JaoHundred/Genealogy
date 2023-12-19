@@ -1,4 +1,7 @@
-﻿using Model.Interfaces;
+﻿using AvaloniaGraphControl;
+using CommunityToolkit.Mvvm.ComponentModel;
+using GeneA._Helper;
+using Model.Interfaces;
 using ModelA.Core;
 using MvvmHelpers;
 using System;
@@ -9,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GeneA.ViewModels
 {
-    public class FamilyTreeViewModel : ViewModelBase
+    public partial class FamilyTreeViewModel : ViewModelBase
     {
         public FamilyTreeViewModel(IRepository<Person> personRepository)
         {
@@ -20,13 +23,17 @@ namespace GeneA.ViewModels
 
         private readonly IRepository<Person> _personRepository;
 
+
+        [ObservableProperty]
+        private Graph? _graph;
+
         private async Task Load()
         {
-            long id = (long)Param!;
-
-            Person person = _personRepository.FindById(id);
+            Person person = (Person)Param!;
 
             //TODO: create a tree builder helper and return a compatible data to avalonia Graph property
+
+            Graph = person.ToGraph();
         }
     }
 }

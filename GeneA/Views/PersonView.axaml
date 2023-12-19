@@ -176,7 +176,7 @@
         </Grid>
       </ScrollViewer>
 
-      <Grid Classes="Default" Grid.Row="1" ColumnDefinitions="auto,*"
+      <Grid Classes="Default" Grid.Row="1" ColumnDefinitions="auto, *, auto"
             Margin="10">
 
         <Button Classes="cancelButton"
@@ -193,6 +193,15 @@
           <StackPanel>
             <icon:Icon Value="mdi-content-save"/>
             <TextBlock Text="{x:Static loc:Resource.Save}" />
+          </StackPanel>
+        </Button>
+        <Button Classes="treeButton"
+                Grid.Column="2"  HorizontalAlignment="Stretch"
+                Command="{Binding OpenFamilyTreeCommand}"
+                IsEnabled="{Binding #nameTextBox.Text.Length > 0}">
+          <StackPanel>
+            <icon:Icon Value="mdi-family-tree"/>
+            <TextBlock Text="{x:Static loc:Resource.FamilyTree}" />
           </StackPanel>
         </Button>
 

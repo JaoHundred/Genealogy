@@ -180,6 +180,9 @@
   <data name="Extension" xml:space="preserve">
     <value>Extensão</value>
   </data>
+  <data name="FamilyTree" xml:space="preserve">
+    <value>Árvore genealógica</value>
+  </data>
   <data name="Father" xml:space="preserve">
     <value>Pai</value>
   </data>

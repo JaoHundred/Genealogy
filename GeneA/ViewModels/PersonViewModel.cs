@@ -298,6 +298,12 @@ public partial class PersonViewModel : ViewModelBase
             );
     }
 
+    [RelayCommand]
+    private async Task OpenFamilyTree()
+    {
+        await _navigation.GoToAsync<FamilyTreeViewModel>(Person);
+    }
+
     public async Task<IEnumerable<object>> FatherStartsWithAsync(string str, CancellationToken token)
     {
         return await Task.Run(() =>

@@ -250,6 +250,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Family tree.
+        /// </summary>
+        public static string FamilyTree {
+            get {
+                return ResourceManager.GetString("FamilyTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Father.
         /// </summary>
         public static string Father {

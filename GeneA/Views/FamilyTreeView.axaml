@@ -7,14 +7,21 @@
              xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:conv="using:GeneA.Converters"
+             xmlns:model="using:ModelA.Core"
              x:DataType="vm:FamilyTreeViewModel"
              xmlns:graph="clr-namespace:AvaloniaGraphControl;assembly=AvaloniaGraphControl">
   <Grid RowDefinitions="auto *">
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto">
-      <graph:GraphPanel Grid.Row="1" Graph="" LayoutMethod="SugiyamaScheme">
+      
+        <graph:GraphPanel Grid.Row="1" Graph="{Binding Graph}">
+          <graph:GraphPanel.DataTemplates>
+            <DataTemplate x:DataType="model:Person">
+              <graph:TextSticker Text="{Binding Name}" Shape="Rectangle"/>
+            </DataTemplate>
+          </graph:GraphPanel.DataTemplates>
 
-      </graph:GraphPanel>
+        </graph:GraphPanel>
     </ScrollViewer>
   </Grid>
 
