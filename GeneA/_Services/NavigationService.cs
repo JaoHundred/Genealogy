@@ -224,6 +224,10 @@ public class NavigationService
                             title = DynamicTranslate.Translate(MessageConsts.Settings);
                             break;
 
+                        case FamilyTreeViewModel: 
+                            title = DynamicTranslate.Translate(MessageConsts.FamilyTree); 
+                            break;
+
                         default: break;
                     }
 

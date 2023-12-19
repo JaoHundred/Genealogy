@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Notification;
+using GeneA._Helper;
 using GeneA._Services;
 using GeneA.ViewModels;
 using GeneA.Views;
@@ -72,6 +73,7 @@ public partial class App : Application
         services.AddTransient<INotificationMessageManager, NotificationMessageManager>();
         services.AddTransient<ThemeService>();
         services.AddTransient<FileService>();
+        services.AddTransient<GraphService>();
 
 
         ViewsViewModels(services);

@@ -1,6 +1,8 @@
 ﻿using AvaloniaGraphControl;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
+using GeneA._Services;
 using Model.Interfaces;
 using ModelA.Core;
 using MvvmHelpers;
@@ -14,15 +16,16 @@ namespace GeneA.ViewModels
 {
     public partial class FamilyTreeViewModel : ViewModelBase
     {
-        public FamilyTreeViewModel(IRepository<Person> personRepository)
+        public FamilyTreeViewModel(GraphService graphService, NavigationService navigationService)
         {
-            _personRepository = personRepository;
+            _graphService = graphService;
+            _navigationService = navigationService;
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
-
-        private readonly IRepository<Person> _personRepository;
-
+        
+        private readonly GraphService _graphService;
+        private readonly NavigationService _navigationService;
 
         [ObservableProperty]
         private Graph? _graph;
@@ -30,10 +33,15 @@ namespace GeneA.ViewModels
         private async Task Load()
         {
             Person person = (Person)Param!;
+            //TODO: panzoom dont work with pinch gesture in android, see what how should this will be implemented
 
-            //TODO: create a tree builder helper and return a compatible data to avalonia Graph property
+            Graph = await _graphService.ToGraphAsync(person);
+        }
 
-            Graph = person.ToGraph();
+        [RelayCommand]
+        private async Task OpenPerson(Person person)
+        {
+            await _navigationService.GoToAsync<PersonViewModel>(person.Id);
         }
     }
 }

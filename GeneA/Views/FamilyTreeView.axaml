@@ -8,20 +8,33 @@
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:conv="using:GeneA.Converters"
              xmlns:model="using:ModelA.Core"
+             xmlns:paz="using:Avalonia.Controls.PanAndZoom"
              x:DataType="vm:FamilyTreeViewModel"
              xmlns:graph="clr-namespace:AvaloniaGraphControl;assembly=AvaloniaGraphControl">
   <Grid RowDefinitions="auto *">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto">
-      
-        <graph:GraphPanel Grid.Row="1" Graph="{Binding Graph}">
+
+      <paz:ZoomBorder Name="zoomBorder" ZoomSpeed="1.1" EnableGestureTranslation="True"
+                      ClipToBounds="True"
+                      Focusable="True" VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch" EnableGestureZoom="True">
+        <paz:ZoomBorder.GestureRecognizers>
+          <PinchGestureRecognizer />
+          <ScrollGestureRecognizer CanHorizontallyScroll="True" CanVerticallyScroll="True"/>
+        </paz:ZoomBorder.GestureRecognizers>
+
+        <graph:GraphPanel Graph="{Binding Graph}">
           <graph:GraphPanel.DataTemplates>
             <DataTemplate x:DataType="model:Person">
-              <graph:TextSticker Text="{Binding Name}" Shape="Rectangle"/>
+              <Button Content="{Binding Name}"
+                      Command="{Binding $parent[UserControl].((vm:FamilyTreeViewModel)DataContext).OpenPersonCommand}"
+                      CommandParameter="{Binding .}"/>
             </DataTemplate>
           </graph:GraphPanel.DataTemplates>
 
         </graph:GraphPanel>
+      </paz:ZoomBorder>
     </ScrollViewer>
   </Grid>
 

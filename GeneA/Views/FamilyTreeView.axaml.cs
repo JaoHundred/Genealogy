@@ -1,4 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Platform;
+using Microsoft.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 namespace GeneA.Views
 {
@@ -7,6 +10,11 @@ namespace GeneA.Views
         public FamilyTreeView()
         {
             InitializeComponent();
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                zoomBorder.PanButton = Avalonia.Controls.PanAndZoom.ButtonName.Left;
+            }
         }
     }
 }
