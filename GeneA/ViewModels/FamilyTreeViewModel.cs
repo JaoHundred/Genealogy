@@ -33,7 +33,7 @@ namespace GeneA.ViewModels
         private async Task Load()
         {
             Person person = (Person)Param!;
-            //TODO: panzoom dont work with pinch gesture in android, see what how should this will be implemented
+            //TODO: panzoom dont work with pinch gesture in android, see how should this will be implemented
 
             Graph = await _graphService.ToGraphAsync(person);
         }

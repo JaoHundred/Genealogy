@@ -14,31 +14,39 @@ namespace GeneA._Helper
         public GraphService(IRepository<Person> repository)
         {
             _repository = repository;
+
+            _graph  = new Graph();
         }
 
         private readonly IRepository<Person> _repository;
 
+        private Graph _graph;
+
         public async Task<Graph> ToGraphAsync(Person person)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async() =>
               {
-
-                  var graph = new Graph();
-
                   if (person.Father != null && person.Mother != null)
                   {
-                      //TODO: see how make full functional trees with this
+                      //TODO: try to customize the graph control spacing and customize the text spacing
 
                       person.Father = _repository.FindById(person.Father.Id);
                       person.Mother = _repository.FindById(person.Mother.Id);
 
-                      var edge = new Edge(person.Father, person, 
+                      var fatherEdge = new Edge(person.Father, person, 
                           tailSymbol: Edge.Symbol.None, headSymbol: Edge.Symbol.None);
 
-                      graph.Edges.Add(edge);
+                      var motherEdge = new Edge(person.Mother, person,
+                          tailSymbol: Edge.Symbol.None, headSymbol: Edge.Symbol.None);
+
+                      await ToGraphAsync(person.Father);
+                      await ToGraphAsync(person.Mother);
+
+                      _graph.Edges.Add(fatherEdge);
+                      _graph.Edges.Add(motherEdge);
                   }
 
-                  return graph;
+                  return _graph;
               });
         }
     }
