@@ -12,10 +12,31 @@
              xmlns:paz="using:Avalonia.Controls.PanAndZoom"
              x:DataType="vm:FamilyTreeViewModel"
              xmlns:graph="clr-namespace:AvaloniaGraphControl;assembly=AvaloniaGraphControl">
+  
+  <UserControl.Resources>
+    <conv:ColorSaturationConverter x:Key="ColorSaturationConverter"/>
+  </UserControl.Resources>
 
   <UserControl.Styles>
-    <Style Selector="TextBlock.date">
-      <Setter Property="FontSize" Value="12"/>
+    <Style Selector="Button.graphNode">
+
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="{Binding $parent[ContentPresenter].Background, Converter={StaticResource ColorSaturationConverter}}"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{Binding $parent[ContentPresenter].Background, Converter={StaticResource ColorSaturationConverter}}"/>
+      </Style>
+      
+      <Style Selector="^ TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+      </Style>
+
+      <Style Selector="^ TextBlock.nodeName">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+      </Style>
+      
     </Style>
   </UserControl.Styles>
 
@@ -40,16 +61,17 @@
         <graph:GraphPanel Graph="{Binding Graph}">
           <graph:GraphPanel.DataTemplates>
             <DataTemplate x:DataType="model:Person">
-              <Button Background="{Binding Gender,Converter={StaticResource GenderToColorConverter}}"
+              <Button Classes="graphNode" Background="{Binding Gender,Converter={StaticResource GenderToColorConverter}}"
                       Command="{Binding $parent[UserControl].((vm:FamilyTreeViewModel)DataContext).OpenPersonCommand}"
                       CommandParameter="{Binding .}">
                 <Grid RowDefinitions="auto auto" ColumnDefinitions="auto auto auto">
-                  <TextBlock Grid.ColumnSpan="3" Text="{Binding Name}" Margin="0,0,0,5"/>
-                  
-                  <TextBlock Classes="date" Grid.Row="1" Text="{Binding BirthDate
-                             , Converter={StaticResource BirthDeathConverter}}"/>
+                  <TextBlock Classes="nodeName" Grid.ColumnSpan="3" Text="{Binding Name}" Margin="0,0,0,5"
+                             HorizontalAlignment="Center"/>
+
+                  <TextBlock  Grid.Row="1" Text="{Binding BirthDate
+                              , Converter={StaticResource BirthDeathConverter}}"/>
                   <TextBlock Grid.Row="1" Grid.Column="1" Text="----"/>
-                  <TextBlock Classes="date" Grid.Row="1" Grid.Column="2" Text="{Binding DeathDate
+                  <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding DeathDate
                              , Converter={StaticResource BirthDeathConverter}}"/>
                 </Grid>
               </Button>
