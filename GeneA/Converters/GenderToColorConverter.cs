@@ -17,7 +17,7 @@ namespace GeneA.Converters
         {
             if (value is GenderEnum.Gender gender)
                 return gender == GenderEnum.Gender.Male ? 
-                    SolidColorBrush.Parse("LightBlue") : SolidColorBrush.Parse("Pink");
+                    SolidColorBrush.Parse("LightBlue") : new SolidColorBrush(Color.FromRgb(226, 191, 207));//pink
 
             return BindingOperations.DoNothing;
         }

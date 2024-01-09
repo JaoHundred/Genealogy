@@ -19,10 +19,10 @@ namespace GeneA.Converters
             if(value is SolidColorBrush solidColor)
             {
                 var hsla = solidColor.Color.ToHsl();
-                var newColor = new HslColor(hsla.A, hsla.H, hsla.S * 0.8, hsla.L).ToRgb();
+                var newColor = new HslColor(hsla.A, hsla.H, hsla.S * 100, hsla.L).ToRgb();
 
                 //TODO:color is blinking, see what is happening
-               return new SolidColorBrush(newColor);
+               return  new SolidColorBrush(newColor);
             }
 
             return BindingOperations.DoNothing;

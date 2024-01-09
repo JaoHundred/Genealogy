@@ -12,8 +12,10 @@
              xmlns:paz="using:Avalonia.Controls.PanAndZoom"
              x:DataType="vm:FamilyTreeViewModel"
              xmlns:graph="clr-namespace:AvaloniaGraphControl;assembly=AvaloniaGraphControl">
-  
+
   <UserControl.Resources>
+    <conv:GenderToColorConverter x:Key="GenderToColorConverter"/>
+    <conv:BirthDeathConverter x:Key="BirthDeathConverter"/>
     <conv:ColorSaturationConverter x:Key="ColorSaturationConverter"/>
   </UserControl.Resources>
 
@@ -21,10 +23,10 @@
     <Style Selector="Button.graphNode">
 
       <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="{Binding $parent[ContentPresenter].Background, Converter={StaticResource ColorSaturationConverter}}"/>
+        <Setter Property="Background" Value="{Binding $parent[Button].Background, Converter={StaticResource ColorSaturationConverter}}"/>
       </Style>
       <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="{Binding $parent[ContentPresenter].Background, Converter={StaticResource ColorSaturationConverter}}"/>
+        <Setter Property="Background" Value="{Binding $parent[Button].Background, Converter={StaticResource ColorSaturationConverter}}"/>
       </Style>
       
       <Style Selector="^ TextBlock">
@@ -39,11 +41,6 @@
       
     </Style>
   </UserControl.Styles>
-
-  <UserControl.Resources>
-    <conv:GenderToColorConverter x:Key="GenderToColorConverter"/>
-    <conv:BirthDeathConverter x:Key="BirthDeathConverter"/>
-  </UserControl.Resources>
 
   <Grid RowDefinitions="auto *">
     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto"
@@ -60,7 +57,7 @@
 
         <graph:GraphPanel Graph="{Binding Graph}">
           <graph:GraphPanel.DataTemplates>
-            <DataTemplate x:DataType="model:Person">
+            <DataTemplate x:DataType="model:Person" >
               <Button Classes="graphNode" Background="{Binding Gender,Converter={StaticResource GenderToColorConverter}}"
                       Command="{Binding $parent[UserControl].((vm:FamilyTreeViewModel)DataContext).OpenPersonCommand}"
                       CommandParameter="{Binding .}">
