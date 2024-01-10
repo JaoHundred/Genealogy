@@ -21,5 +21,6 @@ namespace GeneA._Helper
         public const string Light = "Light";
         public const string Dark = "Dark";
 
+        public const string Spouse = "Spouse";
     }
 }
