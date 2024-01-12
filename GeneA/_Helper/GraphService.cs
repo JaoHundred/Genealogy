@@ -29,8 +29,6 @@ namespace GeneA._Helper
               {
                   if (person.Father != null && person.Mother != null)
                   {
-                      //TODO: try to customize the graph control spacing and customize the text spacing
-
                       person.Father = _repository.FindById(person.Father.Id);
                       person.Mother = _repository.FindById(person.Mother.Id);
 
@@ -40,26 +38,16 @@ namespace GeneA._Helper
                       var spouse = new Edge(person.Father, person.Mother, headSymbol: Edge.Symbol.Arrow, tailSymbol: Edge.Symbol.Arrow
                           ,label: DynamicTranslate.Translate(MessageConsts.Spouse));
 
-                      //_graph.Edges.Add(spouse);
-                      _edges.Add(spouse);
+                      _graph.Edges.Add(spouse);
+
+                      _graph.Edges.Add(fatherEdge);
+                      _graph.Edges.Add(motherEdge);
 
                       await ToGraphAsync(person.Father);
                       await ToGraphAsync(person.Mother);
-
-                      _edges.Add(fatherEdge);
-                      _edges.Add(motherEdge);
-                      //_graph.Edges.Add(fatherEdge);
-                      //_graph.Edges.Add(motherEdge);
                   }
 
-                  //TODO: try to reverse the tree(the bottom node must be the person you chose to view the family tree)
-
-                  _edges.Reverse();
-
-                  foreach (var item in _edges)
-                  {
-                      _graph.Edges.Add(item);
-                  }
+                  //TODO: sometimes graph changes its order, see why this is happening
 
                   return _graph;
               });
