@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:GeneA.ViewModels;assembly=GeneA"
              xmlns:loc="clr-namespace:GeneA.Lang;assembly=GeneA"
              xmlns:conv="using:GeneA.Converters"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:model="using:ModelA.Core"
              xmlns:GeneA="using:GeneA.ViewModelItems"
              xmlns:paz="using:Avalonia.Controls.PanAndZoom"
@@ -61,7 +62,7 @@
           <ScrollGestureRecognizer CanHorizontallyScroll="True" CanVerticallyScroll="True"/>
         </paz:ZoomBorder.GestureRecognizers>
 
-        <graph:GraphPanel Graph="{Binding Graph}" LayoutMethod="MDS">
+        <graph:GraphPanel Graph="{Binding Graph}" LayoutMethod="MDS" Name="graphPanel">
           <graph:GraphPanel.DataTemplates>
             <DataTemplate x:DataType="model:Person" >
               <Button Classes="graphNode" Background="{Binding Gender,Converter={StaticResource GenderToColorConverter}}"
@@ -85,6 +86,13 @@
         </graph:GraphPanel>
       </paz:ZoomBorder>
     </ScrollViewer>
+    <Button VerticalAlignment="Top" HorizontalAlignment="Right"
+            Command="{Binding SaveGraphAsImageCommand}">
+      <StackPanel>
+        <icon:Icon Value="mdi-content-save"/>
+        <TextBlock Text="{x:Static loc:Resource.Save}"/>
+      </StackPanel>
+    </Button>
   </Grid>
 
 </UserControl>

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
 using GeneA._Services;
+using GeneA.Views;
 using Model.Interfaces;
 using ModelA.Core;
 using MvvmHelpers;
@@ -16,32 +17,42 @@ namespace GeneA.ViewModels
 {
     public partial class FamilyTreeViewModel : ViewModelBase
     {
-        public FamilyTreeViewModel(GraphService graphService, NavigationService navigationService)
+        public FamilyTreeViewModel(GraphService graphService, NavigationService navigationService, FileService fileService)
         {
             _graphService = graphService;
             _navigationService = navigationService;
+            _fileService = fileService;
 
             LoadAction = () => { Load().SafeFireAndForget(); };
         }
         
         private readonly GraphService _graphService;
         private readonly NavigationService _navigationService;
+        private readonly FileService _fileService;
 
         [ObservableProperty]
         private Graph? _graph;
 
+        private Person? _person;
+
         private async Task Load()
         {
-            Person person = (Person)Param!;
+            _person = (Person)Param!;
             //TODO: panzoom dont work with pinch gesture in android, see how should this will be implemented
 
-            Graph = await _graphService.ToGraphAsync(person);
+            Graph = await _graphService.ToGraphAsync(_person);
         }
 
         [RelayCommand]
         private async Task OpenPerson(Person person)
         {
             await _navigationService.GoToAsync<PersonViewModel>(person.Id);
+        }
+
+        [RelayCommand]
+        private async Task SaveGraphAsImage()
+        {
+            await _fileService.SaveFilePicker($"{_person!.Name} family.png");
         }
     }
 }
