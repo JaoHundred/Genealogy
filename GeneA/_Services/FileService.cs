@@ -6,6 +6,7 @@ using Avalonia.Platform.Storage;
 using AvaloniaGraphControl;
 using GeneA.Views;
 using ModelA.Core;
+using SixLabors.ImageSharp.Formats.Png;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,20 +18,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using FilePickerFileType = Avalonia.Platform.Storage.FilePickerFileType;
-
+using SixLabors.ImageSharp.Processing;
+using Avalonia.Threading;
 
 namespace GeneA._Services
 {
     public class FileService
     {
-        public FileService(MainView mainView, FamilyTreeView familyTreeView)
+        public FileService(MainView mainView)
         {
             _topLevel = TopLevel.GetTopLevel(mainView)!;
-            _familyTreeView = familyTreeView;
         }
 
         private TopLevel _topLevel;
-        private readonly FamilyTreeView _familyTreeView;
 
         public async Task<IList<DocumentFile>?> OpenFilePickerAsync()
         {
@@ -104,34 +104,71 @@ namespace GeneA._Services
                 },
             });
 
-            if(file == null)
+            if (file == null)
                 return;
 
-            using (var stream = GetImageFileStream(file.Name))
-            {
-                //TODO: see how to save image to system, flush didnt work?
-                await stream.FlushAsync();
-            }
+            //TODO: see how to save image to system, flush didnt work?
+            await SaveBitmapToStream(file.Name);
         }
 
-        private FileStream GetImageFileStream(string path)
+        private async Task SaveBitmapToStream(string path)
         {
-            //TODO: graphPanel bounds is coming 0, its like the graph is not considered created, see what is happening
 
-            // Create a bitmap from the graph control
-            var bitmap = new RenderTargetBitmap(new PixelSize((int)_familyTreeView.graphPanel.Bounds.Width
-                , (int)_familyTreeView.graphPanel.Bounds.Height)
-                , new Vector(96, 96));
+            //TODO: dependency injection of FamilyTreeView may be picking up empty graphPanel while it doesnt exists and setting
+            //its bounds to zero, see how I can access the familyTreeView to get the graphpanel with its correct bounds
+            //dependency injection might be the culprit 
+
+            // Ensure that the graphPanel is rendered before capturing its content
+            var familytreeView = App.ServiceProvider!.GetService(typeof(FamilyTreeView)) as FamilyTreeView;
+
+            if (familytreeView == null)
+                return;
+
+            if (familytreeView.graphPanel.IsVisible && familytreeView.Bounds.Width > 0)
+            {
+                // Access _familyTreeView.graphPanel.Bounds here
+
+                Dispatcher.UIThread.Post(() =>
+                {
+                    familytreeView.graphPanel.Measure(familytreeView.graphPanel.Bounds.Size);
+                    familytreeView.graphPanel.Arrange(familytreeView.graphPanel.Bounds);
+                });
+            }
+
+            // Create a bitmap from the graphPanel
+            var bitmap = new RenderTargetBitmap(new PixelSize((int)familytreeView.graphPanel.Bounds.Width,
+                (int)familytreeView.graphPanel.Bounds.Height), new Vector(96, 96));
+
             using (var ctx = bitmap.CreateDrawingContext())
             {
-                ctx.DrawRectangle(_familyTreeView.graphPanel.Background, null, new Rect(new Point(), bitmap.Size));
-                _familyTreeView.graphPanel.Render(ctx);
+                ctx.DrawRectangle(familytreeView.graphPanel.Background, null, new Rect(new Point(), bitmap.Size));
+                familytreeView.graphPanel.Render(ctx);
             }
 
-            // Create an image control with the bitmap as the source
-            var image = new Image { Source = bitmap };
+            // Convert Avalonia Bitmap to SixLabors.ImageSharp Image
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var graphStream = new FileStream($"{path}.png", FileMode.Create))
+                {
+                    bitmap.Save(memoryStream);
+                    memoryStream.Position = 0;
 
-            return new FileStream($"{path}.png", FileMode.Create);
+                    // Use SixLabors.ImageSharp to resize, manipulate, or directly save the image
+                    using (var image = SixLabors.ImageSharp.Image.Load(memoryStream))
+                    {
+                        // Example: Resize the image to a specific size
+                        image.Mutate(x => x.Resize(new ResizeOptions
+                        {
+                            Size = new SixLabors.ImageSharp.Size(800, 600),
+                            Mode = ResizeMode.Max
+                        }));
+
+                        // Save the manipulated image to the provided stream
+                        image.Save(graphStream, new PngEncoder());
+                    }
+                }
+            }
         }
+
     }
 }
