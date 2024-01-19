@@ -130,28 +130,26 @@ namespace GeneA._Services
 
             var resolution = new Size(3840, 2160); //4k resolution
 
-            double width = _mainView._graphPanelInstance.Bounds.Width;
-            double height = _mainView._graphPanelInstance.Bounds.Height;
-            double scaleX = resolution.Width / width;
-            double scaleY = resolution.Height / height;
+            double panelWidth = _mainView._graphPanelInstance.Bounds.Width;
+            double panelHeight = _mainView._graphPanelInstance.Bounds.Height;
+            double scaleX = resolution.Width / panelWidth;
+            double scaleY = resolution.Height / panelHeight;
 
-            _mainView._graphPanelInstance.Background = Brushes.WhiteSmoke;
-
-            //TODO: try to center the graph in the renderTarget
+            //_mainView._graphPanelInstance.Background = Brushes.WhiteSmoke;
 
             // image desired resolution
-            var renderTarget = new RenderTargetBitmap(new PixelSize((int)resolution.Width, (int)resolution.Height));
+            var renderTarget = new RenderTargetBitmap(new PixelSize((int)resolution.Width, (int)resolution.Height)
+                , new Vector(128,128));
 
             _mainView._graphPanelInstance.RenderTransform = new TransformGroup()
             {
                 Children = new Transforms()
                 {
+                    //TODO: why scalling the graph cut its contents?
                     new ScaleTransform(scaleX, scaleY),
-                    new TranslateTransform(width - resolution.Width / 2, height -resolution.Height / 2)
+                    //new TranslateTransform(panelWidth - resolution.Width / 2, panelHeight -resolution.Height / 2),
                 }
             };
-
-            
 
             renderTarget.Render(_mainView._graphPanelInstance);
 
