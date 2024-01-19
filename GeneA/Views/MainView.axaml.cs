@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using AvaloniaGraphControl;
 using GeneA.ViewModels;
 
 namespace GeneA.Views;
@@ -13,6 +14,8 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
     }
+
+    public GraphPanel? _graphPanelInstance;
 
     protected override void OnLoaded(RoutedEventArgs e)
     {

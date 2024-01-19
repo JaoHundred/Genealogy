@@ -20,6 +20,11 @@ using Xamarin.Essentials;
 using FilePickerFileType = Avalonia.Platform.Storage.FilePickerFileType;
 using SixLabors.ImageSharp.Processing;
 using Avalonia.Threading;
+using Avalonia.Media;
+using Avalonia.Platform;
+using Avalonia.VisualTree;
+using Microsoft.Msagl.Core.ProjectionSolver;
+using System.Threading;
 
 namespace GeneA._Services
 {
@@ -27,9 +32,11 @@ namespace GeneA._Services
     {
         public FileService(MainView mainView)
         {
+            _mainView = mainView;
             _topLevel = TopLevel.GetTopLevel(mainView)!;
         }
 
+        private MainView _mainView;
         private TopLevel _topLevel;
 
         public async Task<IList<DocumentFile>?> OpenFilePickerAsync()
@@ -91,7 +98,7 @@ namespace GeneA._Services
             }
         }
 
-        public async Task SaveFilePicker(string fileName)
+        public async Task SaveGraphImageAsync(string fileName)
         {
             var file = await _topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
             {
@@ -107,68 +114,53 @@ namespace GeneA._Services
             if (file == null)
                 return;
 
-            //TODO: see how to save image to system, flush didnt work?
-            await SaveBitmapToStream(file.Name);
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SaveBitmapToStream(file);
+            });
         }
 
-        private async Task SaveBitmapToStream(string path)
+        private void SaveBitmapToStream(IStorageFile file)
         {
-
-            //TODO: dependency injection of FamilyTreeView may be picking up empty graphPanel while it doesnt exists and setting
-            //its bounds to zero, see how I can access the familyTreeView to get the graphpanel with its correct bounds
-            //dependency injection might be the culprit 
-
             // Ensure that the graphPanel is rendered before capturing its content
-            var familytreeView = App.ServiceProvider!.GetService(typeof(FamilyTreeView)) as FamilyTreeView;
-
-            if (familytreeView == null)
+            if (_mainView._graphPanelInstance == null)
                 return;
 
-            if (familytreeView.graphPanel.IsVisible && familytreeView.Bounds.Width > 0)
-            {
-                // Access _familyTreeView.graphPanel.Bounds here
+            //TODO:graph is not going complete to png image
 
-                Dispatcher.UIThread.Post(() =>
+            var resolution = new Size(3840, 2160); //4k resolution
+
+            double width = _mainView._graphPanelInstance.Bounds.Width;
+            double height = _mainView._graphPanelInstance.Bounds.Height;
+            double scaleX = resolution.Width / width;
+            double scaleY = resolution.Height / height;
+
+            _mainView._graphPanelInstance.Background = Brushes.WhiteSmoke;
+
+            //TODO: try to center the graph in the renderTarget
+
+            // image desired resolution
+            var renderTarget = new RenderTargetBitmap(new PixelSize((int)resolution.Width, (int)resolution.Height));
+
+            _mainView._graphPanelInstance.RenderTransform = new TransformGroup()
+            {
+                Children = new Transforms()
                 {
-                    familytreeView.graphPanel.Measure(familytreeView.graphPanel.Bounds.Size);
-                    familytreeView.graphPanel.Arrange(familytreeView.graphPanel.Bounds);
-                });
-            }
-
-            // Create a bitmap from the graphPanel
-            var bitmap = new RenderTargetBitmap(new PixelSize((int)familytreeView.graphPanel.Bounds.Width,
-                (int)familytreeView.graphPanel.Bounds.Height), new Vector(96, 96));
-
-            using (var ctx = bitmap.CreateDrawingContext())
-            {
-                ctx.DrawRectangle(familytreeView.graphPanel.Background, null, new Rect(new Point(), bitmap.Size));
-                familytreeView.graphPanel.Render(ctx);
-            }
-
-            // Convert Avalonia Bitmap to SixLabors.ImageSharp Image
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var graphStream = new FileStream($"{path}.png", FileMode.Create))
-                {
-                    bitmap.Save(memoryStream);
-                    memoryStream.Position = 0;
-
-                    // Use SixLabors.ImageSharp to resize, manipulate, or directly save the image
-                    using (var image = SixLabors.ImageSharp.Image.Load(memoryStream))
-                    {
-                        // Example: Resize the image to a specific size
-                        image.Mutate(x => x.Resize(new ResizeOptions
-                        {
-                            Size = new SixLabors.ImageSharp.Size(800, 600),
-                            Mode = ResizeMode.Max
-                        }));
-
-                        // Save the manipulated image to the provided stream
-                        image.Save(graphStream, new PngEncoder());
-                    }
+                    new ScaleTransform(scaleX, scaleY),
+                    new TranslateTransform(width - resolution.Width / 2, height -resolution.Height / 2)
                 }
-            }
-        }
+            };
 
+            
+
+            renderTarget.Render(_mainView._graphPanelInstance);
+
+            using (var fileStream = new FileStream(file.Path.LocalPath, FileMode.Create))
+            {
+                renderTarget.Save(fileStream);
+            }
+
+            //_mainView._graphPanelInstance.Background = Brushes.Transparent;
+        }
     }
 }

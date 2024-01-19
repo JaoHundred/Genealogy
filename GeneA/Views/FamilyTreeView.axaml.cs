@@ -11,10 +11,22 @@ namespace GeneA.Views
         {
             InitializeComponent();
 
+            
+        }
+
+        public FamilyTreeView(MainView mainView)
+        {
+            InitializeComponent();
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 zoomBorder.PanButton = Avalonia.Controls.PanAndZoom.ButtonName.Left;
             }
+
+            graphPanel.Initialized += (sender, args) =>
+            {
+                mainView._graphPanelInstance = graphPanel;
+            };
         }
     }
 }

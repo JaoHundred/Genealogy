@@ -63,7 +63,7 @@
         </paz:ZoomBorder.GestureRecognizers>
 
         <graph:GraphPanel Graph="{Binding Graph}" LayoutMethod="MDS" Name="graphPanel"
-                          Background="Transparent">
+                          Background="DeepSkyBlue">
           <graph:GraphPanel.DataTemplates>
             <DataTemplate x:DataType="model:Person" >
               <Button Classes="graphNode" Background="{Binding Gender,Converter={StaticResource GenderToColorConverter}}"

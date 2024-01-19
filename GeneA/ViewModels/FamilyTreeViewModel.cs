@@ -52,7 +52,7 @@ namespace GeneA.ViewModels
         [RelayCommand]
         private async Task SaveGraphAsImage()
         {
-            await _fileService.SaveFilePicker($"{_person!.Name} family.png");
+            await _fileService.SaveGraphImageAsync($"{_person!.Name} family.png");
         }
     }
 }
