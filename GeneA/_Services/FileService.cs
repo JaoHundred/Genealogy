@@ -139,15 +139,19 @@ namespace GeneA._Services
 
             // image desired resolution
             var renderTarget = new RenderTargetBitmap(new PixelSize((int)resolution.Width, (int)resolution.Height)
-                , new Vector(128,128));
+                , new Vector(128, 128));
+
+            double moveToX = resolution.Width / 2 - panelWidth / 2;
+            double moveToY = resolution.Height / 2 - panelHeight / 2;
 
             _mainView._graphPanelInstance.RenderTransform = new TransformGroup()
             {
                 Children = new Transforms()
                 {
                     //TODO: why scalling the graph cut its contents?
-                    new ScaleTransform(scaleX, scaleY),
-                    //new TranslateTransform(panelWidth - resolution.Width / 2, panelHeight -resolution.Height / 2),
+                    //TODO: try to disable temporarily panzoom and scrollviewer
+                    //new ScaleTransform(scaleX, scaleY),
+                    new TranslateTransform(moveToX, moveToY),
                 }
             };
 
