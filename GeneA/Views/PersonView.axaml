@@ -201,7 +201,7 @@
                 IsEnabled="{Binding #nameTextBox.Text.Length > 0}">
           <StackPanel>
             <icon:Icon Value="mdi-family-tree"/>
-            <TextBlock Text="{x:Static loc:Resource.FamilyTree}" />
+            <TextBlock Text="{x:Static loc:Resource.FamilyTree}"/>
           </StackPanel>
         </Button>
 

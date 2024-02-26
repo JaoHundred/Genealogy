@@ -63,7 +63,7 @@
         </paz:ZoomBorder.GestureRecognizers>
 
         <graph:GraphPanel Graph="{Binding Graph}" LayoutMethod="MDS" Name="graphPanel"
-                          Background="DeepSkyBlue">
+                          Background="Transparent">
           <graph:GraphPanel.DataTemplates>
             <DataTemplate x:DataType="model:Person" >
               <Button Classes="graphNode" Background="{Binding Gender,Converter={StaticResource GenderToColorConverter}}"
@@ -88,7 +88,7 @@
       </paz:ZoomBorder>
     </ScrollViewer>
     <Button VerticalAlignment="Top" HorizontalAlignment="Right"
-            Command="{Binding SaveGraphAsImageCommand}">
+            Command="{Binding SaveGraphAsImageCommand}" IsVisible="False">
       <StackPanel>
         <icon:Icon Value="mdi-content-save"/>
         <TextBlock Text="{x:Static loc:Resource.Save}"/>

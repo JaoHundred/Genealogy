@@ -118,11 +118,11 @@
       <Style Selector="^:disabled TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
       </Style>
-      
+
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AddButtonColor}"/>
         <Setter Property="Foreground" Value="White"/>
-        
+
       </Style>
       <Style Selector="^:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AddButtonPressedColor}"/>
@@ -133,10 +133,10 @@
       <Style Selector="^:disabled /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonDisabledBackground}"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForeground}"/>
-        
+
       </Style>
     </Style>
-    
+
     <Style Selector="Button.round">
       <Setter Property="CornerRadius" Value="50"/>
       <Setter Property="Height" Value="60"/>
@@ -290,6 +290,36 @@
 
     </Style>
 
+    <Style Selector="Button.treeButton">
+
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}"/>
+      
+      <Style Selector="^ /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource PopupButtonBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PopupButtonBackground}"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource PopupButtonPressedBackground}"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource PopupButtonPressedBackground}"/>
+        <Setter Property="Foreground" Value="White"/>
+      </Style>
+      <Style Selector="^ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PopupButtonForeground}"/>
+      </Style>
+      <Style Selector="^:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PopupButtonPressedForeground}"/>
+      </Style>
+      <Style Selector="^:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PopupButtonPressedForeground}"/>
+      </Style>
+
+    </Style>
+
+
     <Style Selector="Button.filter">
       <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
@@ -371,7 +401,7 @@
 
     <Style Selector="Button.buttonLabel">
       <Setter Property="Background" Value="Transparent"/>
-     
+
       <Style Selector="^:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
       </Style>
