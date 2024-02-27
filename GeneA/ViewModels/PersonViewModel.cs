@@ -23,11 +23,16 @@ using System.Xml.XPath;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
+using GeneA.ViewModelItems;
 
 namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
+    //TODO: create a control to make the user choice how many iterations are desired on familytree, observable property and all
+    //the way to a working solution already exists, just bind Generations property to increment control in view
+
+
     public PersonViewModel(IRepository<Person> personRepository, DocumentRepository documentRepository,
         NavigationService navigation, FileService fileService, MainViewModel mainViewModel)
     {
@@ -49,7 +54,7 @@ public partial class PersonViewModel : ViewModelBase
     private readonly MainViewModel _mainViewModel;
 
     [ObservableProperty]
-    private Person? _person;
+    private PersonItemViewModel? _person;
 
     public IEnumerable<Gender> Genders { get; set; } = StaticList.FillGenders();
 
@@ -69,6 +74,9 @@ public partial class PersonViewModel : ViewModelBase
     private List<Person>? _motherList;
 
     [ObservableProperty]
+    private int _generations = 4;
+
+    [ObservableProperty]
     private ObservableRangeCollection<DocumentFile> _documentList;
 
     private async Task Load()
@@ -77,7 +85,7 @@ public partial class PersonViewModel : ViewModelBase
         {
             if (Param == null)
             {
-                Person = new Person();
+                Person = new PersonItemViewModel();
             }
             else
             {
@@ -86,7 +94,7 @@ public partial class PersonViewModel : ViewModelBase
                 var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList();
                 var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
 
-                Person = _personRepository.FindById((long)Param);
+                Person = _personRepository.FindById((long)Param).ToPersonItemViewModel();
 
                 //constraints to dont show offsprings in father/mother list of father/mother
                 fatherList = fatherList.ExceptBy(Person.Offsprings.Select(p => p.Id), q => q.Id).ToList();

@@ -14,5 +14,8 @@ namespace GeneA.ViewModelItems
     {
         [ObservableProperty]
         private bool? _isSelected;
+
+        public int Generations { get; set; } = 4;
+
     }
 }

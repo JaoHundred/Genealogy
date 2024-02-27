@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
 using GeneA._Services;
+using GeneA.ViewModelItems;
 using GeneA.Views;
 using Model.Interfaces;
 using ModelA.Core;
@@ -33,14 +34,15 @@ namespace GeneA.ViewModels
         [ObservableProperty]
         private Graph? _graph;
 
-        private Person? _person;
+        private PersonItemViewModel? _person;
 
         private async Task Load()
         {
-            _person = (Person)Param!;
+            _person = (PersonItemViewModel)Param!;
+
             //TODO: panzoom dont work with pinch gesture in android, see how should this will be implemented
 
-            Graph = await _graphService.ToGraphAsync(_person);
+            Graph = await _graphService.ToGraphAsync(_person, _person.Generations);
         }
 
         [RelayCommand]

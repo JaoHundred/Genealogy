@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GeneA._Helper;
 
@@ -40,6 +41,27 @@ public static class MapperExtension
             Spouses = p.Spouses,
             WeddingDate = p.WeddingDate,
         });
+    }
+
+    public static PersonItemViewModel ToPersonItemViewModel(this Person person, bool isSelected = true)
+    {
+        return new PersonItemViewModel
+        {
+            BaptismDate = person.BaptismDate,
+            BirthDate = person.BirthDate,
+            DeathDate = person.DeathDate,
+            Description = person.Description,
+            Father = person.Father,
+            Mother = person.Mother,
+            Gender = person.Gender,
+            Id = person.Id,
+            IsSelected = isSelected,
+            Nationality = person.Nationality,
+            Name = person.Name,
+            Offsprings = person.Offsprings,
+            Spouses = person.Spouses,
+            WeddingDate = person.WeddingDate,
+        };
     }
 
     public static IEnumerable<Person> ToPeople(this IEnumerable<PersonItemViewModel> people)
