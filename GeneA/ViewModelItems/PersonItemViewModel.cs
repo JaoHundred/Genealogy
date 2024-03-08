@@ -16,6 +16,6 @@ namespace GeneA.ViewModelItems
         private bool? _isSelected;
 
         [ObservableProperty]
-        private int? _generations = 4;
+        private int? _generations = 2;//TODO: 2 is to test, when the test is done change back to 4
     }
 }

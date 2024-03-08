@@ -27,6 +27,8 @@ namespace GeneA._Helper
             return await Task.Run(async () =>
               {
                   //TODO: test to see if generationCount stops tree from building any number of iterations
+                  //TODO: current issue, the graph service always print 2 levels at time, one generation is one level
+                  //see if its possible to hide the edges which are above the desired level or some better way of doing this
 
                   generationCount++;
 
