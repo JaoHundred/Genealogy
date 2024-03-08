@@ -42,7 +42,7 @@ namespace GeneA.ViewModels
 
             //TODO: panzoom dont work with pinch gesture in android, see how should this will be implemented
 
-            Graph = await _graphService.ToGraphAsync(_person, _person.Generations);
+            Graph = await _graphService.ToGraphAsync(_person, _person.Generations.GetValueOrDefault());
         }
 
         [RelayCommand]

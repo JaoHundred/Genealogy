@@ -74,9 +74,6 @@ public partial class PersonViewModel : ViewModelBase
     private List<Person>? _motherList;
 
     [ObservableProperty]
-    private int _generations = 4;
-
-    [ObservableProperty]
     private ObservableRangeCollection<DocumentFile> _documentList;
 
     private async Task Load()
@@ -304,6 +301,17 @@ public partial class PersonViewModel : ViewModelBase
              title: DynamicTranslate.Translate(MessageConsts.ConfirmationDialogTitle),
              message: DynamicTranslate.Translate(MessageConsts.Confirmation)
             );
+    }
+
+    [RelayCommand]
+    private void Spin(string direction)
+    {
+        Person!.Generations = direction switch
+        {
+            "Increase" when Person!.Generations < 10 => Person!.Generations + 1,
+            "Decrease" when Person!.Generations > 4 => Person!.Generations - 1,
+            _ => Person!.Generations
+        };
     }
 
     [RelayCommand]
