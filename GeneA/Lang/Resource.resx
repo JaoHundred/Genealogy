@@ -198,6 +198,9 @@
   <data name="Gender" xml:space="preserve">
     <value>Gender</value>
   </data>
+  <data name="GenerationsShow" xml:space="preserve">
+    <value>Generations show</value>
+  </data>
   <data name="HasChildren" xml:space="preserve">
     <value>Has children</value>
   </data>

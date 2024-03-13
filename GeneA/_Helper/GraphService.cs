@@ -22,14 +22,21 @@ namespace GeneA._Helper
 
         private Graph _graph;
 
+        private bool _adjustCount = false;
+
         public async Task<Graph> ToGraphAsync(Person person, int generations, int generationCount = 0)
         {
+            if(!_adjustCount)
+            {
+                //the graph can only render entities if it has at least 2 generations, this portion of code
+                //make the visual rendered entities match the selected number of generations
+
+                generationCount++;
+                _adjustCount = true;
+            }
+
             return await Task.Run(async () =>
               {
-                  //TODO: test to see if generationCount stops tree from building any number of iterations
-                  //TODO: current issue, the graph service always print 2 levels at time, one generation is one level
-                  //see if its possible to hide the edges which are above the desired level or some better way of doing this
-
                   generationCount++;
 
                   if (generationCount > generations)

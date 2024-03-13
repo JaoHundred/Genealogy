@@ -29,9 +29,7 @@ namespace GeneA.ViewModels;
 
 public partial class PersonViewModel : ViewModelBase
 {
-    //TODO: create a control to make the user choice how many iterations are desired on familytree, observable property and all
-    //the way to a working solution already exists, just bind Generations property to increment control in view
-
+    //TODO: to test, go to graph view click on someone edit and save(most likely will result into a crash, try to fix it)
 
     public PersonViewModel(IRepository<Person> personRepository, DocumentRepository documentRepository,
         NavigationService navigation, FileService fileService, MainViewModel mainViewModel)

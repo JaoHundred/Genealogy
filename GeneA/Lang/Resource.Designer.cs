@@ -304,6 +304,15 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generations show.
+        /// </summary>
+        public static string GenerationsShow {
+            get {
+                return ResourceManager.GetString("GenerationsShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Has children.
         /// </summary>
         public static string HasChildren {
