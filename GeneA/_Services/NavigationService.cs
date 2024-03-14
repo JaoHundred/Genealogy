@@ -28,6 +28,13 @@ public class NavigationService
 
     private List<Control> _stack;
 
+    public ViewModelBase? GetLastViewModel()
+    {
+        ViewModelBase? vm = _stack.ElementAt(_stack.Count - 2).DataContext as ViewModelBase ?? null;
+
+        return vm;
+    }
+
     public async Task GoBackAsync(bool needToReload = true, bool needToReloadTitle = true, object? param = null)
     {
         if (_stack.LastOrDefault() is IPopupView)
@@ -82,7 +89,7 @@ public class NavigationService
 
         if (needToReloadTitle)
         {
-           await LoadTitle();
+            await LoadTitle();
         }
 
         await RunInUIThread(() =>
@@ -224,8 +231,8 @@ public class NavigationService
                             title = DynamicTranslate.Translate(MessageConsts.Settings);
                             break;
 
-                        case FamilyTreeViewModel: 
-                            title = DynamicTranslate.Translate(MessageConsts.FamilyTree); 
+                        case FamilyTreeViewModel:
+                            title = DynamicTranslate.Translate(MessageConsts.FamilyTree);
                             break;
 
                         default: break;

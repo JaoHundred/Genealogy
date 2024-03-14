@@ -147,7 +147,7 @@ public partial class PersonViewModel : ViewModelBase
                 .Queue();
             });
 
-            await _navigation.GoBackAsync();
+            await _navigation.GoBackAsync(param: Person);
         });
     }
 

@@ -26,6 +26,11 @@ namespace GeneA._Helper
 
         public async Task<Graph> ToGraphAsync(Person person, int generations, int generationCount = 0)
         {
+            //TODO: graph is not rendering updated entity
+            //steps to reproduce: go to any person, open the family tree, click on any node and edit some visual property(name or dates)
+            //click in save and you will be sent back to the tree, the edited note should have been visualiy updated but its not
+
+
             if(!_adjustCount)
             {
                 //the graph can only render entities if it has at least 2 generations, this portion of code

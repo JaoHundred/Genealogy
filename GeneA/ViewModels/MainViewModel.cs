@@ -43,7 +43,10 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task GoBack()
     {
-        await _navigationService.GoBackAsync(needToReload: false);
+        if (_navigationService.GetLastViewModel()?.GetType() == typeof(PersonListingViewModel)) // make PersonListing to dont clean the filters
+            await _navigationService.GoBackAsync(needToReload: false);
+        else
+            await _navigationService.GoBackAsync(param: _navigationService.GetLastViewModel()?.Param);
     }
 
     [RelayCommand]
