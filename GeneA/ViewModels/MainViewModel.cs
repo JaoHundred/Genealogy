@@ -13,6 +13,10 @@ namespace GeneA.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+
+    //TODO: LiteDB.LiteException: 'Maximum number of transactions reached' is happening as a whole, see how to close transactions and
+    //rise the maximum limit
+
     public MainViewModel(NavigationService navigationService, INotificationMessageManager notificationManager
         , IRepository<Settings> settingsRepo, ThemeService themeService)
     {

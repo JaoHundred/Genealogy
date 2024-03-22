@@ -10,8 +10,6 @@ namespace GeneA.Views
         public FamilyTreeView()
         {
             InitializeComponent();
-
-            
         }
 
         public FamilyTreeView(MainView mainView)

@@ -138,16 +138,27 @@ public partial class PersonViewModel : ViewModelBase
 
             SaveToDB();
 
-            await Dispatcher.UIThread.InvokeAsync(() =>
+            await Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 _mainViewModel.NotificationManager.CreateMessage()
                 .Animates(true)
                 .HasMessage(DynamicTranslate.Translate(MessageConsts.SavedWithSuccess))
                 .Dismiss().WithDelay(TimeSpan.FromSeconds(2))
                 .Queue();
-            });
 
-            await _navigation.GoBackAsync(param: Person);
+                if (_navigation.GetLastViewModel()?.GetType() == typeof(FamilyTreeViewModel))
+                {
+                    var person = _personRepository.FindById((_navigation.GetLastViewModel()?.Param as Person)!.Id);
+
+                    //doing all this to force FamiltyTree to force reload and redraw
+                    await _navigation.GoBackAsync(needToReload: false);
+                    await _navigation.GoBackAsync(needToReload: false);
+
+                    await _navigation.GoToAsync<FamilyTreeViewModel>(person);
+                }
+                else
+                    await _mainViewModel.GoBackCommand.ExecuteAsync(null);
+            });
         });
     }
 
