@@ -16,6 +16,7 @@ public partial class MainViewModel : ViewModelBase
 
     //TODO: LiteDB.LiteException: 'Maximum number of transactions reached' is happening as a whole, see how to close transactions and
     //rise the maximum limit
+    //it was maybe solved by downgrading from 5.0.19 to 5.0.17
 
     public MainViewModel(NavigationService navigationService, INotificationMessageManager notificationManager
         , IRepository<Settings> settingsRepo, ThemeService themeService)
