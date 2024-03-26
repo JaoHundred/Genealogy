@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Notification;
 using GeneA._Helper;
 using GeneA._Services;
+using GeneA.Services;
 using GeneA.ViewModels;
 using GeneA.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,6 +75,7 @@ public partial class App : Application
         services.AddTransient<ThemeService>();
         services.AddTransient<FileService>();
         services.AddTransient<GraphService>();
+        services.AddTransient<ImportExportService>();
 
 
         ViewsViewModels(services);

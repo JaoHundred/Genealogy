@@ -16,17 +16,20 @@ using Avalonia.Styling;
 using System.Reactive.Linq;
 using GeneA._Services;
 using ModelA.Core;
+using GeneA.Services;
 
 namespace GeneA.ViewModels;
 
 public partial class SettingsViewModel : ViewModelBase
 {
-    public SettingsViewModel(MainViewModel mainViewModel, IRepository<Settings> settingsRepository, ThemeService themeService)
+    public SettingsViewModel(MainViewModel mainViewModel, IRepository<Settings> settingsRepository, ThemeService themeService,
+        ImportExportService importExportService)
     {
         mainViewModel.Title = DynamicTranslate.Translate(MessageConsts.Settings);
 
         _settingsRepository = settingsRepository;
         _themeService = themeService;
+        _importExportService = importExportService;
 
         AppThemes = new List<AppThemeItemViewModel>
         {
@@ -48,6 +51,7 @@ public partial class SettingsViewModel : ViewModelBase
 
     private readonly IRepository<Settings> _settingsRepository;
     private readonly ThemeService _themeService;
+    private readonly ImportExportService _importExportService;
 
     public List<AppThemeItemViewModel> AppThemes { get; set; }
 
@@ -96,14 +100,16 @@ public partial class SettingsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Import()
+    private async void Import()
     {
-
+        //TODO: open file dialog and get the user selected path to import
+        //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
+        await _importExportService.Import();
     }
 
     [RelayCommand]
-    private void Export()
+    private async Task Export()
     {
-
+        await _importExportService.Export();
     }
 }
