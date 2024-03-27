@@ -54,7 +54,7 @@ namespace ModelA.Database
             string tempFolder = _getFolderService.GetFolderTemporaryFolderDirectory();
             string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "Temp", "GeneDoc", personId.ToString());
 
-            if(!Directory.Exists(fullPath))
+            if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
             fullPath = Path.Combine(fullPath, entity.FileName);
@@ -63,7 +63,7 @@ namespace ModelA.Database
             {
                 using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
                 {
-                     _liteStorage.Download(entity.Id.ToString(), stream);
+                    _liteStorage.Download(entity.Id.ToString(), stream);
                 }
             }
             catch (Exception ex)
@@ -71,6 +71,33 @@ namespace ModelA.Database
             }
 
             return fullPath;
+        }
+
+        public byte[]? GetDocumentBytes(DocumentFile entity, long personId)
+        {
+            string tempFolder = _getFolderService.GetFolderTemporaryFolderDirectory();
+            string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "Temp", "GeneDoc", personId.ToString());
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            fullPath = Path.Combine(fullPath, entity.FileName);
+
+            try
+            {
+                using (var stream = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    _liteStorage.Download(entity.Id.ToString(), stream);
+                }
+
+                return File.ReadAllBytes(fullPath);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
         }
     }
 }

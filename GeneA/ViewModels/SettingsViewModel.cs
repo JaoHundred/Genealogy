@@ -100,7 +100,7 @@ public partial class SettingsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async void Import()
+    private async Task Import()
     {
         //TODO: open file dialog and get the user selected path to import
         //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938

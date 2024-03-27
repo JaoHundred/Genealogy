@@ -61,6 +61,7 @@ public static class MapperExtension
             Offsprings = person.Offsprings,
             Spouses = person.Spouses,
             WeddingDate = person.WeddingDate,
+            DocumentFiles = person.DocumentFiles,
         };
     }
 
@@ -81,6 +82,7 @@ public static class MapperExtension
             Offsprings = p.Offsprings,
             Spouses = p.Spouses,
             WeddingDate = p.WeddingDate,
+            DocumentFiles = p.DocumentFiles,
         });
     }
 
