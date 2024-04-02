@@ -105,11 +105,15 @@ public partial class SettingsViewModel : ViewModelBase
         //TODO: open file dialog and get the user selected path to import
         //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
         await _importExportService.Import();
+
+        //TODO: show a notification the import was successfuly made
     }
 
     [RelayCommand]
     private async Task Export()
     {
         await _importExportService.Export();
+
+        //TODO: show a notification the export was successfuly made
     }
 }

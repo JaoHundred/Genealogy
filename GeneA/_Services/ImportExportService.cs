@@ -8,6 +8,7 @@ using ModelA.Database;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -17,10 +18,13 @@ namespace GeneA.Services
 {
     public class ImportExportService
     {
-        public ImportExportService(MainView mainView, IRepository<Person> personRepository, DocumentRepository documentFileRepository)
+        public ImportExportService(MainView mainView, IRepository<Person> personRepository, DocumentRepository documentFileRepository,
+            IRepository<Nationality> nationalityRepository, IGetFolderService getFolderService)
         {
             _personRepository = personRepository;
             _documentFileRepository = documentFileRepository;
+            _nationalityRepository = nationalityRepository;
+            _getFolderService = getFolderService;
 
             _topLevel = TopLevel.GetTopLevel(mainView)!;
             _mainView = mainView;
@@ -28,6 +32,8 @@ namespace GeneA.Services
 
         private readonly IRepository<Person> _personRepository;
         private readonly DocumentRepository _documentFileRepository;
+        private readonly IRepository<Nationality> _nationalityRepository;
+        private readonly IGetFolderService _getFolderService;
         private readonly TopLevel _topLevel;
         private readonly MainView _mainView;
 
@@ -47,16 +53,17 @@ namespace GeneA.Services
             {
                 ShowOverwritePrompt = true,
                 SuggestedFileName = $"Gene export {date.Day}-{date.Month}-{date.Year}  {date.Hour}-{date.Minute}-{date.Second}",
-                DefaultExtension = "json",
+                DefaultExtension = "zip",
             });
 
             if (file == null)
                 return;
 
-            var people = _personRepository.FindAll().ToList();
-            var documents = _documentFileRepository.FindAll().ToList();
+            var people = _personRepository.FindAll();
+            var nationalities = _nationalityRepository.FindAll();
+            var documents = _documentFileRepository.FindAll();
 
-            //TODO: export nationalites too in their own file, then zip both people.json and nationalities.json
+            var stringBuilderPeople = new StringBuilder();
 
             foreach (var person in people)
             {
@@ -65,14 +72,45 @@ namespace GeneA.Services
                     var docIndex = person.DocumentFiles.FindIndex(p => p.Id == document.Id);
 
                     if (docIndex != -1)
-                        person.DocumentFiles[docIndex].DocumentBytes = _documentFileRepository.GetDocumentBytes(document, person.Id);
+                        person.DocumentFiles[docIndex].DocumentBytes = await _documentFileRepository.GetDocumentBytesAsync(document, person.Id);
                 }
+                
+                stringBuilderPeople.Append(System.Text.Json.JsonSerializer.Serialize(person, person.GetType()));
+                stringBuilderPeople.Append(",");
             }
 
-            string json = System.Text.Json.JsonSerializer.Serialize(people, people.GetType());
+            if(stringBuilderPeople.Length > 0)
+                stringBuilderPeople.Length --; // remove last ","
+            string correctPeopleJsonFormat = $"[{stringBuilderPeople}]";
+
+            string nationalitiesJson = System.Text.Json.JsonSerializer.Serialize(nationalities, nationalities.GetType());
+
+            string tempFilesPath = Path.Combine(_getFolderService.GetTemporaryFolderDirectory(), "TempFilesToZip");
+
+            if (!Directory.Exists(tempFilesPath))
+                Directory.CreateDirectory(tempFilesPath);
+
+            string peopleJsonPath = Path.Combine(tempFilesPath, "people.json");
+            string nationalityJsonPath = Path.Combine(tempFilesPath, "nationality.json");
 
             //TODO: test this and make sure it also works in android
-            await File.WriteAllTextAsync(file.Path.LocalPath, json);
+            await File.WriteAllTextAsync(peopleJsonPath, correctPeopleJsonFormat);
+            await File.WriteAllTextAsync(nationalityJsonPath, nationalitiesJson);
+
+            ZipFiles(tempFilesPath, file.Path.LocalPath);
+        }
+
+        private void ZipFiles(string tempSourcePath, string targetPath)
+        {
+            ZipFile.CreateFromDirectory(tempSourcePath, targetPath, CompressionLevel.Optimal, includeBaseDirectory: false);
+
+            if (Directory.Exists(tempSourcePath))
+                Directory.Delete(tempSourcePath, recursive: true);
+        }
+
+        private void UnzipFiles(string zipPath, string targetPath)
+        {
+            ZipFile.ExtractToDirectory(zipPath, targetPath, overwriteFiles: true);
         }
     }
 }

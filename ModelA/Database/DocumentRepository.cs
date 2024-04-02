@@ -51,8 +51,8 @@ namespace ModelA.Database
 
         public string DownloadToTemporaryFolder(DocumentFile entity, long personId)
         {
-            string tempFolder = _getFolderService.GetFolderTemporaryFolderDirectory();
-            string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "Temp", "GeneDoc", personId.ToString());
+            string tempFolder = _getFolderService.GetTemporaryFolderDirectory();
+            string fullPath = Path.Combine(tempFolder, personId.ToString());
 
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
@@ -73,10 +73,10 @@ namespace ModelA.Database
             return fullPath;
         }
 
-        public byte[]? GetDocumentBytes(DocumentFile entity, long personId)
+        public async Task<byte[]?> GetDocumentBytesAsync(DocumentFile entity, long personId)
         {
-            string tempFolder = _getFolderService.GetFolderTemporaryFolderDirectory();
-            string fullPath = Path.Combine(Uri.UnescapeDataString(tempFolder), "Temp", "GeneDoc", personId.ToString());
+            string tempFolder = _getFolderService.GetTemporaryFolderDirectory();
+            string fullPath = Path.Combine(tempFolder, personId.ToString());
 
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
@@ -90,7 +90,7 @@ namespace ModelA.Database
                     _liteStorage.Download(entity.Id.ToString(), stream);
                 }
 
-                return File.ReadAllBytes(fullPath);
+                return await File.ReadAllBytesAsync(fullPath);
             }
             catch (Exception ex)
             {

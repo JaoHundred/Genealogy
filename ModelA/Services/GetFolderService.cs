@@ -19,7 +19,7 @@ namespace Model.Services
             return fullDirectory;
         }
 
-        public string GetFolderTemporaryFolderDirectory()
+        public string GetTemporaryFolderDirectory()
         {
 
             string fullDirectory = string.Empty;
@@ -33,7 +33,7 @@ namespace Model.Services
                 fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
 
-            return fullDirectory;
+            return Path.Combine(Uri.UnescapeDataString(fullDirectory), "Temp" , "GeneDoc");
         }
     }
 }
