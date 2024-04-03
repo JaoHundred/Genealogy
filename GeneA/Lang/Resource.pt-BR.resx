@@ -246,6 +246,12 @@
   <data name="MSGconfirmTitle" xml:space="preserve">
     <value>Alerta de remoção</value>
   </data>
+  <data name="MSGExportedSuccess" xml:space="preserve">
+    <value>Dados exportados com sucesso</value>
+  </data>
+  <data name="MSGImportedSuccess" xml:space="preserve">
+    <value>Dados importados com sucesso</value>
+  </data>
   <data name="MSGSavedSuccess" xml:space="preserve">
     <value>Salvo com sucesso</value>
   </data>

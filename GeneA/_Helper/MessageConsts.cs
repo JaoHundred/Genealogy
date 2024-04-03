@@ -11,6 +11,8 @@ namespace GeneA._Helper
         public const string ConfirmationDialogTitle = "MSGconfirmTitle";
         public const string Confirmation = "MSGconfirm";
         public const string SavedWithSuccess = "MSGSavedSuccess";
+        public const string ExportedWithSuccess = "MSGExportedSuccess";
+        public const string ImportedWithSuccess = "MSGImportedSuccess";
 
         public const string Home = "Home";
         public const string PeopleList = "PeopleList";

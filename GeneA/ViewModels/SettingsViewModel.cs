@@ -17,6 +17,7 @@ using System.Reactive.Linq;
 using GeneA._Services;
 using ModelA.Core;
 using GeneA.Services;
+using Avalonia.Notification;
 
 namespace GeneA.ViewModels;
 
@@ -25,7 +26,8 @@ public partial class SettingsViewModel : ViewModelBase
     public SettingsViewModel(MainViewModel mainViewModel, IRepository<Settings> settingsRepository, ThemeService themeService,
         ImportExportService importExportService)
     {
-        mainViewModel.Title = DynamicTranslate.Translate(MessageConsts.Settings);
+        _mainViewModel = mainViewModel;
+        _mainViewModel.Title = DynamicTranslate.Translate(MessageConsts.Settings);
 
         _settingsRepository = settingsRepository;
         _themeService = themeService;
@@ -52,6 +54,7 @@ public partial class SettingsViewModel : ViewModelBase
     private readonly IRepository<Settings> _settingsRepository;
     private readonly ThemeService _themeService;
     private readonly ImportExportService _importExportService;
+    private readonly MainViewModel _mainViewModel;
 
     public List<AppThemeItemViewModel> AppThemes { get; set; }
 
@@ -102,18 +105,36 @@ public partial class SettingsViewModel : ViewModelBase
     [RelayCommand]
     private async Task Import()
     {
-        //TODO: open file dialog and get the user selected path to import
-        //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
-        await _importExportService.Import();
+        bool importedSuccess = await _importExportService.Import();
 
-        //TODO: show a notification the import was successfuly made
+        if (importedSuccess)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                _mainViewModel.NotificationManager.CreateMessage()
+                .Animates(true)
+                .HasMessage(DynamicTranslate.Translate(MessageConsts.ImportedWithSuccess))
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(2))
+                .Queue();
+            });
+        }
     }
 
     [RelayCommand]
     private async Task Export()
     {
-        await _importExportService.Export();
+        bool exportedSuccess = await _importExportService.Export();
 
-        //TODO: show a notification the export was successfuly made
+        if (exportedSuccess)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                _mainViewModel.NotificationManager.CreateMessage()
+                .Animates(true)
+                .HasMessage(DynamicTranslate.Translate(MessageConsts.ExportedWithSuccess))
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(2))
+                .Queue();
+            });
+        }
     }
 }

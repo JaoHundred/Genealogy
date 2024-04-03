@@ -448,6 +448,24 @@ namespace GeneA.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data successfuly exported.
+        /// </summary>
+        public static string MSGExportedSuccess {
+            get {
+                return ResourceManager.GetString("MSGExportedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data successfuly imported.
+        /// </summary>
+        public static string MSGImportedSuccess {
+            get {
+                return ResourceManager.GetString("MSGImportedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saved with success.
         /// </summary>
         public static string MSGSavedSuccess {

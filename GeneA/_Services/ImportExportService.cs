@@ -37,15 +37,20 @@ namespace GeneA.Services
         private readonly TopLevel _topLevel;
         private readonly MainView _mainView;
 
-        public async Task Import()
+        public async Task<bool> Import()
         {
+            //TODO: open file dialog and get the user selected path to import
+            //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
+
             //TODO: select zip file, desserialize the files inside it
 
             //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite with the most recent
             //based on date if the file has the same name, save or update the files inside the litedb fileStorage
+
+            return true;
         }
 
-        public async Task Export()
+        public async Task<bool> Export()
         {
             var date = DateTime.Now;
 
@@ -57,7 +62,7 @@ namespace GeneA.Services
             });
 
             if (file == null)
-                return;
+                return false;
 
             var people = _personRepository.FindAll();
             var nationalities = _nationalityRepository.FindAll();
@@ -98,6 +103,8 @@ namespace GeneA.Services
             await File.WriteAllTextAsync(nationalityJsonPath, nationalitiesJson);
 
             ZipFiles(tempFilesPath, file.Path.LocalPath);
+
+            return true;
         }
 
         private void ZipFiles(string tempSourcePath, string targetPath)
