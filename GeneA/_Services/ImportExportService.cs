@@ -12,6 +12,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GeneA.Services
@@ -39,25 +40,60 @@ namespace GeneA.Services
 
         public async Task<bool> Import()
         {
-            //TODO: open file dialog and get the user selected path to import
+            var storageFiles = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                AllowMultiple = false,
+                FileTypeFilter = new FilePickerFileType[]
+                 {
+                    new("Zip Files")
+                    {
+                        Patterns = new[]{"*.zip"},
+                        MimeTypes = new[] { "application/zip" }
+                    }
+                 },
+            });
+
+            if (!storageFiles.Any())
+                return false;
+
+            string tempFolder = Path.Combine(_getFolderService.GetTemporaryFolderDirectory(), "TempFilesToZip");
+
+            if(!Directory.Exists(tempFolder))
+                Directory.CreateDirectory(tempFolder);
+
+            UnzipFiles(storageFiles.First().Path.LocalPath, tempFolder);
+
+            var filePaths = Directory.EnumerateFiles(tempFolder);
+
+            foreach (var filePath in filePaths)
+            {
+                if (filePath.EndsWith(".zip"))
+                    continue;
+
+                //TODO: desserialize the files inside it
+            }
+
             //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
 
-            //TODO: select zip file, desserialize the files inside it
+
+
 
             //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite with the most recent
             //based on date if the file has the same name, save or update the files inside the litedb fileStorage
-
+            if (Directory.Exists(tempFolder))
+                Directory.Delete(tempFolder, recursive: true);
             return true;
         }
 
         public async Task<bool> Export()
         {
             var date = DateTime.Now;
+            string fileNameDate = Regex.Replace(date.ToString("dd/MM/yyyy HH:mm:ss"), "[^0-9a-zA-Z]+", "-");
 
             var file = await _topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
             {
                 ShowOverwritePrompt = true,
-                SuggestedFileName = $"Gene export {date.Day}-{date.Month}-{date.Year}  {date.Hour}-{date.Minute}-{date.Second}",
+                SuggestedFileName = $"Gene export {fileNameDate}",
                 DefaultExtension = "zip",
             });
 
@@ -65,6 +101,10 @@ namespace GeneA.Services
                 return false;
 
             var people = _personRepository.FindAll();
+
+            if (!people.Any())
+                return false;
+
             var nationalities = _nationalityRepository.FindAll();
             var documents = _documentFileRepository.FindAll();
 
@@ -79,13 +119,13 @@ namespace GeneA.Services
                     if (docIndex != -1)
                         person.DocumentFiles[docIndex].DocumentBytes = await _documentFileRepository.GetDocumentBytesAsync(document, person.Id);
                 }
-                
+
                 stringBuilderPeople.Append(System.Text.Json.JsonSerializer.Serialize(person, person.GetType()));
                 stringBuilderPeople.Append(",");
             }
 
-            if(stringBuilderPeople.Length > 0)
-                stringBuilderPeople.Length --; // remove last ","
+            if (stringBuilderPeople.Length > 0)
+                stringBuilderPeople.Length--; // remove last ","
             string correctPeopleJsonFormat = $"[{stringBuilderPeople}]";
 
             string nationalitiesJson = System.Text.Json.JsonSerializer.Serialize(nationalities, nationalities.GetType());
