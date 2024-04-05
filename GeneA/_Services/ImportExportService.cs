@@ -53,35 +53,29 @@ namespace GeneA.Services
                  },
             });
 
-            if (!storageFiles.Any())
+            if (!storageFiles.Any() || !HasFileInsideZip(storageFiles.First().Path.LocalPath, "people.json"))
                 return false;
 
-            string tempFolder = Path.Combine(_getFolderService.GetTemporaryFolderDirectory(), "TempFilesToZip");
-
-            if(!Directory.Exists(tempFolder))
-                Directory.CreateDirectory(tempFolder);
-
-            UnzipFiles(storageFiles.First().Path.LocalPath, tempFolder);
-
-            var filePaths = Directory.EnumerateFiles(tempFolder);
-
-            foreach (var filePath in filePaths)
+            using (var zipFile = ZipFile.OpenRead(storageFiles.First().Path.LocalPath))
             {
-                if (filePath.EndsWith(".zip"))
-                    continue;
+                foreach (var entry in zipFile.Entries)
+                {
+                    if (!entry.FullName.EndsWith(".json"))
+                        continue;
 
-                //TODO: desserialize the files inside it
+                    using (var stream = entry.Open())
+                    {
+                        var people = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Person>>(stream);
+
+                        //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
+
+                        //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite with the most recent
+                        //based on date if the file has the same name, save or update the files inside the litedb fileStorage
+
+                    }
+                }
             }
 
-            //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
-
-
-
-
-            //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite with the most recent
-            //based on date if the file has the same name, save or update the files inside the litedb fileStorage
-            if (Directory.Exists(tempFolder))
-                Directory.Delete(tempFolder, recursive: true);
             return true;
         }
 
@@ -153,6 +147,14 @@ namespace GeneA.Services
 
             if (Directory.Exists(tempSourcePath))
                 Directory.Delete(tempSourcePath, recursive: true);
+        }
+
+        private bool HasFileInsideZip(string zipPath, string fileName)
+        {
+            using (var zip = ZipFile.OpenRead(zipPath))
+            {
+                return zip.Entries.Any(p => p.Name == fileName);
+            }
         }
 
         private void UnzipFiles(string zipPath, string targetPath)
