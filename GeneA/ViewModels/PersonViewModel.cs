@@ -367,6 +367,7 @@ public partial class PersonViewModel : ViewModelBase
             _documentRepository.Upsert(document);
         }
 
+        Person!.UpdatedDate = DateTime.Now;
         _personRepository.Upsert(Person!);
     }
 }

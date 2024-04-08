@@ -16,6 +16,9 @@ namespace ModelA.Core
             Spouses = new List<Person>();
             Offsprings = new List<Person>();
             DocumentFiles = new List<DocumentFile>();
+
+            CreatedDate = DateTime.Now;
+            UpdatedDate = DateTime.Now;
         }
 
         public long Id { get; set; }
@@ -33,6 +36,8 @@ namespace ModelA.Core
         public string Description { get; set; } = string.Empty;
         public List<DocumentFile> DocumentFiles { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
         public override string ToString()
         {

@@ -65,18 +65,89 @@ namespace GeneA.Services
 
                     using (var stream = entry.Open())
                     {
-                        var people = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Person>>(stream);
+                        switch (entry.Name)
+                        {
+                            case "nationality.json":
 
-                        //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
+                                var nationalities = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Nationality>>(stream);
 
-                        //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite with the most recent
-                        //based on date if the file has the same name, save or update the files inside the litedb fileStorage
+                                if (nationalities != null)
+                                {
+
+                                    foreach (var nationality in nationalities)
+                                    {
+                                        ImportUpdateNationality(nationality);
+                                    }
+                                }
+
+                                break;
+
+                            case "people.json":
+
+                                var people = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Person>>(stream);
+
+                                if (people != null)
+                                {
+                                    foreach (var person in people)
+                                    {
+                                        await ImportUpdatePerson(person);
+                                    }
+                                }
+
+                                break;
+                            default:
+                                break;
+                        }
 
                     }
                 }
             }
 
             return true;
+        }
+
+        private void ImportUpdateNationality(Nationality nationality)
+        {
+            //TODO: import nationalities too
+        }
+
+        private async Task ImportUpdatePerson(Person person)
+        {
+            var existingPerson = _personRepository.FindById(person.Id);
+
+            if (existingPerson != null)
+            {
+                if (existingPerson.UpdatedDate < person.UpdatedDate)
+                {
+                    await _documentFileRepository.DeleteBatchAsync(existingPerson.DocumentFiles);
+
+                    _personRepository.Update(person);
+
+                    person.DocumentFiles.Select(p => _documentFileRepository.Upsert(p));
+
+                    
+
+
+                    //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
+
+                    //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite
+                    //with the most recent based on date if the file has the same name
+                    //save or update the files inside the litedb fileStorage
+
+                }
+            }
+            else
+            {
+                _personRepository.Upsert(person);
+
+                if (person.DocumentFiles.Count > 0)
+                {
+                    foreach (var document in person.DocumentFiles)
+                    {
+                        _documentFileRepository.Upsert(document);
+                    }
+                }
+            }
         }
 
         public async Task<bool> Export()
