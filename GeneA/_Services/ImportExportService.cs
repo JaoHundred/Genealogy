@@ -117,6 +117,7 @@ namespace GeneA.Services
 
             if (existingPerson != null)
             {
+                //TODO: take a close look on how import should work
                 if (existingPerson.UpdatedDate < person.UpdatedDate)
                 {
                     await _documentFileRepository.DeleteBatchAsync(existingPerson.DocumentFiles);
