@@ -73,7 +73,6 @@ namespace GeneA.Services
 
                                 if (nationalities != null)
                                 {
-
                                     foreach (var nationality in nationalities)
                                     {
                                         ImportUpdateNationality(nationality);
@@ -108,7 +107,13 @@ namespace GeneA.Services
 
         private void ImportUpdateNationality(Nationality nationality)
         {
-            //TODO: import nationalities too
+            var existingNationality = _nationalityRepository.FindById(nationality.Id);
+
+            //you can only add or remove nationalities
+            if(existingNationality == null)
+            {
+                _nationalityRepository.Upsert(nationality);
+            }
         }
 
         private async Task ImportUpdatePerson(Person person)
@@ -117,17 +122,17 @@ namespace GeneA.Services
 
             if (existingPerson != null)
             {
-                //TODO: take a close look on how import should work
+                //TODO: test importing with another device
                 if (existingPerson.UpdatedDate < person.UpdatedDate)
                 {
                     await _documentFileRepository.DeleteBatchAsync(existingPerson.DocumentFiles);
 
                     _personRepository.Update(person);
 
-                    person.DocumentFiles.Select(p => _documentFileRepository.Upsert(p));
-
-                    
-
+                    foreach (var document in person.DocumentFiles)
+                    {
+                        _documentFileRepository.Upsert(document);
+                    }
 
                     //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
 
@@ -141,12 +146,9 @@ namespace GeneA.Services
             {
                 _personRepository.Upsert(person);
 
-                if (person.DocumentFiles.Count > 0)
+                foreach (var document in person.DocumentFiles)
                 {
-                    foreach (var document in person.DocumentFiles)
-                    {
-                        _documentFileRepository.Upsert(document);
-                    }
+                    _documentFileRepository.Upsert(document);
                 }
             }
         }
@@ -227,11 +229,6 @@ namespace GeneA.Services
             {
                 return zip.Entries.Any(p => p.Name == fileName);
             }
-        }
-
-        private void UnzipFiles(string zipPath, string targetPath)
-        {
-            ZipFile.ExtractToDirectory(zipPath, targetPath, overwriteFiles: true);
         }
     }
 }
