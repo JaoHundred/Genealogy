@@ -15,7 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GeneA._Helper;
 using System.Text.RegularExpressions;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GeneA.ViewModels
 {

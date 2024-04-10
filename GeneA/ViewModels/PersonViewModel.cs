@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GeneA._Helper;
 using GeneA._Services;
-using Microsoft.CodeAnalysis.CSharp;
 using ModelA.Core;
 using Model.Interfaces;
 using MvvmHelpers;
