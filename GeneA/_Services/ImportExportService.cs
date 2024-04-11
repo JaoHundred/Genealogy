@@ -135,11 +135,6 @@ namespace GeneA.Services
                     }
 
                     //import, follow the rules from https://github.com/users/JaoHundred/projects/1/views/1?pane=issue&itemId=45536938
-
-                    //TODO: proposition: read the json and check if user has documentFiles, add the new DocumentFiles and overwrite
-                    //with the most recent based on date if the file has the same name
-                    //save or update the files inside the litedb fileStorage
-
                 }
             }
             else
