@@ -6,9 +6,11 @@
     <DefineConstants>Version=1.0.0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="GeneIcoPlaceholder.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\GeneA.Desktop\GeneA.Desktop.csproj" />
     <ProjectReference Include="..\..\GeneA\GeneA.csproj" />
     <ProjectReference Include="..\..\ModelA\ModelA.csproj" />
   </ItemGroup>
-  <ItemGroup />
 </Project>

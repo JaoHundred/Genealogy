@@ -2,6 +2,9 @@
   <Package Name="Install" Manufacturer="Joao" Version="1.0.0" UpgradeCode="9435b292-c27a-4c9e-adac-34ad9fdc283a">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)"/>
 
+
+    <Property Id="ARPPRODUCTICON" Value="Gene.exe"/>
+    
     <Feature Id="Main">
       <ComponentGroupRef Id="Components" />
     </Feature>
