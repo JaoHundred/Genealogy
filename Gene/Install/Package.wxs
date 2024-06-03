@@ -1,4 +1,5 @@
-﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:gui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Package Name="Install" Manufacturer="Joao" Version="1.0.0" UpgradeCode="9435b292-c27a-4c9e-adac-34ad9fdc283a">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)"/>
 
@@ -8,5 +9,7 @@
     <Feature Id="Main">
       <ComponentGroupRef Id="Components" />
     </Feature>
+
+    <gui:WixUI Id="WixUI_Minimal"/>
   </Package>
 </Wix>

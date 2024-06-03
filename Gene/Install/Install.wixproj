@@ -9,6 +9,9 @@
     <Content Include="GeneIcoPlaceholder.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\GeneA.Desktop\GeneA.Desktop.csproj" />
     <ProjectReference Include="..\..\GeneA\GeneA.csproj" />
     <ProjectReference Include="..\..\ModelA\ModelA.csproj" />
