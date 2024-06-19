@@ -8,6 +8,7 @@ using MvvmHelpers;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Notification;
 using System.Runtime;
+using System.Linq;
 
 namespace GeneA.ViewModels;
 
@@ -24,7 +25,7 @@ public partial class MainViewModel : ViewModelBase
         _navigationService = navigationService;
         NotificationManager = notificationManager;
 
-        var settings = settingsRepo.FindById(1);
+        var settings = settingsRepo.FindAll().FirstOrDefault();
 
         if (settings == null)
             settingsRepo.Upsert(new Settings { ColorTheme = 0 });

@@ -11,7 +11,7 @@ namespace Model.Interfaces
         IEnumerable<T> Take(int amount, bool takeLast = true);
 
         IEnumerable<T> FindAll();
-        T FindById(long id);
+        T FindById(Guid id);
         T Upsert(T entity);
         void Delete(T entity);
         Task DeleteBatchAsync(IEnumerable<T> entities);

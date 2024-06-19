@@ -21,7 +21,7 @@ namespace ModelA.Core
             UpdatedDate = DateTime.Now;
         }
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public GenderEnum.Gender Gender { get; set; }
         public Nationality? Nationality { get; set; }

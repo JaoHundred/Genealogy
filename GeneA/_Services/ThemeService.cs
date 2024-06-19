@@ -22,7 +22,7 @@ public class ThemeService
 
     public void ChangeTheme(AppTheme appTheme)
     {
-        var settings = _settingsRepo.FindById(1);
+        var settings = _settingsRepo.FindAll().FirstOrDefault();
 
         if (settings == null)
             return;
@@ -46,7 +46,7 @@ public class ThemeService
 
     public void ChangeTheme(int appTheme)
     {
-        var settings = _settingsRepo.FindById(1);
+        var settings = _settingsRepo.FindAll().FirstOrDefault();
 
         if (settings == null)
             return;

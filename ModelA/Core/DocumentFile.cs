@@ -13,14 +13,14 @@ namespace ModelA.Core
     {
         public DocumentFile()
         {
-            CreateDate = DateTime.Now;
+            CreatedDate = DateTime.Now;
         }
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string FileName { get; set; } = string.Empty;
         public string FileExtension { get; set; } = string.Empty;
 
-        public DateTime CreateDate { get; }
+        public DateTime CreatedDate { get; }
         public DateTime? UpdateDate { get; set; }
 
         [BsonIgnore]
