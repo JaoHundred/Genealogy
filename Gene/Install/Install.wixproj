@@ -1,0 +1,19 @@
+﻿<Project Sdk="WixToolset.Sdk/5.0.0">
+  <PropertyGroup>
+    <OutputName>Gene</OutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DefineConstants>Version=1.0.0</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="GeneIcoPlaceholder.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GeneA.Desktop\GeneA.Desktop.csproj" />
+    <ProjectReference Include="..\..\GeneA\GeneA.csproj" />
+    <ProjectReference Include="..\..\ModelA\ModelA.csproj" />
+  </ItemGroup>
+</Project>

@@ -76,7 +76,10 @@ public partial class SettingsViewModel : ViewModelBase
     {
         await Task.Run(() =>
         {
-            _settings = _settingsRepository.FindById(1);
+            _settings = _settingsRepository.FindAll().FirstOrDefault();
+
+            if (_settings == null)
+                return;
 
             AppTheme theme = AppTheme.Default;
 

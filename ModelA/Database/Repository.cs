@@ -22,14 +22,29 @@ namespace Model.Database
             return _configuration.LiteDB!.GetCollection<T>().FindAll();
         }
 
-        public virtual T FindById(long id)
+        public virtual T FindById(Guid id)
         {
             return _configuration.LiteDB!.GetCollection<T>().FindById(id);
         }
 
         public virtual T Upsert(T entity)
         {
-            _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
+            bool exceptionHappening = true;
+
+            while (exceptionHappening)
+            {
+                try
+                {
+                    _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
+                    
+                    exceptionHappening = false;
+                }
+                catch (Exception)
+                {
+                    entity.Id = Guid.NewGuid();
+                }
+            }
+
             return FindById(entity.Id);
         }
 
@@ -54,7 +69,7 @@ namespace Model.Database
 
         public virtual IEnumerable<T> Take(int amount, bool takeLast = true)
         {
-            var collection = _configuration.LiteDB!.GetCollection<T>().FindAll();
+            var collection = _configuration.LiteDB!.GetCollection<T>().FindAll().OrderBy(p => p.CreatedDate);
 
             if (takeLast)
                 return collection.TakeLast(amount).Reverse();

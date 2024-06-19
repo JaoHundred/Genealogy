@@ -49,7 +49,7 @@ namespace ModelA.Database
             return document;
         }
 
-        public string DownloadToTemporaryFolder(DocumentFile entity, long personId)
+        public string DownloadToTemporaryFolder(DocumentFile entity, Guid personId)
         {
             string tempFolder = _getFolderService.GetTemporaryFolderDirectory();
             string fullPath = Path.Combine(tempFolder, personId.ToString());
@@ -73,7 +73,7 @@ namespace ModelA.Database
             return fullPath;
         }
 
-        public async Task<byte[]?> GetDocumentBytesAsync(DocumentFile entity, long personId)
+        public async Task<byte[]?> GetDocumentBytesAsync(DocumentFile entity, Guid personId)
         {
             string tempFolder = _getFolderService.GetTemporaryFolderDirectory();
             string fullPath = Path.Combine(tempFolder, personId.ToString());

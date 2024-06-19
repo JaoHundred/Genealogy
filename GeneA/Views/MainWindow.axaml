@@ -8,7 +8,8 @@
         x:Class="GeneA.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="GeneA"
-        Width="800" Height="800"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        >
         <!--<views:MainView />-->
+  
 </Window>

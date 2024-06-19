@@ -88,7 +88,7 @@ public partial class PersonViewModel : ViewModelBase
                 var fatherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Male).ToList();
                 var motherList = people.Where(p => p.Gender == ModelA.Enums.GenderEnum.Gender.Female).ToList();
 
-                Person = _personRepository.FindById((long)Param).ToPersonItemViewModel();
+                Person = _personRepository.FindById((Guid)Param).ToPersonItemViewModel();
 
                 //constraints to dont show offsprings in father/mother list of father/mother
                 fatherList = fatherList.ExceptBy(Person.Offsprings.Select(p => p.Id), q => q.Id).ToList();
@@ -294,7 +294,7 @@ public partial class PersonViewModel : ViewModelBase
                      DocumentList.Remove(documentFile);
                  });
 
-                 if (documentFile.Id > 0)// its not a temporary documentFile(user didnt save it yet)
+                 if (documentFile.Id != Guid.Empty)// its not a temporary documentFile(user didnt save it yet)
                  {
                      _documentRepository.Delete(documentFile);
                      Person!.DocumentFiles.Remove(documentFile);

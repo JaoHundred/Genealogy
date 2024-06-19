@@ -62,7 +62,7 @@ namespace GeneA.ViewModels
                 {
                     _person = (Person)Param;
 
-                    if (_person.Nationality?.Id > 0)
+                    if (_person.Nationality?.Id is Guid guid && guid != Guid.Empty)
                         _person.Nationality = _nationalityRepo.FindById(_person.Nationality.Id);
 
                     _originalNationalities = _nationalityRepo.FindAll().ToNationalityItemViewModels().ToList();
@@ -133,7 +133,7 @@ namespace GeneA.ViewModels
         [RelayCommand]
         private async Task TextFilter(string searchText)
         {
-            if(_originalNationalities == null) 
+            if (_originalNationalities == null)
                 return;
 
             await Dispatcher.UIThread.InvokeAsync(() =>

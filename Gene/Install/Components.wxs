@@ -1,0 +1,23 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="Components" Directory="INSTALLFOLDER">
+      <Component >
+        <File Id="ExeFile" Source="GeneA.Desktop.exe"/>
+        <Shortcut Name="GeneA" Directory="ProgramMenuFolder" Advertise="true"
+                   Icon="Gene.exe"/>
+      </Component>
+
+      <Component Condition="DESKTOPSHORTCUT=1">
+
+        <RegistryValue Root="HKCU" Key="SOFTWARE\Gene" Name="DesktopShortCutEnabled" Value="1"></RegistryValue>
+        <Shortcut Name="GeneA" Directory="DesktopFolder" Icon="Gene.exe" Target="[#ExeFile]"/>
+      </Component>
+
+      <Component>
+        <RegistryValue Root="HKCU" Key="SOFTWARE\Gene" Name="Private" Type="string" Value="76a002a9-950d-43f1-85ed-81c44ce66a6d"/>
+      </Component>
+
+    </ComponentGroup>
+    <Icon Id="Gene.exe" SourceFile="GeneIcoPlaceholder.ico"/>
+  </Fragment>
+</Wix>

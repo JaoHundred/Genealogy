@@ -9,7 +9,8 @@ namespace ModelA.Core;
 
 public class Settings : IDbEntity
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
     public int ColorTheme { get; set; }
+    public DateTime CreatedDate { get; set; }
 }
