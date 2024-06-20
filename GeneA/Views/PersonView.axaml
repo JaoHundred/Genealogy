@@ -15,6 +15,7 @@
 
   <UserControl.Resources>
     <conv:ValidDatetimeConverter x:Key="ValidDatetimeConverter"/>
+    <conv:GuidIsNotEmptyConverter x:Key="GuidIsNotEmptyConverter"/>
   </UserControl.Resources>
 
   <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
@@ -75,7 +76,7 @@
           <Grid Grid.Row="7" Grid.ColumnSpan="2"
                 RowDefinitions="auto auto auto auto auto auto"
                 ColumnDefinitions="* *"
-                IsVisible="{Binding Person.Id>0}"
+                IsVisible="{Binding Person.Id, Converter={StaticResource GuidIsNotEmptyConverter}}"
                 Margin="0,10">
             <TextBlock Text="{x:Static loc:Resource.Father}"/>
             <AutoCompleteBox Grid.Row="1"
@@ -119,7 +120,7 @@
           </Grid>
 
           <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Margin="5"
-                      IsVisible="{Binding Person.Id > 0}">
+                      IsVisible="{Binding Person.Id, Converter={StaticResource GuidIsNotEmptyConverter}}">
             <TextBlock Text="{x:Static loc:Resource.Documents}"
                        HorizontalAlignment="Center"/>
             <DataGrid  Height="200" BorderBrush="Gray"

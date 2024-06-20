@@ -35,8 +35,11 @@ namespace Model.Database
             {
                 try
                 {
+                    if (entity.Id == Guid.Empty)
+                        entity.Id = Guid.NewGuid();
+
                     _configuration.LiteDB!.GetCollection<T>().Upsert(entity);
-                    
+
                     exceptionHappening = false;
                 }
                 catch (Exception)
