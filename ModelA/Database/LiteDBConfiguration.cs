@@ -43,7 +43,7 @@ namespace Model.Database
         {
             BsonMapper bsonMapper = BsonMapper.Global;
             bsonMapper.Entity<Person>()
-                .Id(p => p.Id)
+                .Id(p => p.Id, autoId:false)
                 .DbRef(p => p.Father)
                 .DbRef(p => p.Mother)
                 .DbRef(p => p.Offsprings)
@@ -51,9 +51,9 @@ namespace Model.Database
                 .DbRef(p => p.Nationality)
                 .DbRef(p => p.DocumentFiles);
 
-            bsonMapper.Entity<Nationality>().Id(p => p.Id);
-            bsonMapper.Entity<Settings>().Id(p => p.Id);
-            bsonMapper.Entity<DocumentFile>().Id(p => p.Id);
+            bsonMapper.Entity<Nationality>().Id(p => p.Id, autoId: false);
+            bsonMapper.Entity<Settings>().Id(p => p.Id, autoId: false);
+            bsonMapper.Entity<DocumentFile>().Id(p => p.Id, autoId: false);
 
             string completePath = $"Filename={GetLiteDBPath(LiteDataName)}";
             LiteDB = new LiteDatabase(completePath, bsonMapper);
