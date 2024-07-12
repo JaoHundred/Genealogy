@@ -12,13 +12,13 @@
              x:DataType="vm:SettingsViewModel"
              x:Class="GeneA.Views.SettingsView">
 
-  <StackPanel  Margin="5">
+  <Grid RowDefinitions="auto auto *"  Margin="5">
     <Image Source="/Assets/avalonia-logo.ico"
            Height="150"/>
-    <Rectangle Fill="Gray" Height="1"/>
-    <ScrollViewer >
+    <Rectangle Grid.Row="1" Fill="Gray" Height="1"/>
+    <ScrollViewer Grid.Row="2">
 
-      <Grid RowDefinitions="auto auto *">
+      <Grid RowDefinitions="auto auto auto">
         <Border Classes="menuFrame">
 
           <StackPanel Margin="10">
@@ -58,13 +58,13 @@
 
         </Border>
         <Border Grid.Row="2" Classes="menuFrame">
-          <Expander >
+          <Expander VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Expander.Header>
               <TextBlock Text="{x:Static loc:Resource.Licenses}"
                          Classes="header"/>
             </Expander.Header>
 
-              <ListBox ItemsSource="{Binding LicenseItems}">
+              <ListBox ItemsSource="{Binding LicenseItems}" >
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -79,5 +79,5 @@
         </Border>
       </Grid>
     </ScrollViewer>
-  </StackPanel>
+  </Grid>
 </UserControl>

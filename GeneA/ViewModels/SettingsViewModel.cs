@@ -109,8 +109,7 @@ public partial class SettingsViewModel : ViewModelBase
             var licenses = JsonSerializer.Deserialize<IEnumerable<LicenseItemViewModel>>(str);
             if (licenses != null)
                 LicenseItems.AddRange(licenses);
-
-            //TODO: create listbox in view and bind the licenses there
+            //TODO: add all the libs used in the project in the licenses.json file
         });
     }
 
