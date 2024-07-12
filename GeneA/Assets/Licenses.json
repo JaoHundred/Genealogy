@@ -1,30 +1,112 @@
 [
   {
-    "Name": "test.lib.1",
-    "LibOwner": "Test1"
+    "Name": "Avalonia",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
   },
   {
-    "Name": "test.lib.2",
-    "LibOwner": "Test2"
+    "Name": "Avalonia.Android",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
   },
   {
-    "Name": "",
-    "LibOwner": ""
+    "Name": "Avalonia.Controls.DataGrid",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
   },
   {
-    "Name": "",
-    "LibOwner": ""
+    "Name": "Avalonia.Controls.PanAndZoom",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
   },
   {
-    "Name": "",
-    "LibOwner": ""
+    "Name": "Avalonia.Desktop",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
   },
   {
-    "Name": "",
-    "LibOwner": ""
+    "Name": "Avalonia.Diagnostics",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
   },
   {
-    "Name": "",
-    "LibOwner": ""
+    "Name": "Avalonia.Fonts.Inter",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Avalonia.Themes.Fluent",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Avalonia.Xaml.Behaviors",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "AvaloniaGraphControl",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "CommunityToolkit.Mvvm",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "DynamicData",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "LiteDB",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Microsoft.Extensions.DependencyInjection",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Microsoft.Extensions.DependencyInjection.Abstractions",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Microsoft.NET.ILLink.Tasks",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Notification.Avalonia",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Projektanker.Icons.Avalonia.MaterialDesign",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Refractored.MvvmHelpers",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "SixLabors.ImageSharp",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Xamarin.AndroidX.Core.SplashScreen",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
+  },
+  {
+    "Name": "Xamarin.Essentials",
+    "LibOwner": "Test2",
+    "LicenseLink": ""
   }
 ]

@@ -11,4 +11,6 @@ public class LicenseItemViewModel
 {
     public string Name { get; set; } = string.Empty;
     public string LibOwner { get; set; } = string.Empty;
+    public string LicenseLink { get; set; } = string.Empty;
+
 }

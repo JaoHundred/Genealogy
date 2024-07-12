@@ -109,16 +109,14 @@ public partial class SettingsViewModel : ViewModelBase
             var licenses = JsonSerializer.Deserialize<IEnumerable<LicenseItemViewModel>>(str);
             if (licenses != null)
                 LicenseItems.AddRange(licenses);
-            //TODO: add all the libs used in the project in the licenses.json file
         });
     }
 
 
     [RelayCommand]
-    private void OpenLicenses()
+    private void OpenLicense(string link)
     {
-        //TODO:open popup with all the used libs licenses if you click in one item it will open the browser with its respective
-        //page
+        //TODO:open license link in default browser
     }
 
     [RelayCommand]
