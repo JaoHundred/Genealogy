@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "test.lib.1",
+    "LibOwner": "Test1"
+  },
+  {
+    "Name": "test.lib.2",
+    "LibOwner": "Test2"
+  },
+  {
+    "Name": "",
+    "LibOwner": ""
+  },
+  {
+    "Name": "",
+    "LibOwner": ""
+  },
+  {
+    "Name": "",
+    "LibOwner": ""
+  },
+  {
+    "Name": "",
+    "LibOwner": ""
+  },
+  {
+    "Name": "",
+    "LibOwner": ""
+  }
+]

@@ -18,7 +18,7 @@
     <Rectangle Fill="Gray" Height="1"/>
     <ScrollViewer >
 
-      <Grid RowDefinitions="auto auto auto">
+      <Grid RowDefinitions="auto auto *">
         <Border Classes="menuFrame">
 
           <StackPanel Margin="10">
@@ -40,29 +40,42 @@
             <TextBlock Grid.ColumnSpan="2" Text="{x:Static loc:Resource.ImportExport}"
                        Classes="header"/>
 
-              <Button Grid.Row="1" Margin="5" Classes="default"
-                      Command="{Binding ImportCommand}">
-                <StackPanel>
-                  <icon:Icon Value="mdi-import"/>
-                  <TextBlock Text="{x:Static loc:Resource.Import}"/>
-                </StackPanel>
-              </Button>
-              <Button Grid.Row="1" Grid.Column="1" Margin="5" Classes="default"
-                      Command="{Binding ExportCommand}">
-                <StackPanel>
-                  <icon:Icon Value="mdi-export"/>
-                  <TextBlock Text="{x:Static loc:Resource.Export}"/>
-                </StackPanel>
-              </Button>
+            <Button Grid.Row="1" Margin="5" Classes="default"
+                    Command="{Binding ImportCommand}">
+              <StackPanel>
+                <icon:Icon Value="mdi-import"/>
+                <TextBlock Text="{x:Static loc:Resource.Import}"/>
+              </StackPanel>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="1" Margin="5" Classes="default"
+                    Command="{Binding ExportCommand}">
+              <StackPanel>
+                <icon:Icon Value="mdi-export"/>
+                <TextBlock Text="{x:Static loc:Resource.Export}"/>
+              </StackPanel>
+            </Button>
           </Grid>
 
         </Border>
-        <Border Grid.Row="3" Classes="menuFrame">
-          <Button Classes="buttonLabel"
-                  Command="{Binding OpenLicensesCommand}">
-            <TextBlock Text="{x:Static loc:Resource.Licenses}" 
-                       Classes="header"/>
-          </Button>
+        <Border Grid.Row="2" Classes="menuFrame">
+          <Expander >
+            <Expander.Header>
+              <TextBlock Text="{x:Static loc:Resource.Licenses}"
+                         Classes="header"/>
+            </Expander.Header>
+
+              <ListBox ItemsSource="{Binding LicenseItems}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                      <TextBlock Text="{Binding Name}"/>
+                      <TextBlock Text="{Binding LibOwner}"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+
+          </Expander>
         </Border>
       </Grid>
     </ScrollViewer>

@@ -18,6 +18,10 @@ using GeneA._Services;
 using ModelA.Core;
 using GeneA.Services;
 using Avalonia.Notification;
+using System.Text.Json;
+using Avalonia.Platform;
+using Avalonia;
+using System.IO;
 
 namespace GeneA.ViewModels;
 
@@ -47,6 +51,8 @@ public partial class SettingsViewModel : ViewModelBase
             },
         };
 
+        LicenseItems = new List<LicenseItemViewModel>();
+
         LoadAction = () => { Load().SafeFireAndForget(); };
 
     }
@@ -55,6 +61,9 @@ public partial class SettingsViewModel : ViewModelBase
     private readonly ThemeService _themeService;
     private readonly ImportExportService _importExportService;
     private readonly MainViewModel _mainViewModel;
+
+    [ObservableProperty]
+    private List<LicenseItemViewModel> _licenseItems;
 
     public List<AppThemeItemViewModel> AppThemes { get; set; }
 
@@ -94,6 +103,14 @@ public partial class SettingsViewModel : ViewModelBase
             }
 
             SelectedAppTheme = AppThemes.FirstOrDefault(p => p.AppTheme == theme);
+
+            Stream str = AssetsHelper.Open("Licenses.json");
+
+            var licenses = JsonSerializer.Deserialize<IEnumerable<LicenseItemViewModel>>(str);
+            if (licenses != null)
+                LicenseItems.AddRange(licenses);
+
+            //TODO: create listbox in view and bind the licenses there
         });
     }
 
