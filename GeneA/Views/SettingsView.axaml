@@ -67,7 +67,14 @@
               <ListBox ItemsSource="{Binding LicenseItems}" >
                 <ListBox.ItemTemplate>
                   <DataTemplate>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Background="Transparent">
+                      <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="PointerReleased">
+                          <ia:InvokeCommandAction
+                            Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).OpenLicenseCommand}"
+                            CommandParameter="{Binding LicenseLink}"/>
+                        </ia:EventTriggerBehavior>
+                      </i:Interaction.Behaviors>
                       <TextBlock Text="{Binding Name}"/>
                       <TextBlock Text="{Binding LibOwner}"/>
                     </StackPanel>

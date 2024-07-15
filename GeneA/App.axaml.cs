@@ -76,6 +76,8 @@ public partial class App : Application
         services.AddTransient<FileService>();
         services.AddTransient<GraphService>();
         services.AddTransient<ImportExportService>();
+        services.AddTransient<OpenLinkService>();
+        
 
 
         ViewsViewModels(services);

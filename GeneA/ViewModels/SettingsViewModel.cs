@@ -28,7 +28,7 @@ namespace GeneA.ViewModels;
 public partial class SettingsViewModel : ViewModelBase
 {
     public SettingsViewModel(MainViewModel mainViewModel, IRepository<Settings> settingsRepository, ThemeService themeService,
-        ImportExportService importExportService)
+        ImportExportService importExportService, OpenLinkService openLinkService)
     {
         _mainViewModel = mainViewModel;
         _mainViewModel.Title = DynamicTranslate.Translate(MessageConsts.Settings);
@@ -36,6 +36,7 @@ public partial class SettingsViewModel : ViewModelBase
         _settingsRepository = settingsRepository;
         _themeService = themeService;
         _importExportService = importExportService;
+        _openLinkService = openLinkService;
 
         AppThemes = new List<AppThemeItemViewModel>
         {
@@ -60,6 +61,7 @@ public partial class SettingsViewModel : ViewModelBase
     private readonly IRepository<Settings> _settingsRepository;
     private readonly ThemeService _themeService;
     private readonly ImportExportService _importExportService;
+    private readonly OpenLinkService _openLinkService;
     private readonly MainViewModel _mainViewModel;
 
     [ObservableProperty]
@@ -114,9 +116,9 @@ public partial class SettingsViewModel : ViewModelBase
 
 
     [RelayCommand]
-    private void OpenLicense(string link)
+    private async Task OpenLicense(string link)
     {
-        //TODO:open license link in default browser
+        await _openLinkService.OpenLinkAsync(link);
     }
 
     [RelayCommand]
