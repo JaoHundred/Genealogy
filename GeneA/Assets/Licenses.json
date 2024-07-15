@@ -1,0 +1,112 @@
+[
+  {
+    "Name": "Avalonia",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Android",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Controls.DataGrid",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Controls.PanAndZoom",
+    "LibOwner": "Wiesław Šoltés",
+    "LicenseLink": "https://github.com/wieslawsoltes/PanAndZoom/blob/master/LICENSE.TXT"
+  },
+  {
+    "Name": "Avalonia.Desktop",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Diagnostics",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Fonts.Inter",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Themes.Fluent",
+    "LibOwner": "Avalonia Team",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia/blob/master/licence.md"
+  },
+  {
+    "Name": "Avalonia.Xaml.Behaviors",
+    "LibOwner": "Wiesław Šoltés",
+    "LicenseLink": "https://github.com/AvaloniaUI/Avalonia.Xaml.Behaviors/blob/master/LICENSE.TXT"
+  },
+  {
+    "Name": "AvaloniaGraphControl",
+    "LibOwner": "Olivier Azeau",
+    "LicenseLink": "https://github.com/Oaz/AvaloniaGraphControl/blob/master/LICENSE"
+  },
+  {
+    "Name": "CommunityToolkit.Mvvm",
+    "LibOwner": "Microsoft",
+    "LicenseLink": "https://github.com/CommunityToolkit/dotnet/blob/main/License.md"
+  },
+  {
+    "Name": "DynamicData",
+    "LibOwner": "Roland Pheasant",
+    "LicenseLink": "https://github.com/reactivemarbles/DynamicData/blob/main/LICENSE"
+  },
+  {
+    "Name": "LiteDB",
+    "LibOwner": "Maurício David",
+    "LicenseLink": "https://www.nuget.org/packages/LiteDB/5.0.17/license"
+  },
+  {
+    "Name": "Microsoft.Extensions.DependencyInjection",
+    "LibOwner": "Microsoft",
+    "LicenseLink": "https://licenses.nuget.org/MIT"
+  },
+  {
+    "Name": "Microsoft.Extensions.DependencyInjection.Abstractions",
+    "LibOwner": "Microsoft",
+    "LicenseLink": "https://licenses.nuget.org/MIT"
+  },
+  {
+    "Name": "Microsoft.NET.ILLink.Tasks",
+    "LibOwner": "Microsoft",
+    "LicenseLink": "https://licenses.nuget.org/MIT"
+  },
+  {
+    "Name": "Notification.Avalonia",
+    "LibOwner": "Lary",
+    "LicenseLink": "https://github.com/AvaloniaCommunity/Notification.Avalonia/blob/master/LICENSE"
+  },
+  {
+    "Name": "Projektanker.Icons.Avalonia.MaterialDesign",
+    "LibOwner": "Sebastian Rumohr",
+    "LicenseLink": "https://github.com/Projektanker/Icons.Avalonia/blob/main/LICENSE"
+  },
+  {
+    "Name": "Refractored.MvvmHelpers",
+    "LibOwner": "James Montemagno",
+    "LicenseLink": "https://github.com/jamesmontemagno/mvvm-helpers/blob/master/LICENSE.md"
+  },
+  {
+    "Name": "SixLabors.ImageSharp",
+    "LibOwner": "Six Labors and contributors",
+    "LicenseLink": "https://www.nuget.org/packages/SixLabors.ImageSharp/3.1.4/license"
+  },
+  {
+    "Name": "Xamarin.AndroidX.Core.SplashScreen",
+    "LibOwner": "Microsoft",
+    "LicenseLink": "https://github.com/xamarin/AndroidX/blob/main/Licenses.json"
+  },
+  {
+    "Name": "Xamarin.Essentials",
+    "LibOwner": "Microsoft",
+    "LicenseLink": "https://www.nuget.org/packages/Xamarin.Essentials/1.8.1/license"
+  }
+]

@@ -12,11 +12,11 @@
              x:DataType="vm:SettingsViewModel"
              x:Class="GeneA.Views.SettingsView">
 
-  <StackPanel  Margin="5">
+  <Grid RowDefinitions="auto auto *"  Margin="5">
     <Image Source="/Assets/avalonia-logo.ico"
            Height="150"/>
-    <Rectangle Fill="Gray" Height="1"/>
-    <ScrollViewer >
+    <Rectangle Grid.Row="1" Fill="Gray" Height="1"/>
+    <ScrollViewer Grid.Row="2">
 
       <Grid RowDefinitions="auto auto auto">
         <Border Classes="menuFrame">
@@ -40,31 +40,51 @@
             <TextBlock Grid.ColumnSpan="2" Text="{x:Static loc:Resource.ImportExport}"
                        Classes="header"/>
 
-              <Button Grid.Row="1" Margin="5" Classes="default"
-                      Command="{Binding ImportCommand}">
-                <StackPanel>
-                  <icon:Icon Value="mdi-import"/>
-                  <TextBlock Text="{x:Static loc:Resource.Import}"/>
-                </StackPanel>
-              </Button>
-              <Button Grid.Row="1" Grid.Column="1" Margin="5" Classes="default"
-                      Command="{Binding ExportCommand}">
-                <StackPanel>
-                  <icon:Icon Value="mdi-export"/>
-                  <TextBlock Text="{x:Static loc:Resource.Export}"/>
-                </StackPanel>
-              </Button>
+            <Button Grid.Row="1" Margin="5" Classes="default"
+                    Command="{Binding ImportCommand}">
+              <StackPanel>
+                <icon:Icon Value="mdi-import"/>
+                <TextBlock Text="{x:Static loc:Resource.Import}"/>
+              </StackPanel>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="1" Margin="5" Classes="default"
+                    Command="{Binding ExportCommand}">
+              <StackPanel>
+                <icon:Icon Value="mdi-export"/>
+                <TextBlock Text="{x:Static loc:Resource.Export}"/>
+              </StackPanel>
+            </Button>
           </Grid>
 
         </Border>
-        <Border Grid.Row="3" Classes="menuFrame">
-          <Button Classes="buttonLabel"
-                  Command="{Binding OpenLicensesCommand}">
-            <TextBlock Text="{x:Static loc:Resource.Licenses}" 
-                       Classes="header"/>
-          </Button>
+        <Border Grid.Row="2" Classes="menuFrame">
+          <Expander VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <Expander.Header>
+              <TextBlock Text="{x:Static loc:Resource.Licenses}"
+                         Classes="header"/>
+            </Expander.Header>
+
+              <ListBox ItemsSource="{Binding LicenseItems}" >
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel Orientation="Vertical" Background="Transparent">
+                      <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="PointerReleased">
+                          <ia:InvokeCommandAction
+                            Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).OpenLicenseCommand}"
+                            CommandParameter="{Binding LicenseLink}"/>
+                        </ia:EventTriggerBehavior>
+                      </i:Interaction.Behaviors>
+                      <TextBlock Text="{Binding Name}"/>
+                      <TextBlock Text="{Binding LibOwner}"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+
+          </Expander>
         </Border>
       </Grid>
     </ScrollViewer>
-  </StackPanel>
+  </Grid>
 </UserControl>

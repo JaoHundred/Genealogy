@@ -18,13 +18,17 @@ using GeneA._Services;
 using ModelA.Core;
 using GeneA.Services;
 using Avalonia.Notification;
+using System.Text.Json;
+using Avalonia.Platform;
+using Avalonia;
+using System.IO;
 
 namespace GeneA.ViewModels;
 
 public partial class SettingsViewModel : ViewModelBase
 {
     public SettingsViewModel(MainViewModel mainViewModel, IRepository<Settings> settingsRepository, ThemeService themeService,
-        ImportExportService importExportService)
+        ImportExportService importExportService, OpenLinkService openLinkService)
     {
         _mainViewModel = mainViewModel;
         _mainViewModel.Title = DynamicTranslate.Translate(MessageConsts.Settings);
@@ -32,6 +36,7 @@ public partial class SettingsViewModel : ViewModelBase
         _settingsRepository = settingsRepository;
         _themeService = themeService;
         _importExportService = importExportService;
+        _openLinkService = openLinkService;
 
         AppThemes = new List<AppThemeItemViewModel>
         {
@@ -47,6 +52,8 @@ public partial class SettingsViewModel : ViewModelBase
             },
         };
 
+        LicenseItems = new List<LicenseItemViewModel>();
+
         LoadAction = () => { Load().SafeFireAndForget(); };
 
     }
@@ -54,7 +61,11 @@ public partial class SettingsViewModel : ViewModelBase
     private readonly IRepository<Settings> _settingsRepository;
     private readonly ThemeService _themeService;
     private readonly ImportExportService _importExportService;
+    private readonly OpenLinkService _openLinkService;
     private readonly MainViewModel _mainViewModel;
+
+    [ObservableProperty]
+    private List<LicenseItemViewModel> _licenseItems;
 
     public List<AppThemeItemViewModel> AppThemes { get; set; }
 
@@ -94,15 +105,20 @@ public partial class SettingsViewModel : ViewModelBase
             }
 
             SelectedAppTheme = AppThemes.FirstOrDefault(p => p.AppTheme == theme);
+
+            Stream str = AssetsHelper.Open("Licenses.json");
+
+            var licenses = JsonSerializer.Deserialize<IEnumerable<LicenseItemViewModel>>(str);
+            if (licenses != null)
+                LicenseItems.AddRange(licenses);
         });
     }
 
 
     [RelayCommand]
-    private void OpenLicenses()
+    private async Task OpenLicense(string link)
     {
-        //TODO:open popup with all the used libs licenses if you click in one item it will open the browser with its respective
-        //page
+        await _openLinkService.OpenLinkAsync(link);
     }
 
     [RelayCommand]

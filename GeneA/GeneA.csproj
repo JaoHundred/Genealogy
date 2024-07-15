@@ -16,6 +16,11 @@
     <AvaloniaResource Remove="Assets\Colors.axaml" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Remove="Assets\Licenses.json" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.11" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.11" />
