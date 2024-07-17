@@ -10,7 +10,7 @@ Section "Install"
     WriteUninstaller "$INSTDIR\Uninstaller.exe"
 
     CreateDirectory "$SMPROGRAMS\Gene"
-    CreateShortCut "$SMPROGRAMS\Gene\Gene.lnk" "$INSTDIR\GeneA.Desktop.exe"
+    CreateShortCut "$SMPROGRAMS\Gene\Gene.lnk" "$INSTDIR\Gene.exe"
 
     File /r /x *.pdb "..\GeneA.Desktop\bin\Release\net8.0\*" 
 
@@ -18,7 +18,7 @@ Section "Install"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "DisplayName" "Gene"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "UninstallString" "$INSTDIR\Uninstaller.exe"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "InstallLocation" "$INSTDIR"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "DisplayIcon" "$INSTDIR\GeneA.Desktop.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "DisplayIcon" "$INSTDIR\Gene.exe"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "Publisher" "My Company"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "DisplayVersion" "1.0"
     WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "NoModify" 1

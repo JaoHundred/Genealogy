@@ -14,6 +14,7 @@
     <Product>Gene</Product>
     <Description>Genealogy tree app</Description>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AssemblyName>Gene</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
