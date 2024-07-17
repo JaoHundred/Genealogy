@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="GeneA.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="GeneA"
+        Title="Gene"
         WindowStartupLocation="CenterScreen"
         >
         <!--<views:MainView />-->

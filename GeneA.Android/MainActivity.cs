@@ -9,7 +9,7 @@ using Projektanker.Icons.Avalonia.MaterialDesign;
 namespace GeneA.Android;
 
 [Activity(
-    Label = "GeneA.Android",
+    Label = "Gene",
     Theme = "@style/MyTheme.NoActionBar",
     Icon = "@drawable/icon",
     MainLauncher = true,
