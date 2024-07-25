@@ -18,6 +18,8 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\gene-logo.ico" />
+    <None Remove="Assets\gene-logo.png" />
     <None Remove="Assets\Licenses.json" />
   </ItemGroup>
 
