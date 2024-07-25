@@ -16,6 +16,11 @@
   <UserControl.Resources>
     <conv:ValidDatetimeConverter x:Key="ValidDatetimeConverter"/>
     <conv:GuidIsNotEmptyConverter x:Key="GuidIsNotEmptyConverter"/>
+    <conv:PersonExistConverter x:Key="PersonExistConverter"/>
+    <conv:PersonNotExistConverter x:Key="PersonNotExistConverter"/>
+    <conv:HasTextConverter x:Key="HasTextConverter"/>
+    
+
   </UserControl.Resources>
 
   <Border Margin="10" BorderThickness="5" BorderBrush="LightGray" CornerRadius="5">
@@ -40,7 +45,7 @@
             <TextBlock Grid.Column="1" Text="{x:Static loc:Resource.Gender}"
                        Margin="5,0,0,0"/>
             <ComboBox Grid.Row="1" Grid.Column="1"
-                      IsEnabled="{Binding !Person.Id > 0}"
+                      IsEnabled="{Binding Person,Converter={StaticResource PersonNotExistConverter}}"
                       ItemsSource="{Binding Genders}"
                       SelectedItem="{Binding SelectedGender}"
                       DisplayMemberBinding="{Binding Name}" Margin="5,0,0,0"/>
@@ -182,7 +187,8 @@
             Margin="10">
 
         <Button Classes="cancelButton"
-                Command="{Binding DeleteCommand}" IsEnabled="{Binding Person.Id > 0}">
+                Command="{Binding DeleteCommand}" 
+                IsEnabled="{Binding Person,Converter={StaticResource PersonExistConverter}}">
           <StackPanel>
             <icon:Icon Value="mdi-trash-can"/>
             <TextBlock Text="{x:Static loc:Resource.Delete}" />
@@ -191,7 +197,7 @@
         <Button Classes="confirmButton"
                 Grid.Column="1"  HorizontalAlignment="Stretch"
                 Command="{Binding SaveCommand}"
-                IsEnabled="{Binding #nameTextBox.Text.Length > 0}">
+                IsEnabled="{Binding #nameTextBox.Text, Converter={StaticResource HasTextConverter}}">
           <StackPanel>
             <icon:Icon Value="mdi-content-save"/>
             <TextBlock Text="{x:Static loc:Resource.Save}" />
@@ -211,7 +217,7 @@
         <Button Classes="treeButton" Grid.Row="2" Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 Command="{Binding OpenFamilyTreeCommand}"
-                IsEnabled="{Binding #nameTextBox.Text.Length > 0}">
+                IsEnabled="{Binding #nameTextBox.Text, Converter={StaticResource HasTextConverter}}">
           <StackPanel>
             <icon:Icon Value="mdi-family-tree"/>
             <TextBlock Text="{x:Static loc:Resource.FamilyTree}"/>
