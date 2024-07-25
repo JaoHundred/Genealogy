@@ -13,7 +13,7 @@
              x:Class="GeneA.Views.SettingsView">
 
   <Grid RowDefinitions="auto auto *"  Margin="5">
-    <Panel Background="#DADFCD">
+    <Panel Background="#DADFCD" Margin="5">
       
       <Image Source="/Assets/gene-logo.png"
               Height="150"/>
