@@ -14,6 +14,7 @@
     <Product>Gene</Product>
     <Description>Genealogy tree app</Description>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AssemblyName>Gene</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
@@ -32,8 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Android" Version="11.0.11" />
-    <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.9" />
+    <PackageReference Include="Avalonia.Android" Version="11.1.0" />
+    <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.10" />
     <PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
   </ItemGroup>
 

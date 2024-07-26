@@ -13,8 +13,11 @@
              x:Class="GeneA.Views.SettingsView">
 
   <Grid RowDefinitions="auto auto *"  Margin="5">
-    <Image Source="/Assets/avalonia-logo.ico"
-           Height="150"/>
+    <Panel Background="#DADFCD" Margin="5">
+      
+      <Image Source="/Assets/gene-logo.png"
+              Height="150"/>
+    </Panel>
     <Rectangle Grid.Row="1" Fill="Gray" Height="1"/>
     <ScrollViewer Grid.Row="2">
 
@@ -64,23 +67,23 @@
                          Classes="header"/>
             </Expander.Header>
 
-              <ListBox ItemsSource="{Binding LicenseItems}" >
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <StackPanel Orientation="Vertical" Background="Transparent">
-                      <i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="PointerReleased">
-                          <ia:InvokeCommandAction
-                            Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).OpenLicenseCommand}"
-                            CommandParameter="{Binding LicenseLink}"/>
-                        </ia:EventTriggerBehavior>
-                      </i:Interaction.Behaviors>
-                      <TextBlock Text="{Binding Name}"/>
-                      <TextBlock Text="{Binding LibOwner}"/>
-                    </StackPanel>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
+            <ListBox ItemsSource="{Binding LicenseItems}" >
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Vertical" Background="Transparent">
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="PointerReleased">
+                        <ia:InvokeCommandAction
+                          Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).OpenLicenseCommand}"
+                          CommandParameter="{Binding LicenseLink}"/>
+                      </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding LibOwner}"/>
+                  </StackPanel>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
 
           </Expander>
         </Border>
