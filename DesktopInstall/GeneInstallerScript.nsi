@@ -1,3 +1,8 @@
+!include LogicLib.nsh
+
+SetCompressor /SOLID lzma
+SetCompressorDictSize 64  ; or use a larger dictionary size if needed
+
 
 Name "Gene"
 OutFile "Gene Installer.exe"
@@ -5,13 +10,22 @@ InstallDir $PROGRAMFILES32\Gene
 RequestExecutionLevel admin
 Icon "gene-logo256.ico"
 
+Section "Install .NET 8"
+
+    CreateDirectory "$INSTDIR\DotNetRuntime"
+    SetOutPath "$INSTDIR\DotNetRuntime"
+
+    File "dotnet-runtime-8.0.7-win-x64.exe"
+    ExecWait '"$INSTDIR\DotNetRuntime\dotnet-runtime-8.0.7-win-x64.exe" /quiet /norestart /log install.log'
+
+SectionEnd
 
 Section "Install"
 
     SetOutPath $INSTDIR
     WriteUninstaller "$INSTDIR\Uninstaller.exe"
-
     CreateDirectory "$SMPROGRAMS\Gene"
+    
     CreateShortCut "$SMPROGRAMS\Gene\Gene.lnk" "$INSTDIR\Gene.exe"
 
     File /r /x *.pdb "..\GeneA.Desktop\bin\Release\net8.0\*" 
