@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="internalOnly">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="internalOnly" package="com.jooworks.Gene" android:versionName="1.0.0">
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Gene" android:icon="@drawable/Icon" />
+	<application android:label="Gene" />
 </manifest>

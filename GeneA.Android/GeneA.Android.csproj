@@ -25,10 +25,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="gene_logo.png" />
+    <None Remove="ic_launcher.xml" />
+    <None Remove="Resources\drawable\ic_launcher.xml" />
+  </ItemGroup>
 
   <ItemGroup>
-    <AndroidResource Include="Icon.png">
-      <Link>Resources\drawable\Icon.png</Link>
+    <AndroidResource Include="gene_logo400TR.png">
+      <Link>Resources\drawable\gene_logo400TR.png</Link>
     </AndroidResource>
   </ItemGroup>
 

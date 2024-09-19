@@ -210,6 +210,8 @@ namespace GeneA.Services
             return true;
         }
 
+        //TODO: importing and exporting are not working in android, take a look in what could be, my bet is if has something to do with
+        //permissions to files
         private void ZipFiles(string tempSourcePath, string targetPath)
         {
             ZipFile.CreateFromDirectory(tempSourcePath, targetPath, CompressionLevel.Optimal, includeBaseDirectory: false);
