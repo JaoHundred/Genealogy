@@ -21,19 +21,9 @@ namespace Model.Services
 
         public string GetTemporaryFolderDirectory()
         {
+            string fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-            string fullDirectory = string.Empty;
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            }
-            else
-            {
-                fullDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            }
-
-            return Path.Combine(Uri.UnescapeDataString(fullDirectory), "Temp" , "GeneDoc");
+            return Path.Combine(Uri.UnescapeDataString(fullDirectory), "Temp", "GeneDoc");
         }
     }
 }
