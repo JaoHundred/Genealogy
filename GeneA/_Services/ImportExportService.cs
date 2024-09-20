@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -28,7 +29,6 @@ namespace GeneA.Services
             _getFolderService = getFolderService;
 
             _topLevel = TopLevel.GetTopLevel(mainView)!;
-            _mainView = mainView;
         }
 
         private readonly IRepository<Person> _personRepository;
@@ -36,68 +36,73 @@ namespace GeneA.Services
         private readonly IRepository<Nationality> _nationalityRepository;
         private readonly IGetFolderService _getFolderService;
         private readonly TopLevel _topLevel;
-        private readonly MainView _mainView;
 
         public async Task<bool> Import()
         {
             var storageFiles = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
-                FileTypeFilter = new FilePickerFileType[]
-                 {
+                FileTypeFilter =
+                 [
                     new("Zip Files")
                     {
-                        Patterns = new[]{"*.zip"},
-                        MimeTypes = new[] { "application/zip" }
+                        Patterns = ["*.zip"],
+                        MimeTypes = ["application/zip"]
                     }
-                 },
+                 ],
             });
 
-            if (!storageFiles.Any() || !HasFileInsideZip(storageFiles.First().Path.LocalPath, "people.json"))
+            if (!storageFiles.Any())
                 return false;
 
-            using (var zipFile = ZipFile.OpenRead(storageFiles.First().Path.LocalPath))
+            await using (var zipStream = await storageFiles[0].OpenReadAsync())
             {
-                foreach (var entry in zipFile.Entries)
+                using (var zip = new ZipArchive(zipStream, ZipArchiveMode.Read))
                 {
-                    if (!entry.FullName.EndsWith(".json"))
-                        continue;
+                    if (!HasFileInsideZip(zip, "people.json"))
+                        return false;
 
-                    using (var stream = entry.Open())
+                    foreach (var entry in zip.Entries)
                     {
-                        switch (entry.Name)
+                        if (!entry.FullName.EndsWith(".json"))
+                            continue;
+
+                        using (var stream = entry.Open())
                         {
-                            case "nationality.json":
+                            switch (entry.Name)
+                            {
+                                case "nationality.json":
 
-                                var nationalities = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Nationality>>(stream);
+                                    var nationalities = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Nationality>>(stream);
 
-                                if (nationalities != null)
-                                {
-                                    foreach (var nationality in nationalities)
+                                    if (nationalities != null)
                                     {
-                                        ImportUpdateNationality(nationality);
+                                        foreach (var nationality in nationalities)
+                                        {
+                                            ImportUpdateNationality(nationality);
+                                        }
                                     }
-                                }
 
-                                break;
+                                    break;
 
-                            case "people.json":
+                                case "people.json":
 
-                                var people = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Person>>(stream);
+                                    var people = await System.Text.Json.JsonSerializer.DeserializeAsync<IEnumerable<Person>>(stream);
 
-                                if (people != null)
-                                {
-                                    foreach (var person in people)
+                                    if (people != null)
                                     {
-                                        await ImportUpdatePerson(person);
+                                        foreach (var person in people)
+                                        {
+                                            await ImportUpdatePerson(person);
+                                        }
                                     }
-                                }
 
-                                break;
-                            default:
-                                break;
+                                    break;
+                                default:
+                                    break;
+                            }
+
                         }
-
                     }
                 }
             }
@@ -110,7 +115,7 @@ namespace GeneA.Services
             var existingNationality = _nationalityRepository.FindById(nationality.Id);
 
             //you can only add or remove nationalities
-            if(existingNationality == null)
+            if (existingNationality == null)
             {
                 _nationalityRepository.Upsert(nationality);
             }
@@ -153,7 +158,7 @@ namespace GeneA.Services
             var date = DateTime.Now;
             string fileNameDate = Regex.Replace(date.ToString("dd/MM/yyyy HH:mm:ss"), "[^0-9a-zA-Z]+", "-");
 
-            var file = await _topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            IStorageFile? file = await _topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
             {
                 ShowOverwritePrompt = true,
                 SuggestedFileName = $"Gene export {fileNameDate}",
@@ -184,7 +189,7 @@ namespace GeneA.Services
                 }
 
                 stringBuilderPeople.Append(System.Text.Json.JsonSerializer.Serialize(person, person.GetType()));
-                stringBuilderPeople.Append(",");
+                stringBuilderPeople.Append(',');
             }
 
             if (stringBuilderPeople.Length > 0)
@@ -201,31 +206,28 @@ namespace GeneA.Services
             string peopleJsonPath = Path.Combine(tempFilesPath, "people.json");
             string nationalityJsonPath = Path.Combine(tempFilesPath, "nationality.json");
 
-            //TODO: test this and make sure it also works in android
             await File.WriteAllTextAsync(peopleJsonPath, correctPeopleJsonFormat);
             await File.WriteAllTextAsync(nationalityJsonPath, nationalitiesJson);
 
-            ZipFiles(tempFilesPath, file.Path.LocalPath);
+            await using (var fileStream = await file.OpenWriteAsync())
+            {
+                ZipFiles(tempFilesPath, fileStream);
+            }
 
             return true;
         }
 
-        //TODO: importing and exporting are not working in android, take a look in what could be, my bet is if has something to do with
-        //permissions to files
-        private void ZipFiles(string tempSourcePath, string targetPath)
+        private static void ZipFiles(string tempSourcePath, Stream targetDestination)
         {
-            ZipFile.CreateFromDirectory(tempSourcePath, targetPath, CompressionLevel.Optimal, includeBaseDirectory: false);
+            ZipFile.CreateFromDirectory(tempSourcePath, targetDestination, CompressionLevel.Optimal, includeBaseDirectory: false);
 
             if (Directory.Exists(tempSourcePath))
                 Directory.Delete(tempSourcePath, recursive: true);
         }
 
-        private bool HasFileInsideZip(string zipPath, string fileName)
+        private static bool HasFileInsideZip(ZipArchive zip, string fileName)
         {
-            using (var zip = ZipFile.OpenRead(zipPath))
-            {
-                return zip.Entries.Any(p => p.Name == fileName);
-            }
+            return zip.Entries.Any(p => p.Name == fileName);
         }
     }
 }
