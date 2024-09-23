@@ -1,0 +1,82 @@
+name: Build and Release EXE and APK
+
+on:
+  push:
+    branches:
+      - main  # Trigger build when code is pushed to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up .NET SDK
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # Restore project dependencies
+      - name: Restore dependencies
+        run: dotnet restore Genealogy/Gene/Gene.sln
+
+      - name: Build Model
+        run: dotnet publish Genealogy/ModelA -c Release -r win-x86 --self-contained -o ./Release
+
+      - name: Build Gene dll
+        run: dotnet publish Genealogy/GeneA -c Release -r win-x86 --self-contained -o ./Release
+
+      # Build the EXE in Release mode
+      - name: Build EXE
+        run: dotnet publish Genealogy/GeneA.Desktop -c Release -r win-x86 --self-contained -o ./Release
+
+      # Create the EXE installer using NSIS
+      - name: Create EXE Installer
+        run: makensis Genealogy/DesktopInstall/GeneInstallerScript.nsi
+
+      # Build the APK in Release mode
+      - name: Build APK
+        run: dotnet publish Genealogy/GeneA.Android -c Release -r android-arm --self-contained -o ./Release
+
+      - name: Download Keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > gene.keystore
+
+
+      # Sign the APK (if needed)
+      - name: Sign APK
+        run: apksigner sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Release/com.jooworks.Gene.apk
+
+      # Create a new GitHub release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.${{ github.run_number }}  # Auto-increment the version
+          release_name: Release v1.0.${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      # Upload the EXE installer to the GitHub release
+      - name: Upload EXE to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Release/Gene-Installer.exe
+          asset_name: Gene-Installer.exe
+          asset_content_type: application/octet-stream
+
+      # Upload the signed APK to the GitHub release
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Release/com.jooworks.Gene.apk
+          asset_name: com.jooworks.Gene.apk
+          asset_content_type: application/vnd.android.package-archive
