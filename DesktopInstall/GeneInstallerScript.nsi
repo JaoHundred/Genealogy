@@ -35,7 +35,7 @@ Section "Install"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "UninstallString" "$INSTDIR\Uninstaller.exe"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "InstallLocation" "$INSTDIR"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "DisplayIcon" "$INSTDIR\Gene.exe"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "Publisher" "Jo Works"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "Publisher" "jooWorks"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "DisplayVersion" "1.0"
     WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "NoModify" 1
     WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Gene" "NoRepair" 1
