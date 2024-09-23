@@ -1,9 +1,7 @@
 name: Build and Release EXE and APK
 
 on:
-  push:
-    branches:
-      - main  # Trigger build when code is pushed to the main branch
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -20,7 +18,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-     
+      # Install NSIS
+      - name: Install NSIS
+        run: sudo apt-get update && sudo apt-get install nsis -y
 
       - name: Build Model
         run: dotnet publish ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
