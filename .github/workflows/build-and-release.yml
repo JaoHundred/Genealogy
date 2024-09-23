@@ -23,22 +23,22 @@ jobs:
      
 
       - name: Build Model
-        run: dotnet publish Genealogy/ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
+        run: dotnet publish ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
 
       - name: Build Gene dll
-        run: dotnet publish Genealogy/GeneA/GeneA.csproj -c Release -r win-x86 --self-contained -o ./Release
+        run: dotnet publish GeneA/GeneA.csproj -c Release -r win-x86 --self-contained -o ./Release
 
       # Build the EXE in Release mode
       - name: Build EXE
-        run: dotnet publish Genealogy/GeneA.Desktop/GeneA.Desktop.csproj -c Release -r win-x86 --self-contained -o ./Release
+        run: dotnet publish GeneA.Desktop/GeneA.Desktop.csproj -c Release -r win-x86 --self-contained -o ./Release
 
       # Create the EXE installer using NSIS
       - name: Create EXE Installer
-        run: makensis Genealogy/DesktopInstall/GeneInstallerScript.nsi
+        run: makensis DesktopInstall/GeneInstallerScript.nsi
 
       # Build the APK in Release mode
       - name: Build APK
-        run: dotnet publish Genealogy/GeneA.Android/GeneA.Android.csproj -c Release -r android-arm --self-contained -o ./Release
+        run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -r android-arm --self-contained -o ./Release
 
       - name: Download Keystore
         run: |
