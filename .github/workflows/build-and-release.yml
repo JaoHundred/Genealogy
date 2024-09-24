@@ -54,7 +54,7 @@ jobs:
 
       - name: Download Keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > gene.keystore
+          printf "%s" "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > gene.keystore
 
 
       # Sign the APK (if needed)
