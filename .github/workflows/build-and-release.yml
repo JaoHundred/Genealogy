@@ -47,6 +47,20 @@ jobs:
       - name: Create EXE Installer
         run: makensis DesktopInstall/GeneInstallerScript.nsi
 
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Install Android SDK
+        run: |
+          choco install android-sdk
+          choco install android-ndk
+          echo "export ANDROID_HOME=C:/Program Files (x86)/Android/android-sdk" >> $GITHUB_ENV
+          echo "export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/30.0.3:$PATH" >> $GITHUB_ENV
+
+
       - name: Install Android Workloads
         run: dotnet workload install android
 
@@ -55,10 +69,6 @@ jobs:
       - name: Build APK
         run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -o ./Android/Release
     
-
-      
-
-
       # Sign the APK (if needed)
       - name: Sign APK
         run: apksigner sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Android/Release/com.jooworks.Gene.apk
