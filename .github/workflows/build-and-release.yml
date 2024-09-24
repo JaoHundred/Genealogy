@@ -33,7 +33,8 @@ jobs:
         run: dotnet publish GeneA.Desktop/GeneA.Desktop.csproj -c Release -r win-x86 --self-contained -o ./Desktop/Release
 
       - name: Download dotnet runtime
-        run: wget -O dotnet-runtime-8.0.7-win-x64.exe https://download.visualstudio.microsoft.com/download/pr/3980ab0a-379f-44a0-9be6-eaf74c07a3b3/bd1cc6107ff3d8fe0104d30f01339b74/dotnet-runtime-8.0.7-win-x64.exe ./DesktopInstall
+        run: wget -O ./DesktopInstall/dotnet-runtime-8.0.7-win-x64.exe https://download.visualstudio.microsoft.com/download/pr/3980ab0a-379f-44a0-9be6-eaf74c07a3b3/bd1cc6107ff3d8fe0104d30f01339b74/dotnet-runtime-8.0.7-win-x64.exe
+      
 
       # Create the EXE installer using NSIS
       - name: Create EXE Installer
