@@ -18,9 +18,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # Install NSIS
-      - name: Install NSIS
-        run: choco install nsis
+      - name: Clear NuGet Cache
+        run: dotnet nuget locals all --clear
 
       - name: Build Model
         run: dotnet publish ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
@@ -36,14 +35,22 @@ jobs:
         run: | 
           Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/3980ab0a-379f-44a0-9be6-eaf74c07a3b3/bd1cc6107ff3d8fe0104d30f01339b74/dotnet-runtime-8.0.7-win-x64.exe" -OutFile "./DesktopInstall/dotnet-runtime-8.0.7-win-x64.exe"
 
+       # Install NSIS
+      - name: Install NSIS
+        run: choco install nsis
 
       # Create the EXE installer using NSIS
       - name: Create EXE Installer
         run: makensis DesktopInstall/GeneInstallerScript.nsi
 
+      - name: Install Android Workloads
+        run: dotnet workload install android
+
+
       # Build the APK in Release mode
       - name: Build APK
-        run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -r android-arm --self-contained -o ./Android/Release
+        run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -o ./Android/Release
+    
 
       - name: Download Keystore
         run: |
