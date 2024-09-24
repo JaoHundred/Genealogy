@@ -21,6 +21,10 @@ jobs:
       - name: Clear NuGet Cache
         run: dotnet nuget locals all --clear
 
+      - name: Download Keystore
+        run: |
+          [System.IO.File]::WriteAllBytes("gene.keystore", [Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE }}"))
+
       - name: Build Model
         run: dotnet publish ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
 
@@ -52,9 +56,7 @@ jobs:
         run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -o ./Android/Release
     
 
-      - name: Download Keystore
-        run: |
-          printf "%s" "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > gene.keystore
+      
 
 
       # Sign the APK (if needed)
