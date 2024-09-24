@@ -22,32 +22,20 @@ jobs:
       - name: Install NSIS
         run: sudo apt-get update && sudo apt-get install nsis -y
 
-      - name: Build Model
-        run: dotnet publish ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
-
-      - name: Build Gene dll
-        run: dotnet publish GeneA/GeneA.csproj -c Release -r win-x86 --self-contained -o ./Release
-
-      # Build the EXE in Release mode
-      - name: Build EXE
-        run: dotnet publish GeneA.Desktop/GeneA.Desktop.csproj -c Release -r win-x86 --self-contained -o ./Release
+      - name: Build
+        run: dotnet publish Gene/Gene.sln -c Release
 
       # Create the EXE installer using NSIS
       - name: Create EXE Installer
         run: makensis DesktopInstall/GeneInstallerScript.nsi
 
-      # Build the APK in Release mode
-      - name: Build APK
-        run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -r android-arm --self-contained -o ./Release
-
       - name: Download Keystore
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > gene.keystore
 
-
       # Sign the APK (if needed)
       - name: Sign APK
-        run: apksigner sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Release/com.jooworks.Gene.apk
+        run: apksigner sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Android/Release/com.jooworks.Gene.apk
 
       # Create a new GitHub release
       - name: Create GitHub Release
@@ -61,20 +49,20 @@ jobs:
           draft: false
           prerelease: false
 
-      # Upload the EXE installer to the GitHub release
-      - name: Upload EXE to Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Release/Gene-Installer.exe
-          asset_name: Gene-Installer.exe
-          asset_content_type: application/octet-stream
+      # # Upload the EXE installer to the GitHub release
+      # - name: Upload EXE to Release
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./Desktop/Release/Gene-Installer.exe
+      #     asset_name: Gene-Installer.exe
+      #     asset_content_type: application/octet-stream
 
-      # Upload the signed APK to the GitHub release
-      - name: Upload APK to Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Release/com.jooworks.Gene.apk
-          asset_name: com.jooworks.Gene.apk
-          asset_content_type: application/vnd.android.package-archive
+      # # Upload the signed APK to the GitHub release
+      # - name: Upload APK to Release
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./Android/Release/com.jooworks.Gene.apk
+      #     asset_name: com.jooworks.Gene.apk
+      #     asset_content_type: application/vnd.android.package-archive
