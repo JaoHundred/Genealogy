@@ -21,9 +21,7 @@ jobs:
       - name: Clear NuGet Cache
         run: dotnet nuget locals all --clear
 
-      - name: Download Keystore
-        run: |
-          [System.IO.File]::WriteAllBytes("gene.keystore", [Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE }}"))
+      
 
       - name: Build Model
         run: dotnet publish ModelA/ModelA.csproj -c Release -r win-x86 --self-contained -o ./Release
@@ -68,12 +66,27 @@ jobs:
       # Build the APK in Release mode
       - name: Build APK
         run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -o ./Android/Release
-    
-      # Sign the APK (if needed)
-      - name: Sign APK
+        
+      - name: Download Keystore
         run: |
-          & "C:/Program Files (x86)/Android/android-sdk/build-tools/30.0.3/apksigner.bat" sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Android/Release/com.jooworks.Gene.apk
+          [System.IO.File]::WriteAllBytes("gene.keystore", [Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE }}"))
 
+      # Sign the APK (if needed)
+      - uses: ilharp/sign-android-release@v1 # Or use @nightly
+        name: Sign app APK
+        id: sign_app
+        with:
+            releaseDir: ./Android/Release/apk
+            signingKey: ${{ secrets.ANDROID_KEYSTORE }}
+            keyAlias: gene
+            keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+            buildToolsVersion: 33.0.0
+
+        # Upload your signed file if you want
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #       name: Signed app bundle
+      #       path: ${{steps.sign_app.outputs.signedFile}}
 
       # Create a new GitHub release
       # - name: Create GitHub Release
@@ -101,6 +114,6 @@ jobs:
       #   uses: actions/upload-release-asset@v1
       #   with:
       #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./Android/Release/com.jooworks.Gene.apk
+      #     asset_path: ./Android/Release/apk/com.jooworks.Gene.apk
       #     asset_name: com.jooworks.Gene.apk
       #     asset_content_type: application/vnd.android.package-archive
