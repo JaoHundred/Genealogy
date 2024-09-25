@@ -69,14 +69,14 @@ jobs:
         
       - name: Download Keystore
         run: |
-          [System.IO.File]::WriteAllBytes("gene.keystore", [Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE }}"))
+          [System.IO.File]::WriteAllBytes("./Android/Release/key.jks", [Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE }}"))
 
       # Sign the APK (if needed)
       - uses: ilharp/sign-android-release@v1 # Or use @nightly
         name: Sign app APK
         id: sign_app
         with:
-            releaseDir: ./Android/Release/apk
+            releaseDir: ./Android/Release
             signingKey: ${{ secrets.ANDROID_KEYSTORE }}
             keyAlias: gene
             keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
