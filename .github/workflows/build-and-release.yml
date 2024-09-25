@@ -72,7 +72,8 @@ jobs:
       # Sign the APK (if needed)
       - name: Sign APK
         run: |
-          $ANDROID_HOME/build-tools/30.0.3/apksigner sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Android/Release/com.jooworks.Gene.apk
+          & "C:/Program Files (x86)/Android/android-sdk/build-tools/30.0.3/apksigner.bat" sign --ks gene.keystore --ks-key-alias gene --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} ./Android/Release/com.jooworks.Gene.apk
+
 
       # Create a new GitHub release
       # - name: Create GitHub Release
