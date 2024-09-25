@@ -63,7 +63,7 @@ jobs:
 
       # Build the APK in Release mode
       - name: Build APK
-        run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -o ./Android/Release
+        run: dotnet publish GeneA.Android/GeneA.Android.csproj -c Release -o ./Android/Release/apk
         
       - name: Download Keystore
         run: |
@@ -74,7 +74,7 @@ jobs:
         name: Sign app APK
         id: sign_app
         with:
-            releaseDir: ./Android/Release
+            releaseDir: ./Android/Release/apk
             signingKey: ${{ secrets.ANDROID_KEYSTORE }}
             keyAlias: gene
             keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -106,6 +106,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Android/Release/com.jooworks.Gene.apk
+          asset_path: ./Android/Release/apk/com.jooworks.Gene.apk
           asset_name: com.jooworks.Gene.apk
           asset_content_type: application/vnd.android.package-archive
