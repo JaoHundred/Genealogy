@@ -28,12 +28,12 @@
                 Command="{Binding GoBackCommand}">
           <icon:Icon Value="mdi-arrow-left"/>
         </Button>
-        
+
         <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="0,0,40,0"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    FontSize="22" FontWeight="SemiBold"/>
         
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" Name="ContentGrid" />
+        <TransitioningContentControl Grid.Row="1" Grid.ColumnSpan="2" Name="ContentGrid" />
       </Grid>
 
       <Border Grid.Row="1" Name="BottomMenu">
