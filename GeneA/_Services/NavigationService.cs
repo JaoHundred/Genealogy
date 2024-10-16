@@ -57,10 +57,10 @@ public class NavigationService
             await RunInUIThread(() =>
             {
                 _stack.Clear();
-                _mainView.ContentGrid.Children.Clear();
+                _mainView.ContentGrid.Content = null;
 
                 _stack.Add(GetViewFromViewModel<HomeViewModel>());
-                _mainView.ContentGrid.Children.Add(_stack.LastOrDefault()!);
+                _mainView.ContentGrid.Content = _stack.LastOrDefault()!;
             });
         }
 
@@ -70,11 +70,11 @@ public class NavigationService
             {
                 _stack.RemoveAt(_stack.Count - 1);
 
-                _mainView.ContentGrid.Children.Clear();
+                _mainView.ContentGrid.Content = null;
 
                 var view = _stack.ElementAt(_stack.Count - 1);
 
-                _mainView.ContentGrid.Children.Add(view);
+                _mainView.ContentGrid.Content = view;
             });
 
         if (needToReload)
@@ -125,10 +125,10 @@ public class NavigationService
 
                 _stack.Clear();
 
-                _mainView.ContentGrid.Children.Clear();
+                _mainView.ContentGrid.Content = null;
 
                 _stack.Add(view);
-                _mainView.ContentGrid.Children.Add(view);
+                _mainView.ContentGrid.Content = view;
             });
         }
 
@@ -138,8 +138,8 @@ public class NavigationService
             {
                 _stack.Add(view);
 
-                _mainView.ContentGrid.Children.Clear();
-                _mainView.ContentGrid.Children.Add(view);
+                _mainView.ContentGrid.Content = null;
+                _mainView.ContentGrid.Content = view;
             });
         }
 
