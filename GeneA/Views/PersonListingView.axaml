@@ -209,12 +209,12 @@
                Name="SearchTextBox"
                Text="{Binding SearchText, Mode=TwoWay}"
                Watermark="{x:Static loc:Resource.SearchTheName}" >
-        <i:Interaction.Behaviors>
-          <ia:EventTriggerBehavior EventName="TextChanged">
-            <ia:InvokeCommandAction
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="TextChanged">
+            <InvokeCommandAction
               Command="{Binding TextFilterCommand}"/>
-          </ia:EventTriggerBehavior>
-        </i:Interaction.Behaviors>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
 
       </TextBox>
       <Grid Classes="marginControl" Grid.Row="1"
@@ -222,13 +222,13 @@
         <StackPanel Orientation="Horizontal" Margin="12,5,0,0" >
           <CheckBox IsChecked="{Binding IsAllChecked}"
                     Name="CheckAll">
-            <i:Interaction.Behaviors>
-              <ia:EventTriggerBehavior EventName="Click">
-                <ia:InvokeCommandAction
+            <Interaction.Behaviors>
+              <EventTriggerBehavior EventName="Click">
+                <InvokeCommandAction
                   Command="{Binding CheckAllCommand}"
                   CommandParameter="{Binding #CheckAll.IsChecked}"/>
-              </ia:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
+              </EventTriggerBehavior>
+            </Interaction.Behaviors>
           </CheckBox>
           <Rectangle Fill="LightGray" Width="3"/>
         </StackPanel>

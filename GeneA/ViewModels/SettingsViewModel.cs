@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GeneA._Helper.AppStateEnums;
-using MvvmHelpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GeneA.ViewModelItems;
 using Model.Interfaces;
@@ -54,7 +53,7 @@ public partial class SettingsViewModel : ViewModelBase
 
         LicenseItems = new List<LicenseItemViewModel>();
 
-        LoadAction = () => { Load().SafeFireAndForget(); };
+        LoadAction = () => { _ = Load(); };
 
     }
 

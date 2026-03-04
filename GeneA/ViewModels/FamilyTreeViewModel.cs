@@ -7,7 +7,6 @@ using GeneA.ViewModelItems;
 using GeneA.Views;
 using Model.Interfaces;
 using ModelA.Core;
-using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace GeneA.ViewModels
             _navigationService = navigationService;
             _fileService = fileService;
 
-            LoadAction = () => { Load().SafeFireAndForget(); };
+            LoadAction = () => { _ = Load(); };
         }
         
         private readonly GraphService _graphService;

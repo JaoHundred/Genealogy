@@ -8,8 +8,6 @@
              xmlns:conv="clr-namespace:GeneA.Converters;assembly=GeneA"
              xmlns:controls="using:GeneA.CustomControls"
              xmlns:icon="https://github.com/projektanker/icons.avalonia"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              RequestedThemeVariant="Default">
   <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -475,24 +473,24 @@
     <DataTemplate x:Key="ListTemplatePersonItemViewModel" x:DataType="IVM:PersonItemViewModel">
       <Grid ColumnDefinitions="auto auto *">
         <CheckBox IsChecked="{Binding IsSelected}">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="Click">
-              <ia:InvokeCommandAction
+          <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+              <InvokeCommandAction
                 Command="{Binding $parent[UserControl].((vm:PersonListingViewModel)DataContext).CheckedCommand}"/>
-            </ia:EventTriggerBehavior>
-          </i:Interaction.Behaviors>
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
         </CheckBox>
         <Rectangle Grid.Column="1" Width="3" Height="{Binding $parent[Grid].Bounds.Height}"
                    Fill="LightGray" />
 
         <Grid Grid.Column="2" RowDefinitions="auto auto, auto"
               ColumnDefinitions="* auto *" Background="Transparent">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="PointerReleased">
-              <ia:InvokeCommandAction
+          <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="PointerReleased">
+              <InvokeCommandAction
                 Command="{Binding $parent[UserControl].((vm:PersonListingViewModel)DataContext).EditPersonCommand}"/>
-            </ia:EventTriggerBehavior>
-          </i:Interaction.Behaviors>
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
 
           <TextBlock Grid.Column="1"  Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                        HorizontalAlignment="Center"

@@ -3,12 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using GeneA._Services;
 using ModelA.Core;
 using Model.Interfaces;
-using   MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Core;
 
 namespace GeneA.ViewModels;
 
@@ -21,7 +21,7 @@ public partial class HomeViewModel : ViewModelBase
 
         RecentlyAdded = new ObservableRangeCollection<Person>();
 
-        LoadAction = () => { Load().SafeFireAndForget(); };
+        LoadAction = () => { _ = Load(); };
     }
 
     private readonly NavigationService _navigationService;

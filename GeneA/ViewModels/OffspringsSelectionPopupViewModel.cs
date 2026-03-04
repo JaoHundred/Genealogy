@@ -8,7 +8,6 @@ using GeneA.Interfaces;
 using GeneA.ViewModelItems;
 using ModelA.Core;
 using Model.Interfaces;
-using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +16,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Core;
 
 namespace GeneA.ViewModels
 {
@@ -28,7 +28,7 @@ namespace GeneA.ViewModels
             _repository = repository;
             OffSprings = new ObservableRangeCollection<PersonItemViewModel>();
 
-            LoadAction = () => { Load().SafeFireAndForget(); };
+            LoadAction = () => { _ = Load(); };
         }
 
         private Person? _person;

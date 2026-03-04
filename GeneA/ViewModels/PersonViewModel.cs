@@ -8,7 +8,6 @@ using GeneA._Helper;
 using GeneA._Services;
 using ModelA.Core;
 using Model.Interfaces;
-using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +22,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
 using GeneA.ViewModelItems;
+using Model.Core;
 
 namespace GeneA.ViewModels;
 
@@ -41,7 +41,7 @@ public partial class PersonViewModel : ViewModelBase
 
         _documentList = new ObservableRangeCollection<DocumentFile>();
 
-        LoadAction = () => { Load().SafeFireAndForget(); };
+        LoadAction = () => { _ = Load(); };
     }
 
     private readonly IRepository<Person> _personRepository;

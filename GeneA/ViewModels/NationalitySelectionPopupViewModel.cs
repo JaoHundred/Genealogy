@@ -7,7 +7,6 @@ using GeneA.ViewModelItems;
 using ModelA.Core;
 using Model.Database;
 using Model.Interfaces;
-using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GeneA._Helper;
 using System.Text.RegularExpressions;
+using Model.Core;
 
 namespace GeneA.ViewModels
 {
@@ -28,7 +28,7 @@ namespace GeneA.ViewModels
             SearchedNationality = string.Empty;
             FlyoutNationalityHelp = DynamicTranslate.Translate(nameof(FlyoutNationalityHelp));
 
-            LoadAction = () => { Load().SafeFireAndForget(); };
+            LoadAction = () => { _ = Load(); };
         }
 
         private readonly IRepository<Nationality> _nationalityRepo;
