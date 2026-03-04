@@ -6,20 +6,18 @@
              x:Class="GeneA.Views.HomeView"
              xmlns:vm="clr-namespace:GeneA.ViewModels"
              xmlns:icon="https://github.com/projektanker/icons.avalonia"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              x:DataType="vm:HomeViewModel">
   <Grid>
     <ListBox Name="RecentList" 
              ItemsSource="{Binding RecentlyAdded}" SelectionMode="Single"
              ItemTemplate="{StaticResource ListTemplate}">
-      <i:Interaction.Behaviors>
-        <ia:EventTriggerBehavior EventName="PointerReleased">
-          <ia:InvokeCommandAction 
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="PointerReleased">
+          <InvokeCommandAction 
             Command="{Binding EditPersonCommand}" 
             CommandParameter="{Binding #RecentList.SelectedItem}"/>
-        </ia:EventTriggerBehavior>
-      </i:Interaction.Behaviors>
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
     </ListBox>
     <Button Classes="round newButton" 
             VerticalAlignment="Bottom" 

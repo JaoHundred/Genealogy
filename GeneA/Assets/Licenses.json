@@ -90,11 +90,6 @@
     "LicenseLink": "https://github.com/Projektanker/Icons.Avalonia/blob/main/LICENSE"
   },
   {
-    "Name": "Refractored.MvvmHelpers",
-    "LibOwner": "James Montemagno",
-    "LicenseLink": "https://github.com/jamesmontemagno/mvvm-helpers/blob/master/LICENSE.md"
-  },
-  {
     "Name": "SixLabors.ImageSharp",
     "LibOwner": "Six Labors and contributors",
     "LicenseLink": "https://www.nuget.org/packages/SixLabors.ImageSharp/3.1.4/license"

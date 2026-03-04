@@ -6,8 +6,6 @@
              xmlns:loc="using:GeneA.Lang"
              xmlns:icon="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:vm="using:GeneA.ViewModels"
              x:DataType="vm:SettingsViewModel"
              x:Class="GeneA.Views.SettingsView">
@@ -71,13 +69,13 @@
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <StackPanel Orientation="Vertical" Background="Transparent">
-                    <i:Interaction.Behaviors>
-                      <ia:EventTriggerBehavior EventName="PointerReleased">
-                        <ia:InvokeCommandAction
+                    <Interaction.Behaviors>
+                      <EventTriggerBehavior EventName="PointerReleased">
+                        <InvokeCommandAction
                           Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).OpenLicenseCommand}"
                           CommandParameter="{Binding LicenseLink}"/>
-                      </ia:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
+                      </EventTriggerBehavior>
+                    </Interaction.Behaviors>
                     <TextBlock Text="{Binding Name}"/>
                     <TextBlock Text="{Binding LibOwner}"/>
                   </StackPanel>

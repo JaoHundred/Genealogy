@@ -13,7 +13,7 @@
       <Color x:Key='AddButtonColor'>#0053B2</Color>
       <Color x:Key='AddButtonPressedColor'>#5380B5</Color>
 
-      <Color x:Key='PopupOuterColor'>rgb(211, 211, 211, 0.6)</Color>
+      <Color x:Key='PopupOuterColor'>rgba(211, 211, 211, 0.6)</Color>
       <Color x:Key='PopupBorderColor'>Gray</Color>
       <Color x:Key='PopupBackground'>#f3f3f3</Color>
 
@@ -53,7 +53,7 @@
       <Color x:Key='AddButtonColor'>#3275c1</Color>
       <Color x:Key='AddButtonPressedColor'>#7599c3</Color>
 
-      <Color x:Key='PopupOuterColor'>rgb(58, 58, 56, 0.6)</Color>
+      <Color x:Key='PopupOuterColor'>rgba(58, 58, 56, 0.6)</Color>
       <Color x:Key='PopupBorderColor'>DarkGray</Color>
       <Color x:Key='PopupBackground'>#3a3a42</Color>
 

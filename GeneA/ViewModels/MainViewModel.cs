@@ -4,7 +4,6 @@ using ModelA.Core;
 using Model.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MvvmHelpers;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Notification;
 using System.Runtime;
